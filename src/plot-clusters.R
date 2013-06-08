@@ -32,6 +32,7 @@ plot.clusters <- function(data, membership, file.plot=NULL)
 	
 	# plot them in 2D
 	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Plot a 2D representation of the instance distribution...\n",sep="")
+	dev.new(width=4, height=4)
 	plot(data[,1], data[,2],col=membership,xlab="First Principal Component",ylab="Second Principal Component",main=title)
 
 	# possibly record the plot
