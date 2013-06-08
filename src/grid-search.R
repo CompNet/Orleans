@@ -17,6 +17,8 @@ library("plyr")
 #	a vector of values for the parameter whose name is specified.
 # maximize: 
 #	TRUE to maximize (default), FALSE to minimize
+# iterations:
+#	Number of iterations to perform.
 #
 # returns:
 #	a named list, containing the combination of parameters
@@ -73,7 +75,7 @@ print("from");print(from)
 print("to");print(to)
 				by <- (to-from) / (breaks[[p]]-2)
 				by <- max(1,floor(by))
-print("by");print(to)
+print("by");print(by)
 				new.values <- as.integer(seq(from,to,by))
 				new.params[[p]] <- new.values
 			}
@@ -87,7 +89,7 @@ print("from");print(from)
 				to <- min(to,initial.to[[p]])
 print("to");print(to)
 				by <- (to-from) / (breaks[[p]]-2)
-print("by");print(to)
+print("by");print(by)
 				new.values <- seq(from,to,by)
 				new.params[[p]] <- new.values
 			}
