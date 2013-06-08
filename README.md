@@ -2,7 +2,8 @@ Orleans - R Clustering scripts
 ==============================
 
 
-scripts principaux:
+Les scripts principaux sont :
+
 	- install.R: 	installe les librairies R nécessaire à l'exécution 
 					des scripts (à exécuter une seule fois). 
 					
@@ -25,11 +26,12 @@ scripts principaux:
 											l'algorithme de clustering <ALGO>.
 											Chaque valeur correspond au numéro
 											de cluster d'une instance.
-						- asw.txt:			table contenant la valeur de Silhouete
+						- performances.txt:	table contenant la valeur de Silhouete
 											maximale obtenue pour chaque algo de
-											clustering.
+											clustering, ainsi que le nombre de clusters
+											détectés.
 						- ari.txt:			matrice comparant les clusters de
 											chaque algo 2 à 2, en utilisant 
-											l'index de Rand ajusté.
+											l'index de Rand ajusté (ARI).
 
-le reste des fichiers contient des fonctions utilisées par ces scripts.
+Le reste des fichiers contient des fonctions utilisées par ces scripts.
