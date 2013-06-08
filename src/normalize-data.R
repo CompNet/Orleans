@@ -38,7 +38,6 @@ normalize.data <- function(folder.data, force.process=TRUE)
 		cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading raw data...\n",sep="")
 			file.data <- paste(folder.data,"data.txt",sep="")
 			data <- as.matrix(read.table(file.data))
-			nbr.instances <- nrow(data)
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
 		cat("[",format(end.time,"%a %d %b %Y %X"),"] Load completed in ",total.time,"\n",sep="")

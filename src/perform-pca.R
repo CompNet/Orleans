@@ -19,7 +19,7 @@ library("cluster")
 # returns:
 #	The two first main components resulting from the PCA.
 ###############################################################################
-perform-pca <- function(data, folder.data, force.process=TRUE)
+perform.pca <- function(data, folder.data, force.process=TRUE)
 {	file.pca <- paste(folder.data,"pca.txt",sep="")
 	
 	# load cached pca data

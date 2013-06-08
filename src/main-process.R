@@ -34,10 +34,10 @@ do.plotting <- TRUE
 folder.data <- "C:/Eclipse/workspaces/Networks/Orleans/data/"	
 # clustering algos to apply		#TODO comment algorithms you don't want to apply
 clust.algos <- c(									
-	"KMEANS",
-	"AGNES",
-	"DIANA",
-	"DBSCAN"
+	"KMEANS"
+#	"AGNES",
+#	"DIANA",
+#	"DBSCAN"
 )
 # standard distance function
 dist.function <- "euclidean"
@@ -54,7 +54,8 @@ dist.matrix <- process.distances(folder.data, dist.function, force.process)
 # process PCA for plotting
 pca <- NULL
 if(do.plotting)
-	pca <- perform-pca(data, folder.data, force.process)
+	pca <- perform.pca(data, folder.data, force.process)
+nbr.instances <- nrow(data)
 
 
 
@@ -68,7 +69,7 @@ for(algo.name in c("AGNES","DIANA"))
 }
 # apply k-means
 if(any(clust.algos=="KMEANS"))
-	apply.kmeans(data, nbr.instances, pca, folder.data, dist.function)
+	apply.kmeans(data, nbr.instances, pca, folder.data)
 # apply DBscan
 if(any(clust.algos=="DBSCAN"))
 	apply.dbscan(dist.matrix, nbr.instances, pca, folder.data)

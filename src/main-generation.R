@@ -17,7 +17,7 @@ source(paste(folder.source,"plot-clusters.R",sep=""))
 # desired number of clusters		# TODO can be changed for testing
 n.cluster <- 7			
 # desired number of instances		# TODO can be changed for testing
-n.instances <- 500		
+n.instances <- 250		
 # we have 2x4 measures (mutually exclusive communities, directed network)
 n.fields <- 8
 # data folder						#TODO update depending on local file system
@@ -58,7 +58,7 @@ write.table(x=data,file=file.data,row.names=FALSE,col.names=FALSE)
 # normalize data
 data <- normalize.data(folder.data)
 # process and record PCA for later use
-pca <- perform-pca(data, folder.data)
+pca <- perform.pca(data, folder.data)
 # plot clusters, for visual inspection
 file.plot <- paste(folder.data,file.name,".pdf",sep="")
 plot.clusters(data=pca, membership=mbr, file=file.plot)
