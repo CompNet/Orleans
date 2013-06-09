@@ -12,5 +12,8 @@ install.packages("plyr")
 # clustering methods: agnes, diana
 install.packages("cluster")
 
+# agreement measure: ARI
+install.packages("flexclust")
+
 # clustering methods: dbscan
 install.packages("fpc")

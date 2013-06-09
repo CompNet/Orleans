@@ -10,6 +10,8 @@ library("cluster")
 ###############################################################################
 # Applies a hierarchical clustering method to the specified data.
 #
+# algo.name
+#	Name of the clustering algorithm.
 # dist.matrix: 
 #	Distance matrix.
 # pca:
@@ -19,39 +21,48 @@ library("cluster")
 #	Output folder, used to record new files.
 # dist.function:
 #	Name of the distance function to use during cluster analysis.
+# force.process:
+#	Whether or not we want to use cached results.
 ###############################################################################
-apply.hierarchical <- function(dist.matrix, pca=NULL, folder.data, dist.function)
-{	
+apply.hierarchical <- function(algo.name, dist.matrix, pca=NULL, folder.data, dist.function, force.process)
+{	file.membership <- paste(folder.data,algo.name,".txt",sep="")
 	cat("----\n")
-	# apply hierarchical clustering algorithm
-	start.time <- Sys.time();
-	cat("[",format(start.time,"%a %d %b %Y %X"),"] Detecting clusters using ",algo.name,"\n",sep="")
 	
-	if(algo.name=="AGNES")
-		result <- agnes(x=dist.matrix, metric=dist.function, method="average", keep.diss=FALSE, keep.data=FALSE)
-	else if(algo.name=="DIANA")
-		result <- diana(x=dist.matrix, metric=dist.function, keep.diss=FALSE, keep.data=FALSE)
-	
-	# select best cut from dendrogram, record it
-	res <- select.best.cut(result)
-	nbr <- length(unique(res$membership))
-	
-	# record best membership vector and performance
-	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Recording results\n",sep="")
-	file.membership <- paste(folder.data,algo.name,".txt",sep="")
-	write.table(x=res$membership,file=file.membership,row.names=FALSE,col.names=FALSE)
-	save.performance(res$silhouette, nbr, algo.name, folder.data)
-	
-	# plot result
-	if(do.plotting)
-	{	file.plot <- paste(folder.data,algo.name,".pdf",sep="")
-		plot.clusters(data=pca, membership=res$membership, file=file.plot)
+	# membership file already exists for this algorithm
+	if(file.exists(file.membership) && !force.process)
+	{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Algorithm ",algo.name," has already been applied before.\n",sep="")
 	}
 	
-	end.time <- Sys.time();
-	total.time <- end.time - start.time;
-	cat("[",format(end.time,"%a %d %b %Y %X"),"] final result: ",nbr," clusters, silhouette=",res$silhouette,"\n",sep="")
-	cat("[",format(end.time,"%a %d %b %Y %X"),"] ",algo.name," completed in ",total.time,"\n",sep="")
+	# apply hierarchical clustering algorithm
+	else
+	{	start.time <- Sys.time();
+		cat("[",format(start.time,"%a %d %b %Y %X"),"] Detecting clusters using ",algo.name,"\n",sep="")
+		
+			if(algo.name=="AGNES")
+				result <- agnes(x=dist.matrix, metric=dist.function, method="average", keep.diss=FALSE, keep.data=FALSE)
+			else if(algo.name=="DIANA")
+				result <- diana(x=dist.matrix, metric=dist.function, keep.diss=FALSE, keep.data=FALSE)
+			
+			# select best cut from dendrogram, record it
+			res <- select.best.cut(result)
+			nbr <- length(unique(res$membership))
+			
+			# record best membership vector and performance
+			cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Recording results\n",sep="")
+			write.table(x=res$membership,file=file.membership,row.names=FALSE,col.names=FALSE)
+			save.performance(res$silhouette, nbr, algo.name, folder.data)
+			
+			# plot result
+			if(do.plotting)
+			{	file.plot <- paste(folder.data,algo.name,".pdf",sep="")
+				plot.clusters(data=pca, membership=res$membership, file=file.plot)
+			}
+		
+		end.time <- Sys.time();
+		total.time <- end.time - start.time;
+		cat("[",format(end.time,"%a %d %b %Y %X"),"] final result: ",nbr," clusters, silhouette=",res$silhouette,"\n",sep="")
+		cat("[",format(end.time,"%a %d %b %Y %X"),"] ",algo.name," completed in ",total.time,"\n",sep="")
+	}
 }
 
 

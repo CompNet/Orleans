@@ -27,6 +27,8 @@ save.performance <- function(performance, nbr, algo, folder)
 		t[algo,"Silhouette"] <- performance
 		t[algo,"Size"] <- nbr
 	}
+	
+	# or create new one
 	else
 	{	m <- matrix(nrow=1,ncol=2)
 		colnames(m) <- c("Silhouette","Size")

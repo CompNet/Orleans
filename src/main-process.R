@@ -5,6 +5,7 @@
 # source("C:/Eclipse/workspaces/Networks/Orleans/src/main-process.R")
 ###############################################################################
 library("cluster")
+library("flexclust")
 library("fpc")
 
 ###############################################################################
@@ -20,6 +21,7 @@ source(paste(folder.source,"grid-search.R",sep=""))
 source(paste(folder.source,"normalize-data.R",sep=""))
 source(paste(folder.source,"perform-pca.R",sep=""))
 source(paste(folder.source,"plot-clusters.R",sep=""))
+source(paste(folder.source,"process-agreement.R",sep=""))
 source(paste(folder.source,"process-distances.R",sep=""))
 source(paste(folder.source,"save-perf.R",sep=""))
 
@@ -65,18 +67,22 @@ nbr.instances <- nrow(data)
 # apply both agglomerative approaches
 for(algo.name in c("AGNES","DIANA"))
 {	if(any(clust.algos==algo.name))
-		apply.hierarchical(dist.matrix, pca, folder.data, dist.function)
+		apply.hierarchical(algo.name, dist.matrix, pca, folder.data, dist.function, force.process)
 }
 # apply k-means
 if(any(clust.algos=="KMEANS"))
-	apply.kmeans(data, nbr.instances, dist.matrix, pca, folder.data)
+	apply.kmeans(data, nbr.instances, dist.matrix, pca, folder.data, force.process)
 # apply DBscan
 if(any(clust.algos=="DBSCAN"))
-	apply.dbscan(dist.matrix, nbr.instances, pca, folder.data)
+	apply.dbscan(dist.matrix, nbr.instances, pca, folder.data, force.process)
 
 
 
 ###############################################################################
 # compare clusters using ARI
 ###############################################################################
-# TODO
+agreement.matrix <- process.agreement(clust.algos, folder.data, force.process)
+print(agreement.matrix)
+
+#TODO comments: uppercase
+#TODO readme: translate
