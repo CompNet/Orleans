@@ -39,7 +39,7 @@ iterative.grid.search <- function(foo, parameter.list, maximize=TRUE, iterations
 		initial.from[[par]] <- val[1]
 		initial.to[[par]] <- val[length(val)]
 	}
-print("breaks");print(breaks)			
+#	print("breaks");print(breaks)			
 
 	
 	optimal.value <- NULL
@@ -47,10 +47,10 @@ print("breaks");print(breaks)
 	
 	for(i in 1:iterations)
 	{	
-print("params");print(params)
+#		print("params");print(params)
 		# process optimal parameters for grid
 		temp <- grid.search(foo,params,maximize)
-print("temp");print(temp)		
+#		print("temp");print(temp)		
 		
 		# compare with existing parameters
 		if(is.null(optimal.value) || temp$V1>optimal.value)
@@ -60,36 +60,36 @@ print("temp");print(temp)
 		new.params <- list()
 		for(p in par.names)
 		{	values <- params[[p]]
-print("values");print(values)
+#			print("values");print(values)
 			opt.value <-  temp[[p]]
 			idx <- which(values==opt.value)
-print("idx");print(idx)
+#			print("idx");print(idx)
 			if(is.integer(values))
 			{	step <- max(1,(values[2]-values[1])%/%2)
-print("step");print(step)
+#				print("step");print(step)
 				from <- values[idx] - step
 				from <- max(from,initial.from[[p]])
-print("from");print(from)
+#				print("from");print(from)
 				to <- values[idx] + step
 				to <- min(to,initial.to[[p]])
-print("to");print(to)
+#				print("to");print(to)
 				by <- (to-from) / (breaks[[p]]-2)
 				by <- max(1,floor(by))
-print("by");print(by)
+#				print("by");print(by)
 				new.values <- as.integer(seq(from,to,by))
 				new.params[[p]] <- new.values
 			}
 			else
 			{	step <- (values[2]-values[1]) / 2
-print("step");print(step)
+#				print("step");print(step)
 				from <- values[idx] - step
 				from <- max(from,initial.from[[p]])
-print("from");print(from)
+#				print("from");print(from)
 				to <- values[idx] + step
 				to <- min(to,initial.to[[p]])
-print("to");print(to)
+#				print("to");print(to)
 				by <- (to-from) / (breaks[[p]]-2)
-print("by");print(by)
+#				print("by");print(by)
 				new.values <- seq(from,to,by)
 				new.params[[p]] <- new.values
 			}
@@ -126,7 +126,7 @@ print("by");print(by)
 ###############################################################################
 grid.search <- function(foo, parameter.list, maximize=TRUE)
 {	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Applying grid search for parameters:\n",sep="")
-	print(parameter.list)
+#	print(parameter.list)
 	
 	# generate a data frame containing all combinations of parameters
 	param.df = do.call(expand.grid, parameter.list)

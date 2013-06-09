@@ -24,7 +24,7 @@ save.performance <- function(performance, nbr, algo, folder)
 	# get possibly existing table
 	if(file.exists(file.name))
 	{	t <- read.table(file.name, row.names=1)
-		t[algo,"Silhoutte"] <- performance
+		t[algo,"Silhouette"] <- performance
 		t[algo,"Size"] <- nbr
 	}
 	else
