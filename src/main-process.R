@@ -28,8 +28,8 @@ source(paste(folder.source,"save-perf.R",sep=""))
 ###############################################################################
 # init parameters
 ###############################################################################
-# force ignoring cached files	#TODO set to FALSE to avoid caching
-force.process <- TRUE	
+# force ignoring cached files	#TODO set to FALSE to use caching
+force.process <- FALSE	
 # plot cluster results			#TODO set to FALSE to avoid plotting
 do.plotting <- TRUE		
 # data folder 					#TODO update depending on local file system

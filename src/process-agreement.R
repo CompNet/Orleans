@@ -32,9 +32,9 @@ process.agreement <- function(clust.algos, folder.data, force.process=TRUE)
 	{
 		start.time <- Sys.time();
 		cat("[",format(start.time,"%a %d %b %Y %X"),"] Processing agreement data...\n",sep="")
-			agreement.matrix <- matrix(nrow=length(clust.algos),ncol=nrow=length(clust.algos))
-			rownames(matrix) <- clust.algos
-			colnames(matrix) <- clust.algos
+			agreement.matrix <- matrix(nrow=length(clust.algos),ncol=length(clust.algos))
+			rownames(agreement.matrix) <- clust.algos
+			colnames(agreement.matrix) <- clust.algos
 			for(a1 in 1:(length(clust.algos)-1))
 			{	file1 <- paste(folder.data,clust.algos[a1],".txt",sep="")
 				part1 <- as.matrix(read.table(file1))

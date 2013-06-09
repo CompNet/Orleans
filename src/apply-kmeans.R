@@ -25,6 +25,7 @@
 ###############################################################################
 apply.kmeans <- function(data, nbr.instances, dist.matrix, pca=NULL, folder.data, force.process)
 {	algo.name <- "KMEANS"
+	file.membership <- paste(folder.data,algo.name,".txt",sep="")
 	cat("----\n")
 	
 	# membership file already exists for this algorithm
@@ -66,7 +67,6 @@ apply.kmeans <- function(data, nbr.instances, dist.matrix, pca=NULL, folder.data
 			
 			# record best membership vector and performance
 			cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Recording results\n",sep="")
-			file.membership <- paste(folder.data,algo.name,".txt",sep="")
 			write.table(x=max.membership,file=file.membership,row.names=FALSE,col.names=FALSE)
 			save.performance(max.asw, nbr, algo.name, folder.data)
 			
