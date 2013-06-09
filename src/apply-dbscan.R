@@ -47,7 +47,7 @@ apply.dbscan <- function(dist.matrix, nbr.instances, pca=NULL, folder.data)
 	
 	# apply grid search method
 	optimal.parameters <- iterative.grid.search(foo=foo, parameter.list=parameters, iterations=3)
-	print("optimal.parameters");print(optimal.parameters)
+#	print("optimal.parameters");print(optimal.parameters)
 	
 	# apply dbscan again, with optimal parameters
 	optimal.parameters$data=dist.matrix

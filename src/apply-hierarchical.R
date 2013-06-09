@@ -82,7 +82,7 @@ select.best.cut <- function(dendrogram)
 	for(k in 2:k.max)
 	{	#print(k)		
 		# retrieve membership vector
-		membership <- cutree(result,k)
+		membership <- cutree(dendrogram,k)
 		
 		# process average silhouette width (ASW)
 		sil <- silhouette(x=membership,dist=dist.matrix)

@@ -51,6 +51,8 @@ process.distances <- function(folder.data, dist.function, force.process=TRUE)
 		total.time <- end.time - start.time;
 		cat("[",format(end.time,"%a %d %b %Y %X"),"] Distance recording completed in ",total.time,"\n",sep="")
 	}
+	
+	return(dist.matrix)
 }
 
 ###############################################################################

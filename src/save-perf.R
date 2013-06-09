@@ -39,7 +39,7 @@ save.performance <- function(performance, nbr, algo, folder)
 	# update table
 	#print(performance)	
 	#print(m)	
-	write.table(x=t, file=file.name, col.names=FALSE)
+	write.table(x=t, file=file.name)
 }
 
 ###############################################################################

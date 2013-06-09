@@ -13,13 +13,15 @@
 #	Normalized data (instances on the rows).
 # nbr.instances:
 #	Total number of instances (i.e. rows).
+# dist.matrix: 
+#	Distance matrix.
 # pca:
 #	Two principal components obtained for this data. This parameter
 #	is optional: if provided, plots will be generated.
 # folder.data:
 #	Output folder, used to record new files.
 ###############################################################################
-apply.kmeans <- function(data, nbr.instances, pca=NULL, folder.data)
+apply.kmeans <- function(data, nbr.instances, dist.matrix, pca=NULL, folder.data)
 {	algo.name <- "KMEANS"
 	cat("----\n")
 	start.time <- Sys.time();
