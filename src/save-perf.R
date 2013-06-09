@@ -9,13 +9,13 @@
 # Record the specified performance for the specified algorithm.
 #
 # performance: 
-#	silhouette score to be recorded.
+#	Silhouette score to be recorded.
 # nbr: 
-#	number of detected clusters.
+#	Number of detected clusters.
 # algo:
-#	name of the concerned algorithm.
+#	Name of the concerned algorithm.
 # folder:
-#	folder containing the performance file.
+#	Folder containing the performance file.
 ###############################################################################
 save.performance <- function(performance, nbr, algo, folder)
 {	# set full file name

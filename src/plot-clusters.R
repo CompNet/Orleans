@@ -11,11 +11,11 @@
 # file, depending on the 'file' parameter.
 #
 # data: 
-#	data to be plotted, as a two column table. usually the result of a PCA.
+#	Data to be plotted, as a two column table. usually the result of a PCA.
 # membership:
-#	number of the cluster of each instance, in the same order.
+#	Number of the cluster of each instance, in the same order.
 # file.plot:
-#	if a filename is specified, it is used to record a PDF representation
+#	If a filename is specified, it is used to record a PDF representation
 #	of the plot.
 ###############################################################################
 plot.clusters <- function(data, membership, file.plot=NULL)

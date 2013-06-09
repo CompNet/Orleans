@@ -83,6 +83,3 @@ if(any(clust.algos=="DBSCAN"))
 ###############################################################################
 agreement.matrix <- process.agreement(clust.algos, folder.data, force.process)
 print(agreement.matrix)
-
-#TODO comments: uppercase
-#TODO readme: translate

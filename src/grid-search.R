@@ -11,9 +11,9 @@ library("plyr")
 # estimated parameter values.
 #
 # foo: 
-#	objective function
+#	Objective function
 # parameter.list: 
-#	named list of parameters. Each element in the list is
+#	Named list of parameters. Each element in the list is
 #	a vector of values for the parameter whose name is specified.
 # maximize: 
 #	TRUE to maximize (default), FALSE to minimize
@@ -21,7 +21,7 @@ library("plyr")
 #	Number of iterations to perform.
 #
 # returns:
-#	a named list, containing the combination of parameters
+#	A named list, containing the combination of parameters
 #	corresponding to the optimal value for the considered function.
 ###############################################################################
 iterative.grid.search <- function(foo, parameter.list, maximize=TRUE, iterations=1)
