@@ -1,6 +1,9 @@
 Orleans - R Clustering scripts
 ==============================
 
+These scripts are meant to apply several standard clustering algorithms
+to some tabular data, and then compare the resulting clusters, in order
+to check for agreement between the clustering algorithms. 
 
 The main scripts are:
 
@@ -9,6 +12,8 @@ The main scripts are:
 					
 	- main-generation.R:	Generates dummy data, to be used to test 
 							the other scripts, in absence of actual data.
+							Some parameters can be tuned cf. the 'TODO' 
+							marks inside the script.
 							It generates certain files:
 			- data.txt:	Contains the raw data. Actual data must also respect 
 						the same tabular format.
@@ -16,9 +21,11 @@ The main scripts are:
 						performed to extract only the 2 main components. Those
 						are then used to represent the data in a 2D space.
 			- pca.txt:	Results from the PCA, cached to be used later (i.e.
-						each time one wants to plot the clusters). 
+						each time one wants to plot the clusters).
 									
 	- main-process.R:	Applies the clustering algorithms, then compare them.
+						Certain parameters can also be tuned, cf. the 'TODO'
+						marks inside the script, too.
 						Some results are cached in specific files:
 			- distances.bin:	R object representing the distance matrix.
 								(binary file).
