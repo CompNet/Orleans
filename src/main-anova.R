@@ -14,16 +14,19 @@ library("multcomp")
 folder.data <- "/home/vlabatut/eclipse/workspaces/Networks/Orleans/data/"	
 
 # load membership vector
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Load membership vector\n",sep="")
 membership.file <- paste(folder.data,"normalized.numbered.txt.membership",sep="")
 t <- read.table(membership.file)
 membership <- t[,2] + 1
 t <- NULL; gc()
 
 # load data
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Load raw data\n",sep="")
 data.file <- paste(folder.data,"normalized.txt",sep="")
 data <- as.matrix(read.table(data.file))
 
 # create factors
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Create factors\n",sep="")
 clusters <- factor(membership)
 membership <- NULL; gc()
 

@@ -39,7 +39,7 @@ normalize.data <- function(folder.data, force.process=TRUE)
 			file.data <- paste(folder.data,"data.txt",sep="")
 			t <- read.table(file.data)
 			data <- as.matrix(t)
-#data <- data[,-(1:2)] # must ignore first two columns
+data <- data[,-(1:2)] # must ignore first two columns
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
 		cat("[",format(end.time,"%a %d %b %Y %X"),"] Load completed in ",total.time,"\n",sep="")
@@ -88,3 +88,24 @@ normalize.data <- function(folder.data, force.process=TRUE)
 ###############################################################################
 # test
 ###############################################################################
+#folder.data <- "/home/vlabatut/eclipse/workspaces/Networks/Orleans/data/"
+#file.norm <- paste(folder.data,"normalized.txt",sep="")
+#file.int.data <- paste(folder.data,"data.internal.txt",sep="")
+#file.ext.data <- paste(folder.data,"data.external.txt",sep="")
+#data <- as.matrix(read.table(file.int.data,sep=";"))[,-5]
+#data <- rbind(data,rep(0,ncol(data)))
+#data.ext <- as.matrix(read.table(file.ext.data))
+#data[nrow(data),1:2] <- data.ext[nrow(data.ext),1:2]
+#	all(data[,2]==data.ext[,2])
+#data.ext <- data.ext[,-(1:2)]
+#data <- cbind(data,data.ext)
+#file.data <- paste(folder.data,"data.txt",sep="")
+#write.table(x=data,file=file.data,row.names=FALSE,col.names=FALSE)
+
+#file.norm <- paste(folder.data,"normalized.numbered.txt",sep="")
+## >> normalize
+#data <- data[,-(1:2)]
+#data <- cbind(1:nrow(data),data)
+#dim(data)
+#write.table(x=data,file=file.norm,row.names=FALSE,col.names=FALSE)
+

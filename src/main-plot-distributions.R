@@ -17,7 +17,7 @@ cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Load membership vector\n",sep="")
 membership.file <- paste(folder.data,"normalized.numbered.txt.membership",sep="")
 t <- read.table(membership.file)
 membership <- t[,2] + 1
-t <- NULL
+t <- NULL; gc()
 
 # load data
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Load raw data\n",sep="")

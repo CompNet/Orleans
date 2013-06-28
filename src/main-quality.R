@@ -13,26 +13,43 @@ library("clusterSim")
 folder.data <- "/home/vlabatut/eclipse/workspaces/Networks/Orleans/data/"	
 
 # load membership vector
-membership.file <- paste(folder.data,"normalized.numbered.txt.membership",sep="")
-t <- read.table(membership.file)
-membership <- t[,2] + 1
-t <- NULL
+start.time <- Sys.time();
+cat("[",format(start.time,"%a %d %b %Y %X"),"] Load membership vector\n",sep="")
+	membership.file <- paste(folder.data,"normalized.numbered.txt.membership",sep="")
+	t <- read.table(membership.file)
+	membership <- t[,2] + 1
+	t <- NULL; gc()
+end.time <- Sys.time();
+total.time <- end.time - start.time;
+cat("[",format(end.time,"%a %d %b %Y %X"),"] Load completed in ",total.time,"\n",sep="")
+	
 
 # load cluster centers
 #centers.file <- paste(folder.data,"normalized.numbered.txt.cluster_centres",sep="")
 
 # load data
-data.file <- paste(folder.data,"normalized.txt",sep="")
-data <- as.matrix(read.table(data.file))
+#start.time <- Sys.time();
+#cat("[",format(start.time,"%a %d %b %Y %X"),"] Load normalized data\n",sep="")
+#	data.file <- paste(folder.data,"normalized.numbered.txt",sep="")
+#	data <- as.matrix(read.table(data.file))[,-1]
+#end.time <- Sys.time();
+#total.time <- end.time - start.time;
+#cat("[",format(end.time,"%a %d %b %Y %X"),"] Load completed in ",total.time,"\n",sep="")
+	
 
 # process measure
-#result <- index.DB(x=data, cl=membership, centrotypes="centroids")
-#print(result)
-
+start.time <- Sys.time();
+cat("[",format(start.time,"%a %d %b %Y %X"),"] Process Davies-Bouldin measure\n",sep="")
+	result <- index.DB(x=data, cl=membership, centrotypes="centroids")
+	print(result)
+end.time <- Sys.time();
+total.time <- end.time - start.time;
+cat("[",format(end.time,"%a %d %b %Y %X"),"] Processing completed in ",total.time,"\n",sep="")
+	
 #    2	0.4117679
 #	 3	0.7021821
 #	 4	0.8353625
-#    5	0.8177260
+#    5	0.8177260		0.817726
 #    6	0.9681769
 #	 7	0.3453222
 #	 8	3.2677520
