@@ -1,0 +1,61 @@
+# Process the centers of the estimated clusters
+# using the non-normalized data.
+# v1
+# 
+# Author: Vincent Labatut 06/2013
+# source("C:/Eclipse/workspaces/Networks/Orleans/src/main-plot-distributions.R")
+# source("/home/vlabatut/eclipse/workspaces/Networks/Orleans/src/main-plot-distributions.R")
+###############################################################################
+
+# data folder 					#TODO update depending on local file system
+#folder.data <- "C:/Eclipse/workspaces/Networks/Orleans/data/"	
+folder.data <- "/home/vlabatut/eclipse/workspaces/Networks/Orleans/data/"	
+
+# load membership vector
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Load membership vector\n",sep="")
+membership.file <- paste(folder.data,"normalized.numbered.txt.membership",sep="")
+t <- read.table(membership.file)
+membership <- t[,2] + 1
+t <- NULL
+
+# load data
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Load raw data\n",sep="")
+data.file <- paste(folder.data,"data.txt",sep="")
+data <- as.matrix(read.table(data.file))
+data <- data[,-(1:2)]
+
+# clean data
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Clean data\n",sep="")
+for(c in 1:ncol(data))
+{	# get rid of NA (?)
+	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..",c,": Remove NA symbols\n",sep="")
+	idx.na <- which(is.na(data[,c]))
+	if(length(idx.na)>0)
+		data[idx.na,c] <- 0
+	
+	# get rid of infinite values
+	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..",c,": Remove infinite symboles\n",sep="")
+	mn <- min(data[!is.infinite(data[,c]),c])
+	mx <- max(data[!is.infinite(data[,c]),c])				
+	idx.mn <- which(is.infinite(data[,c]) & data[,c]<0)
+	idx.mx <- which(is.infinite(data[,c]) & data[,c]>0)
+	if(length(idx.mn)>0)
+		data[idx.mn,c] <- mn
+	if(length(idx.mx)>0)
+		data[idx.mx,c] <- mx
+}
+
+# plot measure distributions
+measure.names <- c("diversity-in","diversity-out","intensity-in","intensity-out","homogeneity-in","homogeneity-out")
+for(i in 1:ncol(data))
+{	plot.file <- paste(folder.data,"measure.",i,".distribution.pdf",sep="")
+	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Plot measure distribution in file ",plot.file,"\n",sep="")
+	pdf(file=plot.file, bg="white")
+	hist(data[,i],probability=TRUE,breaks=100,main=paste("Distribution of",measure.names[i]),xlab=measure.names[i])
+	dev.off()
+}
+
+# process measure correlations
+cor.mat <- cor(data)
+cor.file <- paste(folder.data,"correlations.txt",sep="")
+write.table(cor.mat,cor.file,row.names=FALSE,col.names=FALSE)

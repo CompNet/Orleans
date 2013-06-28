@@ -17,3 +17,12 @@ install.packages("flexclust")
 
 # clustering methods: dbscan
 install.packages("fpc")
+
+# additional measures
+install.packages("clusterSim")
+
+# anova (unbalanced)
+install.packages("car")
+
+# Tukey's test (for package "car")
+install.packages("multcomp")

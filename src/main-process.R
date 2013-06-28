@@ -3,6 +3,7 @@
 # 
 # Author: Vincent Labatut 06/2013
 # source("C:/Eclipse/workspaces/Networks/Orleans/src/main-process.R")
+# source("/home/vlabatut/eclipse/workspaces/Networks/Orleans/src/main-process.R")
 ###############################################################################
 library("cluster")
 library("flexclust")
@@ -12,7 +13,8 @@ library("fpc")
 # retrieve secondary functions
 ###############################################################################
 # set source folder				#TODO update depending on local file system
-folder.source <- "C:/Eclipse/workspaces/Networks/Orleans/src/"	
+#folder.source <- "C:/Eclipse/workspaces/Networks/Orleans/src/"	
+folder.source <- "/home/vlabatut/eclipse/workspaces/Networks/Orleans/src/"	
 # load functions
 source(paste(folder.source,"apply-dbscan.R",sep=""))
 source(paste(folder.source,"apply-hierarchical.R",sep=""))
@@ -33,13 +35,14 @@ force.process <- FALSE
 # plot cluster results			#TODO set to FALSE to avoid plotting
 do.plotting <- TRUE		
 # data folder 					#TODO update depending on local file system
-folder.data <- "C:/Eclipse/workspaces/Networks/Orleans/data/"	
+#folder.data <- "C:/Eclipse/workspaces/Networks/Orleans/data/"	
+folder.data <- "/home/vlabatut/eclipse/workspaces/Networks/Orleans/data/"	
 # clustering algos to apply		#TODO comment algorithms you don't want to apply
 clust.algos <- c(									
-	"KMEANS",
-	"AGNES",
-	"DIANA",
-	"DBSCAN"
+	"KMEANS"
+#	"AGNES",
+#	"DIANA",
+#	"DBSCAN"
 )
 # standard distance function
 dist.function <- "euclidean"

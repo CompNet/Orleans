@@ -37,7 +37,9 @@ normalize.data <- function(folder.data, force.process=TRUE)
 		start.time <- Sys.time();
 		cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading raw data...\n",sep="")
 			file.data <- paste(folder.data,"data.txt",sep="")
-			data <- as.matrix(read.table(file.data))
+			t <- read.table(file.data)
+			data <- as.matrix(t)
+#data <- data[,-(1:2)] # must ignore first two columns
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
 		cat("[",format(end.time,"%a %d %b %Y %X"),"] Load completed in ",total.time,"\n",sep="")
@@ -46,8 +48,25 @@ normalize.data <- function(folder.data, force.process=TRUE)
 		start.time <- Sys.time();
 		cat("[",format(start.time,"%a %d %b %Y %X"),"] Normalizing data...\n",sep="")
 			for(c in 1:ncol(data))
-			{	average <- mean(data[,c])
+			{	# get rid of NA (?)
+				idx.na <- which(is.na(data[,c]))
+				if(length(idx.na)>0)
+					data[idx.na,c] <- 0
+				
+				# get rid of infinite values
+				mn <- min(data[!is.infinite(data[,c]),c])
+				mx <- max(data[!is.infinite(data[,c]),c])				
+				idx.mn <- which(is.infinite(data[,c]) & data[,c]<0)
+				idx.mx <- which(is.infinite(data[,c]) & data[,c]>0)
+				if(length(idx.mn)>0)
+					data[idx.mn,c] <- mn
+				if(length(idx.mx)>0)
+					data[idx.mx,c] <- mx
+				
+				# normalize
+				average <- mean(data[,c])
 				stdev <- sd(data[,c])
+				cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] .Row ",c,": avg=",average," stdev=",stdev,"\n",sep="")
 				data[,c] <- (data[,c] - average) / stdev
 			}
 		end.time <- Sys.time();
