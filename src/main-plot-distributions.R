@@ -1,4 +1,4 @@
-# Process the centers of the estimated clusters
+# Plots and test the distribution of the measures
 # using the non-normalized data.
 # v1
 # 
@@ -48,7 +48,7 @@ for(c in 1:ncol(data))
 
 # plot measure distributions
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Plot measure distributions\n",sep="")
-measure.names <- c("diversity-in","diversity-out","intensity-in","intensity-out","homogeneity-in","homogeneity-out")
+measure.names <- c("diversity-out","diversity-in","intensity-out","intensity-in","homogeneity-out","homogeneity-in")
 for(i in 1:ncol(data))
 {	plot.file <- paste(folder.data,"measure.",i,".",measure.names[i],".distribution.pdf",sep="")
 	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot measure distribution in file ",plot.file,"\n",sep="")
