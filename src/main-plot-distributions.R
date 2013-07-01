@@ -12,13 +12,6 @@ library("igraph")
 #folder.data <- "C:/Eclipse/workspaces/Networks/Orleans/data/"	
 folder.data <- "/home/vlabatut/eclipse/workspaces/Networks/Orleans/data/"	
 
-# load membership vector
-cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Load membership vector\n",sep="")
-membership.file <- paste(folder.data,"normalized.numbered.txt.membership",sep="")
-t <- read.table(membership.file)
-membership <- t[,2] + 1
-t <- NULL; gc()
-
 # load data
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Load raw data\n",sep="")
 data.file <- paste(folder.data,"data.txt",sep="")
@@ -35,20 +28,15 @@ for(c in 1:ncol(data))
 	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..",c,": Removed ",length(idx.na)," 'NA' symbols\n",sep="")
 	
 	# get rid of infinite values
-	mn <- min(data[!is.infinite(data[,c]),c])
-	mx <- max(data[!is.infinite(data[,c]),c])				
-	idx.mn <- which(is.infinite(data[,c]) & data[,c]<0)
-	idx.mx <- which(is.infinite(data[,c]) & data[,c]>0)
-	if(length(idx.mn)>0)
-		data[idx.mn,c] <- mn
-	if(length(idx.mx)>0)
-		data[idx.mx,c] <- mx
-	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..",c,": Removed ",length(idx.mn)," negative and ",length(idx.mx)," positive infinite symboles\n",sep="")
+	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..",c,": Remove infinite symbols\n",sep="")
+	idx.inf <- which(is.infinite(data[,c]))
+	if(length(idx.inf)>0)
+		data[idx.inf,c] <- 0
 }
 
 # plot measure distributions
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Plot measure distributions\n",sep="")
-measure.names <- c("diversity-out","diversity-in","intensity-out","intensity-in","homogeneity-out","homogeneity-in")
+measure.names <- c("intensity-int-out","intensity-int-in","diversity-out","diversity-in","intensity-ext-out","intensity-ext-in","homogeneity-out","homogeneity-in")
 for(i in 1:ncol(data))
 {	plot.file <- paste(folder.data,"measure.",i,".",measure.names[i],".distribution.pdf",sep="")
 	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot measure distribution in file ",plot.file,"\n",sep="")
@@ -63,6 +51,11 @@ cor.mat <- cor(data)
 cor.file <- paste(folder.data,"correlations.txt",sep="")
 write.table(cor.mat,cor.file,row.names=FALSE,col.names=FALSE)
 
+# sample a few objects
+sample.size <- 100000
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Sample ",sample.size," objects\n",sep="")
+sampled <- sample(x=1:nrow(data),size=sample.size)
+
 # test for power law fitness
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Check for power-law distributions\n",sep="")
 fit <- matrix(ncol=2,nrow=ncol(data))
@@ -70,7 +63,7 @@ colnames(fit) <- c("p-value","exponent")
 rownames(fit) <- measure.names
 for(i in 1:ncol(data))
 {	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Processing measure ",measure.names[i],"\n",sep="")
-	plf <- power.law.fit(x=data[,i], implementation="plfit")
+	plf <- power.law.fit(x=data[sampled,i], implementation="plfit")
 	fit[i,"p-value"] <- plf$KS.p
 	fit[i,"exponent"] <- plf$alpha
 }

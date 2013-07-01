@@ -54,19 +54,22 @@ data <- data[,-(1:2)] # must ignore first two columns
 					data[idx.na,c] <- 0
 				
 				# get rid of infinite values
-				mn <- min(data[!is.infinite(data[,c]),c])
-				mx <- max(data[!is.infinite(data[,c]),c])				
-				idx.mn <- which(is.infinite(data[,c]) & data[,c]<0)
-				idx.mx <- which(is.infinite(data[,c]) & data[,c]>0)
-				if(length(idx.mn)>0)
-					data[idx.mn,c] <- mn
-				if(length(idx.mx)>0)
-					data[idx.mx,c] <- mx
-				
+#				mn <- min(data[!is.infinite(data[,c]),c])
+#				mx <- max(data[!is.infinite(data[,c]),c])				
+#				idx.mn <- which(is.infinite(data[,c]) & data[,c]<0)
+#				idx.mx <- which(is.infinite(data[,c]) & data[,c]>0)
+#				if(length(idx.mn)>0)
+#					data[idx.mn,c] <- mn
+#				if(length(idx.mx)>0)
+#					data[idx.mx,c] <- mx
+				idx.inf <- which(is.infinite(data[,c]))
+				if(length(idx.inf)>0)
+					data[idx.inf,c] <- 0
+			
 				# normalize
 				average <- mean(data[,c])
 				stdev <- sd(data[,c])
-				cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] .Row ",c,": avg=",average," stdev=",stdev,"\n",sep="")
+				cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] .Column ",c,": avg=",average," stdev=",stdev,"\n",sep="")
 				data[,c] <- (data[,c] - average) / stdev
 			}
 		end.time <- Sys.time();
@@ -93,6 +96,11 @@ data <- data[,-(1:2)] # must ignore first two columns
 #file.int.data <- paste(folder.data,"data.internal.txt",sep="")
 #file.ext.data <- paste(folder.data,"data.external.txt",sep="")
 #data <- as.matrix(read.table(file.int.data,sep=";"))[,-5]
+#mx <- max(data)
+#for(c in 3:4)
+#{	idx.inf <- which(data[,c]==mx)
+#	data[idx.inf,c] <- +Inf
+#}
 #data <- rbind(data,rep(0,ncol(data)))
 #data.ext <- as.matrix(read.table(file.ext.data))
 #data[nrow(data),1:2] <- data.ext[nrow(data.ext),1:2]
@@ -103,8 +111,8 @@ data <- data[,-(1:2)] # must ignore first two columns
 #write.table(x=data,file=file.data,row.names=FALSE,col.names=FALSE)
 
 #file.norm <- paste(folder.data,"normalized.numbered.txt",sep="")
-## >> normalize
 #data <- data[,-(1:2)]
+## >> normalize
 #data <- cbind(1:nrow(data),data)
 #dim(data)
 #write.table(x=data,file=file.norm,row.names=FALSE,col.names=FALSE)

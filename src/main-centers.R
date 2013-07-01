@@ -34,15 +34,10 @@ for(c in 1:ncol(data))
 		data[idx.na,c] <- 0
 	
 	# get rid of infinite values
-	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..",c,": Remove infinite symboles\n",sep="")
-	mn <- min(data[!is.infinite(data[,c]),c])
-	mx <- max(data[!is.infinite(data[,c]),c])				
-	idx.mn <- which(is.infinite(data[,c]) & data[,c]<0)
-	idx.mx <- which(is.infinite(data[,c]) & data[,c]>0)
-	if(length(idx.mn)>0)
-		data[idx.mn,c] <- mn
-	if(length(idx.mx)>0)
-		data[idx.mx,c] <- mx
+	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..",c,": Remove infinite symbols\n",sep="")
+	idx.inf <- which(is.infinite(data[,c]))
+	if(length(idx.inf)>0)
+		data[idx.inf,c] <- 0
 }
 
 # process means and standard deviations

@@ -37,9 +37,17 @@ pca.data <- pca.obj$scores[,1:2]
 print(pca.obj)
 summary(pca.obj)
 
+# record results
+anova.file <- paste(folder.data,"pca.summary.txt",sep="")
+sink(anova.file)
+	print(pca.obj)
+	summary(pca.obj)
+sink()
+
 # plot result
 plot.file <- paste(folder.data,"pca",".pdf",sep="")
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Plot results in file ",plot.file,"\n",sep="")
 pdf(file=plot.file, bg="white")
 plot(data[sampled,1], data[sampled,2],col=membership[sampled],xlab="First Principal Component",ylab="Second Principal Component",main="Cluster")
+#plot(data[sampled,1], data[sampled,2],col=membership[sampled],xlab="First Principal Component",ylab="Second Principal Component",main="Cluster",xlim=c(0,20),ylim=c(0,20))
 dev.off()
