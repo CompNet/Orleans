@@ -10,7 +10,7 @@
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
-# source("src/p02-communities.R")
+# source("src/p03-communities.R")
 ###############################################################################
 library("igraph")
 source("src/ecdflt.R")

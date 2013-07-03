@@ -7,7 +7,7 @@
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
-# source("src/p06-centers.R")
+# source("src/p07-centers.R")
 ###############################################################################
 
 

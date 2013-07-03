@@ -6,7 +6,7 @@
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
-# source("src/p03-measures.R")
+# source("src/p04-measures.R")
 ###############################################################################
 library("igraph")
 source("src/ecdflt.R")

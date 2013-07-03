@@ -12,7 +12,7 @@
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
-# source("src/p05-clustering.R")
+# source("src/p06-clustering.R")
 ###############################################################################
 library("clusterSim")
 
