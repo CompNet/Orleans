@@ -48,7 +48,7 @@ cat("[",format(start.time,"%a %d %b %Y %X"),"] Process community sizes\n",sep=""
 	for(i in 1:length(communities))
 	{	com <- communities[i]
 		if(i%%100000==0)
-			cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Processing node ",i," (",com,")\n",sep="")
+			cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Processing node ",i," (",com,") / ",length(communities),"\n",sep="")
 		com.sizes[com] <- com.sizes[com] + 1
 	}
 	comsize.file <- paste(folder.data,"communities.sizes.txt",sep="")
