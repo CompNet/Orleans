@@ -19,7 +19,7 @@ folder.data <- "data/"
 file.input <- "rolemeasures.raw.txt"		# TODO you can possibly change that
 measure.names <- c(							# TODO you might change that, if necessary
 		"intensity-int-out","intensity-int-in","diversity-out","diversity-in","intensity-ext-out","intensity-ext-in","homogeneity-out","homogeneity-in")
-sample.size <- 100						# TODO processing the whole dataset is to long, so the power-law distribution is tested only on a sample
+sample.size <- 100000						# TODO processing the whole dataset is to long, so the power-law distribution is tested only on a sample
 
 
 ###############################################################################
@@ -76,7 +76,7 @@ cat("[",format(start.time,"%a %d %b %Y %X"),"] Plot measure distributions\n",sep
 		
 		# cumulative distribution
 		plot.file <- paste(folder.data,"measure.",i,".",measure.names[i],".cumdist.pdf",sep="")
-		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot measure histogram in file ",plot.file,"\n",sep="")
+		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot measure cumulative distribution in file ",plot.file,"\n",sep="")
 		pdf(file=plot.file, bg="white")
 		ecdflt(x=data[,i], xlab=measure.names[i], main=paste("Distribution of",measure.names[i]), col="RED") #, log="y"
 		dev.off()
