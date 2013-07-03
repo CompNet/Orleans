@@ -16,7 +16,9 @@ library("igraph")
 source("ecdflt.R")
 
 
+###############################################################################
 # setup files
+###############################################################################
 folder.data <- "data/"	
 file.input <- "communities.txt"
 file.output1 <- "communities.sizes.txt"
@@ -25,7 +27,9 @@ file.output3 <- "communities.cumdist.pdf"
 file.output4 <- "communities.powerlawfit.txt"
 
 
+###############################################################################
 # load community membership
+###############################################################################
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading community membership\n",sep="")
 	file.com <- paste(folder.data,file.input,sep="")
@@ -38,7 +42,9 @@ total.time <- end.time - start.time;
 cat("[",format(end.time,"%a %d %b %Y %X"),"] Load completed in ",total.time,"\n",sep="")
 
 
+###############################################################################
 # process community size distribution
+###############################################################################
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %X"),"] Process community sizes\n",sep="")
 	com.nbr <- length(unique(communities))
@@ -56,7 +62,9 @@ total.time <- end.time - start.time;
 cat("[",format(end.time,"%a %d %b %Y %X"),"] Process completed in ",total.time," (",length(com.sizes)," communities)\n",sep="")
 
 
+###############################################################################
 # plot community size cumulative distribution
+###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Plot community sizes\n",sep="")
 	plot.file <- paste(folder.data,output2,sep="")
 	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Histogram plotted in file ",plot.file,"\n",sep="")
@@ -71,7 +79,9 @@ cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Plot community sizes\n",sep="")
 	dev.off()
 
 
+###############################################################################
 # test for power law distribution
+###############################################################################
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %X"),"] Check for power-law distributions\n",sep="")
 	fit <- matrix(ncol=2,nrow=1)

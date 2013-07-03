@@ -17,7 +17,9 @@
 library("clusterSim")
 
 
+###############################################################################
 # setup files
+###############################################################################
 folder.data <- "data/"	
 file.input <- "rolemeasures.normalized.txt"
 file.output1 <- "clusters.quality.txt"
@@ -26,7 +28,9 @@ file.kmeans <- "~/Downloads/Simple_Kmeans/omp_main"		# k-means executable file
 ks <- c(2:15)				# values of k to be tried
 
 
+###############################################################################
 # load normalized data
+###############################################################################
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading normalized data\n",sep="")
 	file.data <- paste(folder.data,file.input,sep="")
@@ -36,7 +40,9 @@ total.time <- end.time - start.time;
 cat("[",format(end.time,"%a %d %b %Y %X"),"] Load completed in ",total.time,"\n",sep="")
 
 
+###############################################################################
 # apply algorithm for each specified k
+###############################################################################
 quality <- matrix(NA,ncol=2,nrow=length(ks))
 quality[,1] <- ks
 for(i in 1:length(ks))
@@ -84,13 +90,17 @@ for(i in 1:length(ks))
 }
 
 
+###############################################################################
 # record quality values
+###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Record all quality values in ",output1,"\n",sep="")
 values.file <- paste(folder.data,output1,sep="")
 write.table(quality,file=values.file,row.names=FALSE,col.names=FALSE)
 
 
+###############################################################################
 # plot quality values
+###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot quality values in ",output2,"\n",sep="")
 plot.file <- paste(folder.data,output2,sep="")
 pdf(file=plot.file,bg="white")

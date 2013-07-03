@@ -21,13 +21,17 @@
 library("clusterSim")
 
 
+###############################################################################
 # setup files
+###############################################################################
 folder.data <- "data/"	
 file.input <- "rolemeasures.raw.txt"
 file.output1 <- "rolemeasures.normalized.txt"
 
 
+###############################################################################
 # load raw data
+###############################################################################
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading raw data...\n",sep="")
 	file.data <- paste(folder.data,file.input,sep="")
@@ -37,7 +41,9 @@ total.time <- end.time - start.time;
 cat("[",format(end.time,"%a %d %b %Y %X"),"] Load completed in ",total.time,"\n",sep="")
 
 
+###############################################################################
 # normalize data (center & reduce)
+###############################################################################
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %X"),"] Normalizing data...\n",sep="")
 	for(c in 1:ncol(data))
@@ -68,7 +74,9 @@ total.time <- end.time - start.time;
 cat("[",format(end.time,"%a %d %b %Y %X"),"] Normalization completed in ",total.time,"\n",sep="")
 
 
+###############################################################################
 # record normalized data
+###############################################################################
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %X"),"] Recording normalized data...\n",sep="")
 	file.norm <- paste(folder.data,file.output1,sep="")

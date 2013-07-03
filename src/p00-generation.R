@@ -1,14 +1,20 @@
-# Generates dummy data.
-# v1
-# 
+# Generates dummy data to play with
+# (and test the rest of the scripts).
+#
+# version: 1
 # Author: Vincent Labatut 06/2013
-# source("C:/Eclipse/workspaces/Networks/Orleans/src/main-generation.R")
+#
+# setwd("~/eclipse/workspaces/Networks/Orleans/")
+# setwd("C:/Eclipse/workspaces/Networks/Orleans/")
+# source("src/p00-generation.R")
 ###############################################################################
-# source folder
-folder.source <- "C:/Eclipse/workspaces/Networks/Orleans/src/"
-source(paste(folder.source,"normalize-data.R",sep=""))
-source(paste(folder.source,"perform-pca.R",sep=""))
-source(paste(folder.source,"plot-clusters.R",sep=""))
+
+
+###############################################################################
+# setup files
+###############################################################################
+folder.data <- "data/"	
+file.output <- "rolemeasures.raw.txt"
 
 
 ###############################################################################
@@ -20,10 +26,6 @@ n.cluster <- 7
 n.instances <- 250		
 # we have 2x4 measures (mutually exclusive communities, directed network)
 n.fields <- 8
-# data folder						#TODO update depending on local file system
-folder.data <- "C:/Eclipse/workspaces/Networks/Orleans/data/"
-# file name
-file.name <- "data"
 
 
 ###############################################################################
@@ -53,12 +55,5 @@ data <- data[sample(nrow(data)),]
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Record to file...\n",sep="")
 mbr <- data[,n.fields+1]
 data <- data[,-(n.fields+1)]
-file.data <- paste(folder.data,file.name,".txt",sep="")
+file.data <- paste(folder.data,file.output,sep="")
 write.table(x=data,file=file.data,row.names=FALSE,col.names=FALSE)
-# normalize data
-data <- normalize.data(folder.data)
-# process and record PCA for later use
-pca <- perform.pca(data, folder.data)
-# plot clusters, for visual inspection
-file.plot <- paste(folder.data,file.name,".pdf",sep="")
-plot.clusters(data=pca, membership=mbr, file=file.plot)
