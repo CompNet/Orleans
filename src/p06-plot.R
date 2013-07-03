@@ -16,7 +16,7 @@
 # setup files
 ###############################################################################
 folder.data <- "data/"	
-k <- 5					# TODO we work only on the clusters found for this k
+k <- 5						# TODO we work only on the clusters found for this k
 sample.size <- 100000		# TODO you might increase the sample size if you have the required processing power
 
 		
@@ -59,7 +59,7 @@ pca.obj <- princomp(data[sampled,])
 pca.data <- pca.obj$scores[,1:2]
 #write.table(x=pca.data,file=file.pca,row.names=FALSE,col.names=FALSE)
 print(pca.obj)
-summary(pca.obj)
+print(summary(pca.obj))
 
 
 ###############################################################################
@@ -68,7 +68,7 @@ summary(pca.obj)
 anova.file <- paste(folder.data,"pca.k",k,".summary.txt",sep="")
 sink(anova.file)
 	print(pca.obj)
-	summary(pca.obj)
+	print(summary(pca.obj))
 sink()
 
 
@@ -78,7 +78,7 @@ sink()
 plot.file <- paste(folder.data,"pca.k",k,".pdf",sep="")
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Plot results in file ",plot.file,"\n",sep="")
 pdf(file=plot.file, bg="white")
-plot(data[sampled,1], data[sampled,2],col=membership[sampled],xlab="First Principal Component",ylab="Second Principal Component",main="Cluster")
+plot(data[sampled,1], data[sampled,2],col=membership[sampled],xlab="First Principal Component",ylab="Second Principal Component",main=paste("Clusters for k=",k,sep=""))
 # if you want to focus on a smaller part of the plot, use this command instead:
-# plot(data[sampled,1], data[sampled,2],col=membership[sampled],xlab="First Principal Component",ylab="Second Principal Component",main="Cluster",xlim=c(0,20),ylim=c(0,20))
+# plot(data[sampled,1], data[sampled,2],col=membership[sampled],xlab="First Principal Component",ylab="Second Principal Component",main=paste("Clusters for k=",k,sep=""),xlim=c(0,20),ylim=c(0,20))
 dev.off()
