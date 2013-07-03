@@ -7,7 +7,7 @@
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
-# source("src/p05-centers.R")
+# source("src/p06-centers.R")
 ###############################################################################
 
 
@@ -67,7 +67,7 @@ for(c in 1:ncol(data))
 }
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %X"),"] Normalization completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %X"),"] Cleaning completed in ",total.time,"\n",sep="")
 
 
 ###############################################################################

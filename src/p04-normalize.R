@@ -16,7 +16,7 @@
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
-# source("src/p03-normalize.R")
+# source("src/p04-normalize.R")
 ###############################################################################
 library("clusterSim")
 

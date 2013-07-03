@@ -65,7 +65,7 @@ cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Plot community sizes\n",sep="")
 	plot.file <- paste(folder.data,"communities.histo.pdf",sep="")
 	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Histogram plotted in file ",plot.file,"\n",sep="")
 	pdf(file=plot.file, bg="white")
-	hist(com.sizes,probability=TRUE,breaks=5,main="Community Size Distribution",xlab="Community Size")
+	hist(com.sizes,probability=TRUE,breaks=5,main="Community Size Distribution",xlab="Community Size",col="RED")
 	dev.off()
 	
 	plot.file <- paste(folder.data,"communities.cumdist.pdf",sep="")
