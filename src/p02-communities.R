@@ -1,0 +1,87 @@
+# Analyzes the communities: process their size distribution,
+# then tries to fit it to a power law.
+# Expected file: a single vector of community numbers, one
+# for each node in the network. So in this file we have as 
+# many lines as nodes. Communities are supposed to be numbered
+# starting from 1.
+#
+# version: 1
+# Author: Vincent Labatut 06/2013
+#
+# setwd("~/eclipse/workspaces/Networks/Orleans/")
+# setwd("C:/Eclipse/workspaces/Networks/Orleans/")
+# source("src/p02-communities.R")
+###############################################################################
+library("igraph")
+source("ecdflt.R")
+
+
+# setup files
+folder.data <- "data/"	
+file.input <- "communities.txt"
+file.output1 <- "communities.sizes.txt"
+file.output2 <- "communities.histo.pdf"
+file.output3 <- "communities.cumdist.pdf"
+file.output4 <- "communities.powerlawfit.txt"
+
+
+# load community membership
+start.time <- Sys.time();
+cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading community membership\n",sep="")
+	file.com <- paste(folder.data,file.input,sep="")
+	communities <- as.matrix(read.table(file.com))
+	# just in case communities start from 0
+	if(min(communities)==0)
+		communities <- communities + 1
+end.time <- Sys.time();
+total.time <- end.time - start.time;
+cat("[",format(end.time,"%a %d %b %Y %X"),"] Load completed in ",total.time,"\n",sep="")
+
+
+# process community size distribution
+start.time <- Sys.time();
+cat("[",format(start.time,"%a %d %b %Y %X"),"] Process community sizes\n",sep="")
+	com.nbr <- length(unique(communities))
+	com.sizes <- rep(0,com.nbr)
+	for(i in 1:length(communities))
+	{	com <- communities[i]
+		if(i%%100000==0)
+			cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Processing node ",i," (",com,")\n",sep="")
+		com.sizes[com] <- com.sizes[com] + 1
+	}
+	comsize.file <- paste(folder.data,output1,sep="")
+	write.table(com.sizes, comsize.file, row.names=TRUE, col.names=FALSE)
+end.time <- Sys.time();
+total.time <- end.time - start.time;
+cat("[",format(end.time,"%a %d %b %Y %X"),"] Process completed in ",total.time," (",length(com.sizes)," communities)\n",sep="")
+
+
+# plot community size cumulative distribution
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Plot community sizes\n",sep="")
+	plot.file <- paste(folder.data,output2,sep="")
+	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Histogram plotted in file ",plot.file,"\n",sep="")
+	pdf(file=plot.file, bg="white")
+	hist(com.sizes,probability=TRUE,breaks=5,main="Community Size Distribution",xlab="Community Size")
+	dev.off()
+	
+	plot.file <- paste(folder.data,output3,sep="")
+	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Cumulative distribution plotted in file ",plot.file,"\n",sep="")
+	pdf(file=plot.file, bg="white")
+	ecdflt(x=com.sizes, xlab="Community Size", main="Community Size Distribution", col="RED") #, log="y"
+	dev.off()
+
+
+# test for power law distribution
+start.time <- Sys.time();
+cat("[",format(start.time,"%a %d %b %Y %X"),"] Check for power-law distributions\n",sep="")
+	fit <- matrix(ncol=2,nrow=1)
+	colnames(fit) <- c("p-value","exponent")
+	plf <- power.law.fit(x=data[,i], implementation="plfit")
+	fit[1,"p-value"] <- plf$KS.p
+	fit[1,"exponent"] <- plf$alpha
+	print(plf)
+	power.file <- paste(folder.data,output4,sep="")
+	write.table(fit,power.file,row.names=FALSE)
+end.time <- Sys.time();
+total.time <- end.time - start.time;
+cat("[",format(end.time,"%a %d %b %Y %X"),"] Process completed in ",total.time,"\n",sep="")

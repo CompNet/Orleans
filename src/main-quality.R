@@ -68,3 +68,6 @@ cat("[",format(end.time,"%a %d %b %Y %X"),"] Processing completed in ",total.tim
 # pdf(file=plot.file,bg="white")
 # plot(x,y,type="n",xlab="Clusters",ylab="Davies-Bouldin index");lines(x,y,col="RED")
 # dev.off()
+
+
+# ./omp_main -i ../../eclipse/workspaces/Networks/Orleans/data/normalized.numbered.txt -n 13
