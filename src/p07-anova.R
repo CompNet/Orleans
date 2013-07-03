@@ -1,4 +1,8 @@
 # Performs an Anova on the detected clusters.
+# One Anova is performed on each measure taken separately.
+# The goal is to understand which measures are discriminant
+# for the detected cluster, in order to identify their associated
+# role.
 #
 # version: 1
 # Author: Vincent Labatut 06/2013
@@ -10,7 +14,7 @@
 # to be tested, as a parameter of the command. Chain several commands
 # to execute the script as many times as you have measure. In our case, we
 # have 8 measures, so we just do (from the OS console): 
-# 	cd ~/eclipse/workspaces/Networks/Orleans/
+# 	cd ~/eclipse/workspaces/Networks/Orleans/src
 # 	Rscript p07-anova.R 1;Rscript p07-anova.R 2;Rscript p07-anova.R 3;Rscript p07-anova.R 4;Rscript p07-anova.R 5;Rscript p07-anova.R 6;Rscript p07-anova.R 7;Rscript p07-anova.R 8
 ###############################################################################
 library("car")
@@ -102,7 +106,7 @@ cat("[",format(end.time,"%a %d %b %Y %X"),"] Factors created in ",total.time,"\n
 # process only the measure specified when calling the command
 ###############################################################################
 start.time <- Sys.time();
-cat("[",format(start.time,"%a %d %b %Y %X"),"] Performing Anova for  measure #",i,"\n",sep="")
+cat("[",format(start.time,"%a %d %b %Y %X"),"] Performing Anova for  measure #",measure.nbr,"\n",sep="")
 	values <- data[,measure.nbr]
 	
 	# test for homogeneity of variances (homoskedasticity): p>0.05 means ok
@@ -135,7 +139,7 @@ cat("[",format(start.time,"%a %d %b %Y %X"),"] Performing Anova for  measure #",
 	#tt <- pairwise.t.test(values,clusters,p.adj="holm")	# holm adjustment
 	print(tt)
 
-	anova.file <- paste(folder.data,"anova.",i,".txt",sep="")
+	anova.file <- paste(folder.data,"anova.",measure.nbr,".txt",sep="")
 	sink(anova.file)
 		print(av)
 		print(summary(av))
