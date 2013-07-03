@@ -21,9 +21,6 @@ library("clusterSim")
 # setup files
 ###############################################################################
 folder.data <- "data/"	
-file.input <- "rolemeasures.normalized.txt"
-file.output1 <- "clusters.quality.txt"
-file.output2 <- "clusters.quality.pdf"
 file.kmeans <- "~/Downloads/Simple_Kmeans/omp_main"		# k-means executable file 
 ks <- c(2:15)				# values of k to be tried
 
@@ -33,7 +30,7 @@ ks <- c(2:15)				# values of k to be tried
 ###############################################################################
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading normalized data\n",sep="")
-	file.data <- paste(folder.data,file.input,sep="")
+	file.data <- paste(folder.data,"rolemeasures.normalized.txt",sep="")
 	data <- as.matrix(read.table(file.data))
 end.time <- Sys.time();
 total.time <- end.time - start.time;
@@ -96,16 +93,16 @@ print(quality)
 ###############################################################################
 # record quality values
 ###############################################################################
-cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Record all quality values in ",file.output1,"\n",sep="")
-values.file <- paste(folder.data,file.output1,sep="")
+values.file <- paste(folder.data,"clusters.quality.txt",sep="")
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Record all quality values in ",values.file,"\n",sep="")
 write.table(quality,file=values.file,row.names=FALSE,col.names=FALSE)
 
 
 ###############################################################################
 # plot quality values
 ###############################################################################
-cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot quality values in ",file.output2,"\n",sep="")
-plot.file <- paste(folder.data,file.output2,sep="")
+plot.file <- paste(folder.data,"clusters.quality.pdf",sep="")
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot quality values in ",plot.file,"\n",sep="")
 pdf(file=plot.file,bg="white")
 plot(quality[,1],quality[,2],type="l",xlab="Clusters",ylab="Davies-Bouldin index",col="RED")
 dev.off()

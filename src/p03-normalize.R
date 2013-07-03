@@ -25,8 +25,7 @@ library("clusterSim")
 # setup files
 ###############################################################################
 folder.data <- "data/"	
-file.input <- "rolemeasures.raw.txt"
-file.output1 <- "rolemeasures.normalized.txt"
+file.input <- "rolemeasures.raw.txt"	# TODO you can possibly change that
 
 
 ###############################################################################
@@ -79,7 +78,7 @@ cat("[",format(end.time,"%a %d %b %Y %X"),"] Normalization completed in ",total.
 ###############################################################################
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %X"),"] Recording normalized data\n",sep="")
-	file.norm <- paste(folder.data,file.output1,sep="")
+	file.norm <- paste(folder.data,"rolemeasures.normalized.txt",sep="")
 	write.table(x=data,file=file.norm,row.names=FALSE,col.names=FALSE)
 end.time <- Sys.time();
 total.time <- end.time - start.time;

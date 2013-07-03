@@ -14,8 +14,6 @@
 # setup files
 ###############################################################################
 folder.data <- "data/"	
-file.output1 <- "rolemeasures.raw.txt"
-file.output2 <- "communities.txt"
 
 
 ###############################################################################
@@ -57,7 +55,7 @@ for(i in 1:n.fields)
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Record measures to file\n",sep="")
 data <- data[,-(n.fields+1)]
-file.data <- paste(folder.data,file.output1,sep="")
+file.data <- paste(folder.data,"rolemeasures.raw.txt",sep="")
 write.table(x=data,file=file.data,row.names=FALSE,col.names=FALSE)
 
 
@@ -67,5 +65,5 @@ write.table(x=data,file=file.data,row.names=FALSE,col.names=FALSE)
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Generate communities\n",sep="")
 coms <- floor(runif(n.instances,min=1,max=n.communities))
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Record communities to file\n",sep="")
-file.coms <- paste(folder.data,file.output2,sep="")
+file.coms <- paste(folder.data,"communities.txt",sep="")
 write.table(x=coms,file=file.coms,row.names=FALSE,col.names=FALSE)
