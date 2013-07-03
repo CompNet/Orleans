@@ -7,7 +7,11 @@
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
+<<<<<<< HEAD
 # source("src/p07-centers.R")
+=======
+# source("src/p06-centers.R")
+>>>>>>> branch 'master' of ssh://git@github.com/CompNet/Orleans.git
 ###############################################################################
 
 

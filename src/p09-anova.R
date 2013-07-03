@@ -15,7 +15,11 @@
 # to execute the script as many times as you have measure. In our case, we
 # have 8 measures, so we just do (from the OS console): 
 # 	cd ~/eclipse/workspaces/Networks/Orleans/src
+<<<<<<< HEAD
 # 	Rscript p09-anova.R 1;Rscript p09-anova.R 2;Rscript p09-anova.R 3;Rscript p09-anova.R 4;Rscript p09-anova.R 5;Rscript p09-anova.R 6;Rscript p09-anova.R 7;Rscript p09-anova.R 8
+=======
+# 	Rscript p08-anova.R 1;Rscript p08-anova.R 2;Rscript p08-anova.R 3;Rscript p08-anova.R 4;Rscript p08-anova.R 5;Rscript p08-anova.R 6;Rscript p08-anova.R 7;Rscript p08-anova.R 8
+>>>>>>> branch 'master' of ssh://git@github.com/CompNet/Orleans.git
 ###############################################################################
 library("car")
 #library("multcomp")
