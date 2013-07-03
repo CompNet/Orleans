@@ -53,14 +53,14 @@ cat("[",format(start.time,"%a %d %b %Y %X"),"] Normalizing data...\n",sep="")
 		idx.na <- which(is.na(data[,c]))
 		if(length(idx.na)>0)
 		{	data[idx.na,c] <- 0
-			cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....WARNING: NA found in the raw data (col.",c,")\n")
+			cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....WARNING: ",length(idx.na)," NA values found in the raw data (col.",c,")\n")
 		}
 		
 		# get rid of infinite values
 		idx.inf <- which(is.infinite(data[,c]))
 		if(length(idx.inf)>0)
 		{	data[idx.inf,c] <- 0
-			cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....Replacing infinite values by 0 in col.",c,")\n")
+			cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....Replacing ",length(idx.inf)," infinite values by 0 in col.",c,")\n")
 		}
 		
 		# normalize
@@ -78,7 +78,7 @@ cat("[",format(end.time,"%a %d %b %Y %X"),"] Normalization completed in ",total.
 # record normalized data
 ###############################################################################
 start.time <- Sys.time();
-cat("[",format(start.time,"%a %d %b %Y %X"),"] Recording normalized data...\n",sep="")
+cat("[",format(start.time,"%a %d %b %Y %X"),"] Recording normalized data\n",sep="")
 	file.norm <- paste(folder.data,file.output1,sep="")
 	write.table(x=data,file=file.norm,row.names=FALSE,col.names=FALSE)
 end.time <- Sys.time();

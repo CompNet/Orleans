@@ -13,7 +13,7 @@
 # source("src/p02-communities.R")
 ###############################################################################
 library("igraph")
-source("ecdflt.R")
+source("src/ecdflt.R")
 
 
 ###############################################################################
@@ -55,24 +55,24 @@ cat("[",format(start.time,"%a %d %b %Y %X"),"] Process community sizes\n",sep=""
 			cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Processing node ",i," (",com,")\n",sep="")
 		com.sizes[com] <- com.sizes[com] + 1
 	}
-	comsize.file <- paste(folder.data,output1,sep="")
-	write.table(com.sizes, comsize.file, row.names=TRUE, col.names=FALSE)
+	comsize.file <- paste(folder.data,file.output1,sep="")
+	write.table(com.sizes, comsize.file, row.names=FALSE, col.names=FALSE)
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %X"),"] Process completed in ",total.time," (",length(com.sizes)," communities)\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %X"),"] Processed in ",total.time," (",length(com.sizes)," communities)\n",sep="")
 
 
 ###############################################################################
 # plot community size cumulative distribution
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Plot community sizes\n",sep="")
-	plot.file <- paste(folder.data,output2,sep="")
+	plot.file <- paste(folder.data,file.output2,sep="")
 	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Histogram plotted in file ",plot.file,"\n",sep="")
 	pdf(file=plot.file, bg="white")
 	hist(com.sizes,probability=TRUE,breaks=5,main="Community Size Distribution",xlab="Community Size")
 	dev.off()
 	
-	plot.file <- paste(folder.data,output3,sep="")
+	plot.file <- paste(folder.data,file.output3,sep="")
 	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Cumulative distribution plotted in file ",plot.file,"\n",sep="")
 	pdf(file=plot.file, bg="white")
 	ecdflt(x=com.sizes, xlab="Community Size", main="Community Size Distribution", col="RED") #, log="y"
@@ -86,11 +86,11 @@ start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %X"),"] Check for power-law distributions\n",sep="")
 	fit <- matrix(ncol=2,nrow=1)
 	colnames(fit) <- c("p-value","exponent")
-	plf <- power.law.fit(x=data[,i], implementation="plfit")
+	plf <- power.law.fit(x=com.sizes, implementation="plfit")
 	fit[1,"p-value"] <- plf$KS.p
 	fit[1,"exponent"] <- plf$alpha
 	print(plf)
-	power.file <- paste(folder.data,output4,sep="")
+	power.file <- paste(folder.data,file.output4,sep="")
 	write.table(fit,power.file,row.names=FALSE)
 end.time <- Sys.time();
 total.time <- end.time - start.time;

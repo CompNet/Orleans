@@ -14,14 +14,16 @@
 # setup files
 ###############################################################################
 folder.data <- "data/"	
-file.output <- "rolemeasures.raw.txt"
+file.output1 <- "rolemeasures.raw.txt"
+file.output2 <- "communities.txt"
 
 
 ###############################################################################
 # init parameters
 ###############################################################################
 # desired number of clusters		# TODO can be changed for testing
-n.cluster <- 7			
+n.cluster <- 7
+n.communities <- 36
 # desired number of instances		# TODO can be changed for testing
 n.instances <- 250		
 # we have 2x4 measures (mutually exclusive communities, directed network)
@@ -29,7 +31,7 @@ n.fields <- 8
 
 
 ###############################################################################
-# generate clusters
+# generate measures
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Generating ",n.instances," instances distributed over ",n.cluster," clusters...\n",sep="")
 data <- matrix(ncol=n.fields+1,nrow=n.instances)
@@ -46,14 +48,24 @@ for(c in 1:n.cluster)
 }
 # randomize instance order
 data <- data[sample(nrow(data)),]
-
+# introduce infinite values to mimic actual data
+for(i in 1:n.fields)
+	data[floor(runif(1,min=1,max=n.instances)),i] <- Inf
 
 ###############################################################################
-# record data, generate plots
+# record measures
 ###############################################################################
-# record raw data
-cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Record to file...\n",sep="")
-mbr <- data[,n.fields+1]
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Record measures to file\n",sep="")
 data <- data[,-(n.fields+1)]
-file.data <- paste(folder.data,file.output,sep="")
+file.data <- paste(folder.data,file.output1,sep="")
 write.table(x=data,file=file.data,row.names=FALSE,col.names=FALSE)
+
+
+###############################################################################
+# generate and record communities
+###############################################################################
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Generate communities\n",sep="")
+coms <- floor(runif(n.instances,min=1,max=n.communities))
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Record communities to file\n",sep="")
+file.coms <- paste(folder.data,file.output2,sep="")
+write.table(x=coms,file=file.coms,row.names=FALSE,col.names=FALSE)

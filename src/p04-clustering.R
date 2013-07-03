@@ -55,15 +55,18 @@ for(i in 1:length(ks))
 		# define command
 		kmeans.command <- paste(file.kmeans,
 			" -i ", getwd(), "/", file.data,
-			"-n ", k,
+			" -n ", k,
 			sep="")
 			# ./omp_main -i ../../eclipse/workspaces/Networks/Orleans/data/normalized.numbered.txt -n 13
 		# perform clustering
+		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....Executing command ",kmeans.command,"\n",sep="")
 		system(command=kmeans.command)
 		# move produced membership file (not the others, we don't care)
-		file.member <- paste(file.input,".membership",sep="")
+		file.member <- paste(folder.data,file.input,".membership",sep="")
 		file.new <- paste(folder.data,"cluster.k",k,".txt",sep="")
-		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ......Moving file",file.member," to ",file.new,"\n",sep="")
+		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ......Moving file ",file.member," to ",file.new,"\n",sep="")
+		if(file.exists(file.new))
+			file.remove(file.new)
 		file.rename(from=file.member,to=file.new)
 	end.time <- Sys.time();
 	total.time <- end.time - start.time;
@@ -88,21 +91,21 @@ for(i in 1:length(ks))
 
 	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Process completed for k=",k,"\n",sep="")
 }
-
+print(quality)
 
 ###############################################################################
 # record quality values
 ###############################################################################
-cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Record all quality values in ",output1,"\n",sep="")
-values.file <- paste(folder.data,output1,sep="")
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Record all quality values in ",file.output1,"\n",sep="")
+values.file <- paste(folder.data,file.output1,sep="")
 write.table(quality,file=values.file,row.names=FALSE,col.names=FALSE)
 
 
 ###############################################################################
 # plot quality values
 ###############################################################################
-cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot quality values in ",output2,"\n",sep="")
-plot.file <- paste(folder.data,output2,sep="")
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot quality values in ",file.output2,"\n",sep="")
+plot.file <- paste(folder.data,file.output2,sep="")
 pdf(file=plot.file,bg="white")
-plot(x,y,type="n",xlab="Clusters",ylab="Davies-Bouldin index");lines(x,y,col="RED")
+plot(quality[,1],quality[,2],type="l",xlab="Clusters",ylab="Davies-Bouldin index",col="RED")
 dev.off()
