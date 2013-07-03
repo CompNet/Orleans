@@ -46,7 +46,7 @@ cat("[",format(end.time,"%a %d %b %Y %X"),"] Load completed in ",total.time,"\n"
 # clean raw data
 ###############################################################################
 start.time <- Sys.time();
-cat("[",format(start.time,"%a %d %b %Y %X"),"] Normalizing data...\n",sep="")
+cat("[",format(start.time,"%a %d %b %Y %X"),"] Cleaning data\n",sep="")
 for(c in 1:ncol(data))
 {	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Processing col.",c,"\n",sep="")
 	
