@@ -10,11 +10,7 @@
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
-<<<<<<< HEAD
 # source("src/p03-communities.R")
-=======
-# source("src/p02-communities.R")
->>>>>>> branch 'master' of ssh://git@github.com/CompNet/Orleans.git
 ###############################################################################
 library("igraph")
 source("src/ecdflt.R")
