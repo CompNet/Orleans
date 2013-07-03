@@ -21,8 +21,8 @@ library("clusterSim")
 # setup files
 ###############################################################################
 folder.data <- "data/"	
-file.kmeans <- "~/Downloads/Simple_Kmeans/omp_main"		# k-means executable file 
-ks <- c(2:15)				# values of k to be tried
+file.kmeans <- "~/Downloads/Simple_Kmeans/omp_main"		# TODO k-means executable file, adapt to your own case
+ks <- c(2:15)											# TODO values of k to be tried, you can change that
 
 
 ###############################################################################

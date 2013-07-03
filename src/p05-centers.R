@@ -1,4 +1,4 @@
-# Process statistics regarding the estimated clusters
+# Processes statistics regarding the estimated clusters
 # using the non-normalized data: average, standard deviation
 # and size.
 #
@@ -10,12 +10,13 @@
 # source("src/p05-centers.R")
 ###############################################################################
 
+
 ###############################################################################
 # setup files
 ###############################################################################
 folder.data <- "data/"	
 file.input <- "rolemeasures.raw.txt"		# TODO you can possibly change that
-k <- 5				# TODO we work only on the clusters found for this k
+k <- 5										# TODO we work only on the clusters found for this k
 
 
 ###############################################################################

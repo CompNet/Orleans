@@ -8,11 +8,14 @@
 # source("src/p01-install.R")
 ###############################################################################
 
+
 # power law tests
 install.packages("igraph")
 
+
 # Davies-Bouldin measure
 install.packages("clusterSim")
+
 
 # anova (unbalanced)
 install.packages("car")

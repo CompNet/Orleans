@@ -1,4 +1,4 @@
-# Plot the estimated clusters on a 2D
+# Plots the estimated clusters on a 2D
 # space using PCA. We only work on a part
 # of the data, otherwise the process is
 # too long. Feel free to increase the size
@@ -11,6 +11,7 @@
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
 # source("src/p06-plot.R")
 ###############################################################################
+
 
 ###############################################################################
 # setup files
