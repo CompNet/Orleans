@@ -102,7 +102,7 @@ cat("[",format(start.time,"%a %d %b %Y %X"),"] Cleaning data\n",sep="")
 		}
 		
 		# get rid of infinite values
-		idx.inf <- which(is.infinite(data[,c]) | data[,c]==1.79769e+308)
+		idx.inf <- which(is.infinite(data[,c])) # | data[,c]==1.79769e+308)
 		if(length(idx.inf)>0)
 		{	data[idx.inf,c] <- 0
 			cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....Replacing ",length(idx.inf)," infinite values by 0 in col.",c,")\n")
@@ -116,28 +116,27 @@ cat("[",format(end.time,"%a %d %b %Y %X"),"] Cleaning completed in ",total.time,
 ###############################################################################
 # process degree vs. measure correlations
 ###############################################################################
-cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Process and record correlations between measures\n",sep="")
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Process and record correlations between role measures\n",sep="")
 cor.mat <- cor(degrees, data)
 rownames(cor.mat) <- degree.names
 colnames(cor.mat) <- measure.names
-cor.file <- paste(folder.data,"degrees-measures.correlations.txt",sep="")
+cor.file <- paste(folder.data,"degrees-rolemeasures.correlations.txt",sep="")
 write.table(cor.mat,cor.file,row.names=FALSE,col.names=FALSE)
 print(cor.mat)
 
 
 ###############################################################################
-# plot degrees vs. measures
+# plot degrees vs. role measures
 ###############################################################################
-cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Ploting measures vs. degrees\n",sep="")
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Ploting role measures vs. degrees\n",sep="")
 for(i in 1:ncol(degrees))
 {	deg.name <- paste(degree.names[i],"-degree",sep="")
 	
 	for(j in 1:ncol(data))
 	{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Ploting ",measure.names[j]," vs. ",deg.name,"\n",sep="")
-		plot.file <- paste(folder.data,deg.name,".vs.",measure.names[j],".pdf")
+		plot.file <- paste(folder.data,"degree-",degree.names[i],".vs.",measure.names[j],".pdf")
 		pdf(file=plot.file, bg="white")
 		plot(degrees[sampled,i],data[sampled,j],main=paste(measure.names[j],"vs.",deg.name),xlab=deg.name,ylab=measure.names[j],col="RED")
 		dev.off()
 	}
 }
-
