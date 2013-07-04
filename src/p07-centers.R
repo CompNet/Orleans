@@ -16,7 +16,7 @@
 ###############################################################################
 folder.data <- "data/"	
 file.input <- "rolemeasures.raw.txt"		# TODO you can possibly change that
-k <- 5										# TODO we work only on the clusters found for this k
+k <- 6										# TODO we work only on the clusters found for this k
 
 
 ###############################################################################
