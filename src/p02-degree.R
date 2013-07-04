@@ -121,7 +121,7 @@ cor.mat <- cor(degrees, data)
 rownames(cor.mat) <- degree.names
 colnames(cor.mat) <- measure.names
 cor.file <- paste(folder.data,"degrees.vs.rolemeasures.correlations.txt",sep="")
-write.table(cor.mat,cor.file,row.names=FALSE,col.names=FALSE)
+write.table(cor.mat,cor.file,row.names=TRUE,col.names=TRUE)
 print(cor.mat)
 
 

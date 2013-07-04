@@ -59,7 +59,7 @@ for(i in 1:length(ks))
 		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....Executing command ",kmeans.command,"\n",sep="")
 		system(command=kmeans.command)
 		# move produced membership file (not the others, we don't care)
-		file.member <- paste(folder.data,file.input,".membership",sep="")
+		file.member <- paste(folder.data,"rolemeasures.normalized.txt.membership",sep="")
 		file.new <- paste(folder.data,"cluster.k",k,".txt",sep="")
 		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ......Moving file ",file.member," to ",file.new,"\n",sep="")
 		if(file.exists(file.new))
@@ -86,9 +86,11 @@ for(i in 1:length(ks))
 	total.time <- end.time - start.time;
 	cat("[",format(end.time,"%a %d %b %Y %X"),"] ....Processing completed in ",total.time,", DB(",k,")=",db.value,"\n",sep="")
 
+	gc()
 	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Process completed for k=",k,"\n",sep="")
+	print(quality)
 }
-print(quality)
+
 
 ###############################################################################
 # record quality values
