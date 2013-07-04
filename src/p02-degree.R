@@ -3,8 +3,9 @@
 # Version: 1
 # Author: Vincent Labatut 06/2013
 #
-# source("C:/Eclipse/workspaces/Networks/Orleans/src/main-degree.R")
-# source("/home/vlabatut/eclipse/workspaces/Networks/Orleans/src/main-degree.R")
+# setwd("~/eclipse/workspaces/Networks/Orleans/")
+# setwd("C:/Eclipse/workspaces/Networks/Orleans/")
+# source("src/p02-degree.R")
 ###############################################################################
 library("igraph")
 source("src/ecdflt.R")
@@ -14,9 +15,13 @@ source("src/ecdflt.R")
 # setup files
 ###############################################################################
 folder.data <- "data/"	
-file.input <- "degrees.txt"		# TODO you can possibly change that
+file.input1 <- "degrees.txt"				# TODO you can possibly change that
+file.input2 <- "rolemeasures.raw.txt"		# TODO you can possibly change that
+measure.names <- c(							# TODO you might change that, if necessary
+		"intensity-int-out","intensity-int-in","diversity-out","diversity-in","intensity-ext-out","intensity-ext-in","homogeneity-out","homogeneity-in")
 degree.names <- c(							# TODO you might change that, if necessary
 		"out", "in", "all")
+sample.size <- 100000						# TODO processing the whole dataset is to long, so the power-law distribution is tested only on a sample
 
 
 ###############################################################################
@@ -25,7 +30,7 @@ degree.names <- c(							# TODO you might change that, if necessary
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading degree data\n",sep="")
 	# load the data
-	file.deg <- paste(folder.data,file.input,sep="")
+	file.deg <- paste(folder.data,file.input1,sep="")
 	degrees <- as.matrix(read.table(file.deg))
 	# possibly add the total degree, if missing
 	if(ncol(degrees)==2)
@@ -33,6 +38,13 @@ cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading degree data\n",sep="")
 end.time <- Sys.time();
 total.time <- end.time - start.time;
 cat("[",format(end.time,"%a %d %b %Y %X"),"] Load completed in ",total.time,"\n",sep="")
+
+
+###############################################################################
+# sample a few objects
+###############################################################################
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Sample ",sample.size," objects\n",sep="")
+sampled <- sample(x=1:nrow(degrees),size=sample.size)
 
 
 ###############################################################################
@@ -50,11 +62,11 @@ cat("[",format(start.time,"%a %d %b %Y %X"),"] Plot degree distributions\n",sep=
 		hist(degrees[,i],probability=TRUE,breaks=100,main=paste("Distribution of",deg.name),xlab=deg.name,col="RED")
 		dev.off()
 		
-		# cumulative distribution
+		# (partial) cumulative distribution
 		plot.file <- paste(folder.data,"degree.",degree.names[i],".cumdist.pdf",sep="")
 		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot ",deg.name," cumulative distribution in file ",plot.file,"\n",sep="")
 		pdf(file=plot.file, bg="white")
-		ecdflt(x=degrees[,i], xlab=deg.name, main=paste("Distribution of",deg.name), col="RED") #, log="y"
+		ecdflt(x=degrees[sampled,i], xlab=deg.name, main=paste("Complementary Cumulative Distribution of",deg.name), log="y", complementary=TRUE, col="RED", points=1000) #
 		dev.off()
 	}
 end.time <- Sys.time();
@@ -67,7 +79,7 @@ cat("[",format(end.time,"%a %d %b %Y %X"),"] Plotting completed in ",total.time,
 ###############################################################################
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading raw data\n",sep="")
-	file.data <- paste(folder.data,file.input,sep="")
+	file.data <- paste(folder.data,file.input2,sep="")
 	data <- as.matrix(read.table(file.data))
 end.time <- Sys.time();
 total.time <- end.time - start.time;
@@ -106,5 +118,26 @@ cat("[",format(end.time,"%a %d %b %Y %X"),"] Cleaning completed in ",total.time,
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Process and record correlations between measures\n",sep="")
 cor.mat <- cor(degrees, data)
+rownames(cor.mat) <- degree.names
+colnames(cor.mat) <- measure.names
 cor.file <- paste(folder.data,"degrees-measures.correlations.txt",sep="")
 write.table(cor.mat,cor.file,row.names=FALSE,col.names=FALSE)
+print(cor.mat)
+
+
+###############################################################################
+# plot degrees vs. measures
+###############################################################################
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Ploting measures vs. degrees\n",sep="")
+for(i in 1:ncol(degrees))
+{	deg.name <- paste(degree.names[i],"-degree",sep="")
+	
+	for(j in 1:ncol(data))
+	{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Ploting ",measure.names[j]," vs. ",deg.name,"\n",sep="")
+		plot.file <- paste(folder.data,deg.name,".vs.",measure.names[j],".pdf")
+		pdf(file=plot.file, bg="white")
+		plot(degrees[,i],data[,j],main=paste(measure.names[j],"vs.",deg.name),xlab=deg.name,ylab=measure.names[j],col="RED")
+		dev.off()
+	}
+}
+

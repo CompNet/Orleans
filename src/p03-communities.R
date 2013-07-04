@@ -59,19 +59,19 @@ cat("[",format(end.time,"%a %d %b %Y %X"),"] Processed in ",total.time," (",leng
 
 
 ###############################################################################
-# plot community size cumulative distribution
+# plot community size distributions
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Plot community sizes\n",sep="")
-	plot.file <- paste(folder.data,"communities.histo.pdf",sep="")
+	plot.file <- paste(folder.data,"communities.sizes.histo.pdf",sep="")
 	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Histogram plotted in file ",plot.file,"\n",sep="")
 	pdf(file=plot.file, bg="white")
 	hist(com.sizes,probability=TRUE,breaks=5,main="Community Size Distribution",xlab="Community Size",col="RED")
 	dev.off()
 	
-	plot.file <- paste(folder.data,"communities.cumdist.pdf",sep="")
+	plot.file <- paste(folder.data,"communities.sizes.cumdist.pdf",sep="")
 	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Cumulative distribution plotted in file ",plot.file,"\n",sep="")
 	pdf(file=plot.file, bg="white")
-	ecdflt(x=com.sizes, xlab="Community Size", main="Community Size Distribution", col="RED") #, log="y"
+	ecdflt(x=com.sizes, xlab="Community Size", main="Community Size Complementary Cumulative Distribution", log="y", col="RED", complementary=TRUE)
 	dev.off()
 
 
@@ -86,7 +86,7 @@ cat("[",format(start.time,"%a %d %b %Y %X"),"] Check for power-law distributions
 	fit[1,"p-value"] <- plf$KS.p
 	fit[1,"exponent"] <- plf$alpha
 	print(plf)
-	power.file <- paste(folder.data,"communities.powerlawfit.txt",sep="")
+	power.file <- paste(folder.data,"communities.sizes.powerlawfit.txt",sep="")
 	write.table(fit,power.file,row.names=FALSE)
 end.time <- Sys.time();
 total.time <- end.time - start.time;

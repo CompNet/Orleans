@@ -9,14 +9,24 @@
 # source("src/ecdflt.R")
 ###############################################################################
 
-ecdflt <- function(x, inverse=FALSE, ...)
-{	if(inverse)
-	{	sorted <- sort(x, decreasing = TRUE)
+ecdflt <- function(x, complementary=FALSE, points=NA, ...)
+{	size <- length(x)
+	if(is.na(points) || points>size)
+		idx <- 1:size
+	else
+	{	step <- size %/% points
+		idx <- seq(from=1,to=size,by=step)
+		if(idx[length(idx)]!=size)
+		idx <- c(idx,size)
+	}
+	
+	if(complementary)
+	{	sorted <- sort(x, decreasing = TRUE)[idx]
 		cdf <- as.vector(sapply(sorted, function(y) sum(x >= y)/length(x)))
 	}
 	
 	else
-	{	sorted <- sort(x, decreasing = FALSE)
+	{	sorted <- sort(x, decreasing = FALSE)[idx]
 		cdf <- as.vector(sapply(sorted, function(y) sum(x <= y)/length(x)))
 	}
 	

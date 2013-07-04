@@ -62,6 +62,13 @@ cat("[",format(end.time,"%a %d %b %Y %X"),"] Cleaning completed in ",total.time,
 
 
 ###############################################################################
+# sample a few objects
+###############################################################################
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Sample ",sample.size," objects\n",sep="")
+sampled <- sample(x=1:nrow(data),size=sample.size)
+
+
+###############################################################################
 # plot measure distributions
 ###############################################################################
 start.time <- Sys.time();
@@ -74,11 +81,11 @@ cat("[",format(start.time,"%a %d %b %Y %X"),"] Plot measure distributions\n",sep
 		hist(data[,i],probability=TRUE,breaks=100,main=paste("Distribution of",measure.names[i]),xlab=measure.names[i],col="RED")
 		dev.off()
 		
-		# cumulative distribution
+		# (partial) cumulative distribution
 		plot.file <- paste(folder.data,"measure.",i,".",measure.names[i],".cumdist.pdf",sep="")
 		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot measure cumulative distribution in file ",plot.file,"\n",sep="")
 		pdf(file=plot.file, bg="white")
-		ecdflt(x=data[,i], xlab=measure.names[i], main=paste("Distribution of",measure.names[i]), col="RED") #, log="y"
+		ecdflt(x=data[sampled,i], xlab=measure.names[i], main=paste("Complementary Cumulative Distribution of",measure.names[i]), points=1000, log="y", col="RED", complementary=TRUE) #
 		dev.off()
 	}
 end.time <- Sys.time();
@@ -91,15 +98,11 @@ cat("[",format(end.time,"%a %d %b %Y %X"),"] Plotting completed in ",total.time,
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Record correlations between measures\n",sep="")
 cor.mat <- cor(data)
+rownames(cor.mat) <- measure.names
+colnames(cor.mat) <- measure.names
 cor.file <- paste(folder.data,"measures.correlations.txt",sep="")
-write.table(cor.mat,cor.file,row.names=FALSE,col.names=FALSE)
-
-
-###############################################################################
-# sample a few objects
-###############################################################################
-cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Sample ",sample.size," objects\n",sep="")
-sampled <- sample(x=1:nrow(data),size=sample.size)
+write.table(cor.mat,cor.file,row.names=TRUE,col.names=TRUE)
+print(cor.mat)
 
 
 ###############################################################################
