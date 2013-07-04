@@ -25,11 +25,11 @@ process.distances <- function(folder.data, dist.function, force.process=TRUE)
 	# load cached distance matrix
 	if(file.exists(file.dist) && !force.process)
 	{	start.time <- Sys.time()
-		cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading previously processed distances...\n",sep="")
+		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading previously processed distances...\n",sep="")
 			load(file=file.dist)
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
-		cat("[",format(end.time,"%a %d %b %Y %X"),"] Load completed in ",total.time,"\n",sep="")
+		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
 	}
 	
 	# process and record distance matrix 
@@ -37,19 +37,19 @@ process.distances <- function(folder.data, dist.function, force.process=TRUE)
 	{	
 		# process distances
 		start.time <- Sys.time();
-		cat("[",format(start.time,"%a %d %b %Y %X"),"] Processing distances...\n",sep="")
+		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Processing distances...\n",sep="")
 			dist.matrix <- dist(data, method=dist.function)
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
-		cat("[",format(end.time,"%a %d %b %Y %X"),"] Distance processing completed in ",total.time,"\n",sep="")
+		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Distance processing completed in ",total.time,"\n",sep="")
 		
 		# cache to disk
 		start.time <- Sys.time();
-		cat("[",format(start.time,"%a %d %b %Y %X"),"] Recording distances for later use...\n",sep="")
+		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Recording distances for later use...\n",sep="")
 			save(dist.matrix,file=file.dist)
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
-		cat("[",format(end.time,"%a %d %b %Y %X"),"] Distance recording completed in ",total.time,"\n",sep="")
+		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Distance recording completed in ",total.time,"\n",sep="")
 	}
 	
 	return(dist.matrix)

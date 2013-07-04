@@ -31,7 +31,7 @@ process.agreement <- function(clust.algos, folder.data, force.process=TRUE)
 	else
 	{
 		start.time <- Sys.time();
-		cat("[",format(start.time,"%a %d %b %Y %X"),"] Processing agreement data...\n",sep="")
+		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Processing agreement data...\n",sep="")
 			agreement.matrix <- matrix(nrow=length(clust.algos),ncol=length(clust.algos))
 			rownames(agreement.matrix) <- clust.algos
 			colnames(agreement.matrix) <- clust.algos
@@ -50,9 +50,9 @@ process.agreement <- function(clust.algos, folder.data, force.process=TRUE)
 			}
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
-		cat("[",format(end.time,"%a %d %b %Y %X"),"] Processing completed in ",total.time,"\n",sep="")
+		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Processing completed in ",total.time,"\n",sep="")
 		
-		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Recording agreement matrix...\n",sep="")
+		cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Recording agreement matrix...\n",sep="")
 		write.table(x=agreement.matrix, file=file.agreement)
 	}
 	

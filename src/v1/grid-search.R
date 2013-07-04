@@ -26,7 +26,7 @@ library("plyr")
 ###############################################################################
 iterative.grid.search <- function(foo, parameter.list, maximize=TRUE, iterations=1)
 {	start.time <- Sys.time();
-	cat("[",format(start.time,"%a %d %b %Y %X"),"] Applying grid search\n",sep="")
+	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Applying grid search\n",sep="")
 	
 	par.names <- names(parameter.list)
 	params <- parameter.list
@@ -99,7 +99,7 @@ iterative.grid.search <- function(foo, parameter.list, maximize=TRUE, iterations
 	
 	end.time <- Sys.time();
 	total.time <- end.time - start.time;
-	cat("[",format(end.time,"%a %d %b %Y %X"),"] grid search completed in ",total.time,"\n",sep="")
+	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] grid search completed in ",total.time,"\n",sep="")
 	
 	optimal.parameters <- as.list(optimal.parameters)
 	return(optimal.parameters)
@@ -125,7 +125,7 @@ iterative.grid.search <- function(foo, parameter.list, maximize=TRUE, iterations
 #	corresponding to the optimal value for the considered function.
 ###############################################################################
 grid.search <- function(foo, parameter.list, maximize=TRUE)
-{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Applying grid search for parameters:\n",sep="")
+{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Applying grid search for parameters:\n",sep="")
 #	print(parameter.list)
 	
 	# generate a data frame containing all combinations of parameters

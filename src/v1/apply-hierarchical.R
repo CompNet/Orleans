@@ -30,13 +30,13 @@ apply.hierarchical <- function(algo.name, dist.matrix, pca=NULL, folder.data, di
 	
 	# membership file already exists for this algorithm
 	if(file.exists(file.membership) && !force.process)
-	{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Algorithm ",algo.name," has already been applied before.\n",sep="")
+	{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Algorithm ",algo.name," has already been applied before.\n",sep="")
 	}
 	
 	# apply hierarchical clustering algorithm
 	else
 	{	start.time <- Sys.time();
-		cat("[",format(start.time,"%a %d %b %Y %X"),"] Detecting clusters using ",algo.name,"\n",sep="")
+		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Detecting clusters using ",algo.name,"\n",sep="")
 		
 			if(algo.name=="AGNES")
 				result <- agnes(x=dist.matrix, metric=dist.function, method="average", keep.diss=FALSE, keep.data=FALSE)
@@ -48,7 +48,7 @@ apply.hierarchical <- function(algo.name, dist.matrix, pca=NULL, folder.data, di
 			nbr <- length(unique(res$membership))
 			
 			# record best membership vector and performance
-			cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Recording results\n",sep="")
+			cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Recording results\n",sep="")
 			write.table(x=res$membership,file=file.membership,row.names=FALSE,col.names=FALSE)
 			save.performance(res$silhouette, nbr, algo.name, folder.data)
 			
@@ -60,8 +60,8 @@ apply.hierarchical <- function(algo.name, dist.matrix, pca=NULL, folder.data, di
 		
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
-		cat("[",format(end.time,"%a %d %b %Y %X"),"] final result: ",nbr," clusters, silhouette=",res$silhouette,"\n",sep="")
-		cat("[",format(end.time,"%a %d %b %Y %X"),"] ",algo.name," completed in ",total.time,"\n",sep="")
+		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] final result: ",nbr," clusters, silhouette=",res$silhouette,"\n",sep="")
+		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ",algo.name," completed in ",total.time,"\n",sep="")
 	}
 }
 
@@ -82,7 +82,7 @@ apply.hierarchical <- function(algo.name, dist.matrix, pca=NULL, folder.data, di
 ###############################################################################
 select.best.cut <- function(dendrogram)
 {	start.time <- Sys.time();
-	cat("[",format(start.time,"%a %d %b %Y %X"),"] Selecting best cut\n",sep="")
+	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Selecting best cut\n",sep="")
 	
 	k.max <- length(dendrogram$height)
 	asw <- rep(0,k.max)
@@ -108,7 +108,7 @@ select.best.cut <- function(dendrogram)
 	
 	end.time <- Sys.time();
 	total.time <- end.time - start.time;
-	cat("[",format(end.time,"%a %d %b %Y %X"),"] best cut selection completed in ",total.time,"\n",sep="")
+	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] best cut selection completed in ",total.time,"\n",sep="")
 	
 	result <- list(silhouette=max.asw, membership=max.membership)
 	return(result)

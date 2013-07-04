@@ -29,13 +29,13 @@ apply.dbscan <- function(dist.matrix, nbr.instances, pca=NULL, folder.data, forc
 	
 	# membership file already exists for this algorithm
 	if(file.exists(file.membership) && !force.process)
-	{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Algorithm ",algo.name," has already been applied before.\n",sep="")
+	{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Algorithm ",algo.name," has already been applied before.\n",sep="")
 	}
 	
 	# apply hierarchical clustering algorithm
 	else
 	{	start.time <- Sys.time();
-		cat("[",format(start.time,"%a %d %b %Y %X"),"] Detecting clusters using ",algo.name,"\n",sep="")
+		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Detecting clusters using ",algo.name,"\n",sep="")
 		
 			# define function used in grid search
 			# takes only the parameters as inputs
@@ -72,7 +72,7 @@ apply.dbscan <- function(dist.matrix, nbr.instances, pca=NULL, folder.data, forc
 			asw <- summary(sil)$avg.width
 			
 			# record best membership vector and performance
-			cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Recording results\n",sep="")
+			cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Recording results\n",sep="")
 			write.table(x=membership,file=file.membership,row.names=FALSE,col.names=FALSE)
 			save.performance(asw, nbr, algo.name, folder.data)
 			
@@ -84,7 +84,7 @@ apply.dbscan <- function(dist.matrix, nbr.instances, pca=NULL, folder.data, forc
 		
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
-		cat("[",format(end.time,"%a %d %b %Y %X"),"] final result: ",nbr," clusters, silhouette=",asw,"\n",sep="")
-		cat("[",format(end.time,"%a %d %b %Y %X"),"] ",algo.name," completed in ",total.time,"\n",sep="")
+		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] final result: ",nbr," clusters, silhouette=",asw,"\n",sep="")
+		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ",algo.name," completed in ",total.time,"\n",sep="")
 	}
 }

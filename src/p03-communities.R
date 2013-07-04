@@ -27,7 +27,7 @@ file.input <- "communities.txt"		# TODO you can possibly change that
 # load community membership
 ###############################################################################
 start.time <- Sys.time();
-cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading community membership\n",sep="")
+cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading community membership\n",sep="")
 	file.com <- paste(folder.data,file.input,sep="")
 	communities <- as.matrix(read.table(file.com))
 	# just in case communities start from 0
@@ -35,41 +35,41 @@ cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading community membership\n",s
 		communities <- communities + 1
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %X"),"] Load completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
 
 
 ###############################################################################
 # process community size distribution
 ###############################################################################
 start.time <- Sys.time();
-cat("[",format(start.time,"%a %d %b %Y %X"),"] Process community sizes\n",sep="")
+cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Process community sizes\n",sep="")
 	com.nbr <- length(unique(communities))
 	com.sizes <- rep(0,com.nbr)
 	for(i in 1:length(communities))
 	{	com <- communities[i]
 		if(i%%100000==0)
-			cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Processing node ",i," (",com,") / ",length(communities),"\n",sep="")
+			cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing node ",i," (",com,") / ",length(communities),"\n",sep="")
 		com.sizes[com] <- com.sizes[com] + 1
 	}
 	comsize.file <- paste(folder.data,"communities.sizes.txt",sep="")
 	write.table(com.sizes, comsize.file, row.names=FALSE, col.names=FALSE)
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %X"),"] Processed in ",total.time," (",length(com.sizes)," communities)\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Processed in ",total.time," (",length(com.sizes)," communities)\n",sep="")
 
 
 ###############################################################################
 # plot community size distributions
 ###############################################################################
-cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Plot community sizes\n",sep="")
+cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Plot community sizes\n",sep="")
 	plot.file <- paste(folder.data,"communities.sizes.histo.pdf",sep="")
-	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Histogram plotted in file ",plot.file,"\n",sep="")
+	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Histogram plotted in file ",plot.file,"\n",sep="")
 	pdf(file=plot.file, bg="white")
 	hist(com.sizes,probability=TRUE,breaks=5,main="Community Size Distribution",xlab="Community Size",col="RED")
 	dev.off()
 	
 	plot.file <- paste(folder.data,"communities.sizes.cumdist.pdf",sep="")
-	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Cumulative distribution plotted in file ",plot.file,"\n",sep="")
+	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Cumulative distribution plotted in file ",plot.file,"\n",sep="")
 	pdf(file=plot.file, bg="white")
 	ecdflt(x=com.sizes, xlab="Community Size", main="Community Size Complementary Cumulative Distribution", log="y", col="RED", complementary=TRUE)
 	dev.off()
@@ -79,7 +79,7 @@ cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Plot community sizes\n",sep="")
 # test for power law distribution
 ###############################################################################
 start.time <- Sys.time();
-cat("[",format(start.time,"%a %d %b %Y %X"),"] Check for power-law distributions\n",sep="")
+cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Check for power-law distributions\n",sep="")
 	fit <- matrix(ncol=2,nrow=1)
 	colnames(fit) <- c("p-value","exponent")
 	plf <- power.law.fit(x=com.sizes, implementation="plfit")
@@ -90,4 +90,4 @@ cat("[",format(start.time,"%a %d %b %Y %X"),"] Check for power-law distributions
 	write.table(fit,power.file,row.names=FALSE)
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %X"),"] Process completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",total.time,"\n",sep="")

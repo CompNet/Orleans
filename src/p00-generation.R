@@ -31,7 +31,7 @@ n.fields <- 8
 ###############################################################################
 # generate fake role measures
 ###############################################################################
-cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Generating ",n.instances," instances distributed over ",n.cluster," clusters...\n",sep="")
+cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Generating ",n.instances," instances distributed over ",n.cluster," clusters...\n",sep="")
 data <- matrix(ncol=n.fields+1,nrow=n.instances)
 cluster.size <- floor(n.instances / n.cluster)
 for(c in 1:n.cluster)
@@ -53,7 +53,7 @@ for(i in 1:n.fields)
 ###############################################################################
 # record role measures
 ###############################################################################
-cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Record role measures to file\n",sep="")
+cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record role measures to file\n",sep="")
 data <- data[,-(n.fields+1)]
 file.data <- paste(folder.data,"rolemeasures.raw.txt",sep="")
 write.table(x=data,file=file.data,row.names=FALSE,col.names=FALSE)
@@ -62,8 +62,8 @@ write.table(x=data,file=file.data,row.names=FALSE,col.names=FALSE)
 ###############################################################################
 # generate and record communities
 ###############################################################################
-cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Generate communities\n",sep="")
+cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Generate communities\n",sep="")
 coms <- floor(runif(n.instances,min=1,max=n.communities))
-cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Record communities to file\n",sep="")
+cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record communities to file\n",sep="")
 file.coms <- paste(folder.data,"communities.txt",sep="")
 write.table(x=coms,file=file.coms,row.names=FALSE,col.names=FALSE)

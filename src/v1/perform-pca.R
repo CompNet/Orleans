@@ -25,23 +25,23 @@ perform.pca <- function(data, folder.data, force.process=TRUE)
 	# load cached pca data
 	if(file.exists(file.pca) && !force.process)
 	{	start.time <- Sys.time();
-		cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading PCA results...\n",sep="")
+		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading PCA results...\n",sep="")
 			pca <- as.matrix(read.table(file.pca))
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
-		cat("[",format(end.time,"%a %d %b %Y %X"),"] Load completed in ",total.time,"\n",sep="")
+		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
 	}
 	
 	# perform and record pca
 	else
 	{	start.time <- Sys.time();
-		cat("[",format(start.time,"%a %d %b %Y %X"),"] Processing PCA...\n",sep="")
+		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Processing PCA...\n",sep="")
 			pca.obj <- princomp(data)
 			pca <- pca.obj$scores[,1:2]
 			write.table(x=pca,file=file.pca,row.names=FALSE,col.names=FALSE)
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
-		cat("[",format(end.time,"%a %d %b %Y %X"),"] Process completed in ",total.time,"\n",sep="")
+		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",total.time,"\n",sep="")
 	}
 	
 	return(pca)

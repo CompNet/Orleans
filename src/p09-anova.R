@@ -36,77 +36,77 @@ k <- 5												# TODO we work only on the clusters found for this k
 ###############################################################################
 print(commandArgs())
 measure.nbr <- as.integer(commandArgs()[6])
-cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] role measure processed: #",measure.nbr,"\n",sep="")
+cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] role measure processed: #",measure.nbr,"\n",sep="")
 
 
 ###############################################################################
 # load membership vector
 ###############################################################################
 start.time <- Sys.time();
-cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading membership vector\n",sep="")
+cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading membership vector\n",sep="")
 	membership.file <- paste(folder.data,"cluster.k",k,".txt",sep="")
 	membership <- as.matrix(read.table(membership.file))[,2] + 1	# the k-means implementation starts numbering clusters from 0
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %X"),"] Load completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
 
 
 ###############################################################################
 # load raw data
 ###############################################################################
 start.time <- Sys.time();
-cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading raw data\n",sep="")
+cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading raw data\n",sep="")
 	file.data <- paste(folder.data,file.input,sep="")
 	data <- as.matrix(read.table(file.data))
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %X"),"] Load completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
 
 
 ###############################################################################
 # clean raw data
 ###############################################################################
 start.time <- Sys.time();
-cat("[",format(start.time,"%a %d %b %Y %X"),"] Cleaning data\n",sep="")
+cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning data\n",sep="")
 	for(c in 1:ncol(data))
-	{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Processing col.",c,"\n",sep="")
+	{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing col.",c,"\n",sep="")
 		
 		# get rid of NA (?)
 		idx.na <- which(is.na(data[,c]))
 		if(length(idx.na)>0)
 		{	data[idx.na,c] <- 0
-			cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....WARNING: ",length(idx.na)," NA values found in the raw data (col.",c,")\n")
+			cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ....WARNING: ",length(idx.na)," NA values found in the raw data (col.",c,")\n")
 		}
 		
 		# get rid of infinite values
 		idx.inf <- which(is.infinite(data[,c]) | data[,c]==1.79769e+308)
 		if(length(idx.inf)>0)
 		{	data[idx.inf,c] <- 0
-			cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....Replacing ",length(idx.inf)," infinite values by 0 in col.",c,")\n")
+			cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ....Replacing ",length(idx.inf)," infinite values by 0 in col.",c,")\n")
 		}
 	}
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %X"),"] Cleaning completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning completed in ",total.time,"\n",sep="")
 
 
 ###############################################################################
 # create factors
 ###############################################################################
 start.time <- Sys.time();
-cat("[",format(start.time,"%a %d %b %Y %X"),"] Creating factors\n",sep="")
+cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Creating factors\n",sep="")
 	clusters <- factor(membership)
 	membership <- NULL; gc()
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %X"),"] Factors created in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Factors created in ",total.time,"\n",sep="")
 	
 
 ###############################################################################
 # process only the measure specified when calling the command
 ###############################################################################
 start.time <- Sys.time();
-cat("[",format(start.time,"%a %d %b %Y %X"),"] Performing Anova for role measure #",measure.nbr,"\n",sep="")
+cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Performing Anova for role measure #",measure.nbr,"\n",sep="")
 	values <- data[,measure.nbr]
 	
 	# test for homogeneity of variances (homoskedasticity): p>0.05 means ok
@@ -149,7 +149,7 @@ cat("[",format(start.time,"%a %d %b %Y %X"),"] Performing Anova for role measure
 
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %X"),"] Anova completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Anova completed in ",total.time,"\n",sep="")
 
 
 # force quitting R (to reset memory)

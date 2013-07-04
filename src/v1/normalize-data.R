@@ -24,29 +24,29 @@ normalize.data <- function(folder.data, force.process=TRUE)
 	# load cached normalized data
 	if(file.exists(file.norm) && !force.process)
 	{	start.time <- Sys.time();
-		cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading normalized data...\n",sep="")
+		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading normalized data...\n",sep="")
 			data <- as.matrix(read.table(file.norm))
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
-		cat("[",format(end.time,"%a %d %b %Y %X"),"] Load completed in ",total.time,"\n",sep="")
+		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
 	}
 	
 	# perform normalization and record normalized data
 	else
 	{	# load raw data
 		start.time <- Sys.time();
-		cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading raw data...\n",sep="")
+		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading raw data...\n",sep="")
 			file.data <- paste(folder.data,"data.txt",sep="")
 			t <- read.table(file.data)
 			data <- as.matrix(t)
 data <- data[,-(1:2)] # must ignore first two columns
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
-		cat("[",format(end.time,"%a %d %b %Y %X"),"] Load completed in ",total.time,"\n",sep="")
+		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
 		
 		# normalize data (center-reduce)
 		start.time <- Sys.time();
-		cat("[",format(start.time,"%a %d %b %Y %X"),"] Normalizing data...\n",sep="")
+		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Normalizing data...\n",sep="")
 			for(c in 1:ncol(data))
 			{	# get rid of NA (?)
 				idx.na <- which(is.na(data[,c]))
@@ -69,20 +69,20 @@ data <- data[,-(1:2)] # must ignore first two columns
 				# normalize
 				average <- mean(data[,c])
 				stdev <- sd(data[,c])
-				cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] .Column ",c,": avg=",average," stdev=",stdev,"\n",sep="")
+				cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] .Column ",c,": avg=",average," stdev=",stdev,"\n",sep="")
 				data[,c] <- (data[,c] - average) / stdev
 			}
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
-		cat("[",format(end.time,"%a %d %b %Y %X"),"] Normalization completed in ",total.time,"\n",sep="")
+		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Normalization completed in ",total.time,"\n",sep="")
 		
 		# record normalized data
 		start.time <- Sys.time();
-		cat("[",format(start.time,"%a %d %b %Y %X"),"] Recording normalized data...\n",sep="")
+		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Recording normalized data...\n",sep="")
 			write.table(x=data,file=file.norm,row.names=FALSE,col.names=FALSE)
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
-		cat("[",format(end.time,"%a %d %b %Y %X"),"] Recording completed in ",total.time,"\n",sep="")
+		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Recording completed in ",total.time,"\n",sep="")
 	}
 	
 	return(data)

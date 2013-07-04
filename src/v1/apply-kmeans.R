@@ -30,13 +30,13 @@ apply.kmeans <- function(data, nbr.instances, dist.matrix, pca=NULL, folder.data
 	
 	# membership file already exists for this algorithm
 	if(file.exists(file.membership) && !force.process)
-	{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Algorithm ",algo.name," has already been applied before.\n",sep="")
+	{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Algorithm ",algo.name," has already been applied before.\n",sep="")
 	}
 	
 	# apply hierarchical clustering algorithm
 	else
 	{	start.time <- Sys.time();
-		cat("[",format(start.time,"%a %d %b %Y %X"),"] Detecting clusters using ",algo.name,"\n",sep="")
+		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Detecting clusters using ",algo.name,"\n",sep="")
 		
 			# init
 			k.max <- nbr.instances - 1
@@ -48,7 +48,7 @@ apply.kmeans <- function(data, nbr.instances, dist.matrix, pca=NULL, folder.data
 			for(k in 2:k.max)
 			{	# apply k-means
 				if((k %% 1000) == 0)
-					cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..with k=",k,"\n",sep="")
+					cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..with k=",k,"\n",sep="")
 				result <- kmeans(x=data, centers=k, iter.max=10, nstart=1)
 				membership <- result$cluster
 				
@@ -66,7 +66,7 @@ apply.kmeans <- function(data, nbr.instances, dist.matrix, pca=NULL, folder.data
 			nbr <- length(unique(max.membership))
 			
 			# record best membership vector and performance
-			cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Recording results\n",sep="")
+			cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Recording results\n",sep="")
 			write.table(x=max.membership,file=file.membership,row.names=FALSE,col.names=FALSE)
 			save.performance(max.asw, nbr, algo.name, folder.data)
 			
@@ -78,7 +78,7 @@ apply.kmeans <- function(data, nbr.instances, dist.matrix, pca=NULL, folder.data
 			
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
-		cat("[",format(end.time,"%a %d %b %Y %X"),"] final result: ",nbr," clusters, silhouette=",max.asw,"\n",sep="")
-		cat("[",format(end.time,"%a %d %b %Y %X"),"] ",algo.name," completed in ",total.time,"\n",sep="")
+		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] final result: ",nbr," clusters, silhouette=",max.asw,"\n",sep="")
+		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ",algo.name," completed in ",total.time,"\n",sep="")
 	}
 }

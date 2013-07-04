@@ -20,7 +20,7 @@
 ###############################################################################
 plot.clusters <- function(data, membership, file.plot=NULL)
 {	start.time <- Sys.time();
-	cat("[",format(start.time,"%a %d %b %Y %X"),"] Plotting data and clusters\n",sep="")
+	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Plotting data and clusters\n",sep="")
 
 	# title
 	title <- "Clusters"
@@ -31,13 +31,13 @@ plot.clusters <- function(data, membership, file.plot=NULL)
 	}
 	
 	# plot them in 2D
-	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Plot a 2D representation of the instance distribution...\n",sep="")
+	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Plot a 2D representation of the instance distribution...\n",sep="")
 	dev.new(width=4, height=4)
 	plot(data[,1], data[,2],col=membership,xlab="First Principal Component",ylab="Second Principal Component",main=title)
 
 	# possibly record the plot
 	if(!is.null(file.plot))
-	{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Record the 2D representation of the instance distribution...\n",sep="")
+	{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record the 2D representation of the instance distribution...\n",sep="")
 		pdf(file=file.plot, bg="white")
 		plot(data[,1], data[,2],col=membership,xlab="First Principal Component",ylab="Second Principal Component",main=title)
 		dev.off()
@@ -45,7 +45,7 @@ plot.clusters <- function(data, membership, file.plot=NULL)
 
 	end.time <- Sys.time();
 	total.time <- end.time - start.time;
-	cat("[",format(end.time,"%a %d %b %Y %X"),"] plotting completed in ",total.time,"\n",sep="")
+	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] plotting completed in ",total.time,"\n",sep="")
 }
 
 ###############################################################################
