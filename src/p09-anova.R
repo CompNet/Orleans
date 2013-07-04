@@ -36,7 +36,7 @@ k <- 5												# TODO we work only on the clusters found for this k
 ###############################################################################
 print(commandArgs())
 measure.nbr <- as.integer(commandArgs()[6])
-cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] measure processed: ",measure.nbr,"\n",sep="")
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] role measure processed: #",measure.nbr,"\n",sep="")
 
 
 ###############################################################################
@@ -106,7 +106,7 @@ cat("[",format(end.time,"%a %d %b %Y %X"),"] Factors created in ",total.time,"\n
 # process only the measure specified when calling the command
 ###############################################################################
 start.time <- Sys.time();
-cat("[",format(start.time,"%a %d %b %Y %X"),"] Performing Anova for  measure #",measure.nbr,"\n",sep="")
+cat("[",format(start.time,"%a %d %b %Y %X"),"] Performing Anova for role measure #",measure.nbr,"\n",sep="")
 	values <- data[,measure.nbr]
 	
 	# test for homogeneity of variances (homoskedasticity): p>0.05 means ok

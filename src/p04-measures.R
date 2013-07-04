@@ -1,5 +1,5 @@
-# Plots and test the distribution of the measures
-# (using the raw data).
+# Plots and test the distribution of the role
+# measures (using the raw data).
 #
 # version: 1
 # Author: Vincent Labatut 06/2013
@@ -69,21 +69,21 @@ sampled <- sample(x=1:nrow(data),size=sample.size)
 
 
 ###############################################################################
-# plot measure distributions
+# plot role measure distributions
 ###############################################################################
 start.time <- Sys.time();
-cat("[",format(start.time,"%a %d %b %Y %X"),"] Plot measure distributions\n",sep="")
+cat("[",format(start.time,"%a %d %b %Y %X"),"] Plot role measure distributions\n",sep="")
 	for(i in 1:ncol(data))
 	{	# histogram
-		plot.file <- paste(folder.data,"measure.",i,".",measure.names[i],".histo.pdf",sep="")
-		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot measure histogram in file ",plot.file,"\n",sep="")
+		plot.file <- paste(folder.data,"rolemeasure.",i,".",measure.names[i],".histo.pdf",sep="")
+		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot role measure histogram in file ",plot.file,"\n",sep="")
 		pdf(file=plot.file, bg="white")
 		hist(data[,i],probability=TRUE,breaks=100,main=paste("Distribution of",measure.names[i]),xlab=measure.names[i],col="RED")
 		dev.off()
 		
 		# (partial) cumulative distribution
-		plot.file <- paste(folder.data,"measure.",i,".",measure.names[i],".cumdist.pdf",sep="")
-		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot measure cumulative distribution in file ",plot.file,"\n",sep="")
+		plot.file <- paste(folder.data,"rolemeasure.",i,".",measure.names[i],".cumdist.pdf",sep="")
+		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot role measure cumulative distribution in file ",plot.file,"\n",sep="")
 		pdf(file=plot.file, bg="white")
 		ecdflt(x=data[sampled,i], xlab=measure.names[i], main=paste("Complementary Cumulative Distribution of",measure.names[i]), points=1000, log="y", col="RED", complementary=TRUE) #
 		dev.off()
@@ -94,13 +94,13 @@ cat("[",format(end.time,"%a %d %b %Y %X"),"] Plotting completed in ",total.time,
 	
 
 ###############################################################################
-# process measure correlations
+# process role measure correlations
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Record correlations between measures\n",sep="")
 cor.mat <- cor(data)
 rownames(cor.mat) <- measure.names
 colnames(cor.mat) <- measure.names
-cor.file <- paste(folder.data,"measures.correlations.txt",sep="")
+cor.file <- paste(folder.data,"rolemeasures.correlations.txt",sep="")
 write.table(cor.mat,cor.file,row.names=TRUE,col.names=TRUE)
 print(cor.mat)
 
@@ -113,11 +113,11 @@ fit <- matrix(ncol=2,nrow=ncol(data))
 colnames(fit) <- c("p-value","exponent")
 rownames(fit) <- measure.names
 for(i in 1:ncol(data))
-{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Processing measure ",measure.names[i],"\n",sep="")
+{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Processing role measure ",measure.names[i],"\n",sep="")
 	plf <- power.law.fit(x=data[sampled,i], implementation="plfit")
 	fit[i,"p-value"] <- plf$KS.p
 	fit[i,"exponent"] <- plf$alpha
 }
 print(fit)
-power.file <- paste(folder.data,"measures.powerlawfit.txt",sep="")
+power.file <- paste(folder.data,"rolemeasures.powerlawfit.txt",sep="")
 write.table(fit,power.file)

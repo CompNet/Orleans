@@ -24,12 +24,12 @@ n.cluster <- 7
 n.communities <- 36
 # desired number of instances		# TODO can be changed for testing
 n.instances <- 250		
-# we have 2x4 measures (mutually exclusive communities, directed network)
+# we have 2x4 role measures (mutually exclusive communities, directed network)
 n.fields <- 8
 
 
 ###############################################################################
-# generate measures
+# generate fake role measures
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Generating ",n.instances," instances distributed over ",n.cluster," clusters...\n",sep="")
 data <- matrix(ncol=n.fields+1,nrow=n.instances)
@@ -51,9 +51,9 @@ for(i in 1:n.fields)
 	data[floor(runif(1,min=1,max=n.instances)),i] <- Inf
 
 ###############################################################################
-# record measures
+# record role measures
 ###############################################################################
-cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Record measures to file\n",sep="")
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Record role measures to file\n",sep="")
 data <- data[,-(n.fields+1)]
 file.data <- paste(folder.data,"rolemeasures.raw.txt",sep="")
 write.table(x=data,file=file.data,row.names=FALSE,col.names=FALSE)

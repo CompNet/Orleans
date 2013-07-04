@@ -56,14 +56,14 @@ cat("[",format(start.time,"%a %d %b %Y %X"),"] Plot degree distributions\n",sep=
 	{	deg.name <- paste(degree.names[i],"-degree",sep="")
 		
 		# histogram
-		plot.file <- paste(folder.data,"degree.",degree.names[i],".histo.pdf",sep="")
+		plot.file <- paste(folder.data,"degree-",degree.names[i],".histo.pdf",sep="")
 		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot ",deg.name," histogram in file ",plot.file,"\n",sep="")
 		pdf(file=plot.file, bg="white")
 		hist(degrees[,i],probability=TRUE,breaks=100,main=paste("Distribution of",deg.name),xlab=deg.name,col="RED")
 		dev.off()
 		
 		# (partial) cumulative distribution
-		plot.file <- paste(folder.data,"degree.",degree.names[i],".cumdist.pdf",sep="")
+		plot.file <- paste(folder.data,"degree-",degree.names[i],".cumdist.pdf",sep="")
 		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot ",deg.name," cumulative distribution in file ",plot.file,"\n",sep="")
 		pdf(file=plot.file, bg="white")
 		ecdflt(x=degrees[sampled,i], xlab=deg.name, main=paste("Complementary Cumulative Distribution of",deg.name), log="y", complementary=TRUE, col="RED", points=1000) #
@@ -114,13 +114,13 @@ cat("[",format(end.time,"%a %d %b %Y %X"),"] Cleaning completed in ",total.time,
 
 
 ###############################################################################
-# process degree vs. measure correlations
+# process degree vs. role measure correlations
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Process and record correlations between role measures\n",sep="")
 cor.mat <- cor(degrees, data)
 rownames(cor.mat) <- degree.names
 colnames(cor.mat) <- measure.names
-cor.file <- paste(folder.data,"degrees-rolemeasures.correlations.txt",sep="")
+cor.file <- paste(folder.data,"degrees.vs.rolemeasures.correlations.txt",sep="")
 write.table(cor.mat,cor.file,row.names=FALSE,col.names=FALSE)
 print(cor.mat)
 
@@ -130,11 +130,11 @@ print(cor.mat)
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Ploting role measures vs. degrees\n",sep="")
 for(i in 1:ncol(degrees))
-{	deg.name <- paste(degree.names[i],"-degree",sep="")
+{	deg.name <- paste("degree-",degree.names[i],sep="")
 	
 	for(j in 1:ncol(data))
 	{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Ploting ",measure.names[j]," vs. ",deg.name,"\n",sep="")
-		plot.file <- paste(folder.data,"degree-",degree.names[i],".vs.",measure.names[j],".pdf")
+		plot.file <- paste(folder.data,deg.name,".vs.",measure.names[j],".pdf",sep="")
 		pdf(file=plot.file, bg="white")
 		plot(degrees[sampled,i],data[sampled,j],main=paste(measure.names[j],"vs.",deg.name),xlab=deg.name,ylab=measure.names[j],col="RED")
 		dev.off()

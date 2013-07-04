@@ -84,9 +84,9 @@ for(i in 1:nbr.clusters)
 	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Size of cluster ",i,": ",sizes[i],"\n",sep="")
 	for(j in 1:ncol(data))
 	{	means[i,j] <- mean(data[idx,j])
-		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....Average measure ",j," in cluster ",i,": ",means[i,j],"\n",sep="")
+		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....Average role measure ",j," in cluster ",i,": ",means[i,j],"\n",sep="")
 		stdevs[i,j] <- sd(data[idx,j])
-		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....Standard deviation for measure ",j," in cluster ",i,": ",stdevs[i,j],"\n",sep="")
+		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....Standard deviation for role measure ",j," in cluster ",i,": ",stdevs[i,j],"\n",sep="")
 	}
 }
 print(sizes)
