@@ -63,7 +63,7 @@ cat("[",format(start.time,"%a %d %b %Y %X"),"] Normalizing data...\n",sep="")
 		}
 		
 		# normalize
-		average <- mean(data[,c])
+		average <- mean(data[,c] | data[,c]==1.79769e+308)
 		stdev <- sd(data[,c])
 		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....Normalizing col.",c,": avg=",average," stdev=",stdev,"\n",sep="")
 		data[,c] <- (data[,c] - average) / stdev

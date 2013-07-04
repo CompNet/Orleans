@@ -59,7 +59,7 @@ for(c in 1:ncol(data))
 	}
 	
 	# get rid of infinite values
-	idx.inf <- which(is.infinite(data[,c]))
+	idx.inf <- which(is.infinite(data[,c]) | data[,c]==1.79769e+308)
 	if(length(idx.inf)>0)
 	{	data[idx.inf,c] <- 0
 		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....Replacing ",length(idx.inf)," infinite values by 0 in col.",c,")\n")
