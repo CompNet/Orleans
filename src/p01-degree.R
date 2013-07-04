@@ -5,7 +5,7 @@
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
-# source("src/p02-degree.R")
+# source("src/p01-degree.R")
 ###############################################################################
 library("igraph")
 source("src/ecdflt.R")
@@ -14,10 +14,10 @@ source("src/ecdflt.R")
 ###############################################################################
 # setup files
 ###############################################################################
-folder.data <- "data/"	
+folder.data <- "data/"
 file.input1 <- "degrees.txt"				# TODO you can possibly change that
 file.input2 <- "rolemeasures.raw.txt"		# TODO you can possibly change that
-measure.names <- c(							# TODO you might change that, if necessary
+rolemeas.names <- c(							# TODO you might change that, if necessary
 		"intensity-int-out","intensity-int-in","diversity-out","diversity-in","intensity-ext-out","intensity-ext-in","homogeneity-out","homogeneity-in")
 degree.names <- c(							# TODO you might change that, if necessary
 		"out", "in", "all")
@@ -30,11 +30,11 @@ sample.size <- 100000						# TODO processing the whole dataset is to long, so th
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading degree data\n",sep="")
 	# load the data
-	file.deg <- paste(folder.data,file.input1,sep="")
-	degrees <- as.matrix(read.table(file.deg))
+	file.soccap <- paste(folder.data,file.input1,sep="")
+	soccapind <- as.matrix(read.table(file.soccap))
 	# possibly add the total degree, if missing
-	if(ncol(degrees)==2)
-		degrees <- cbind(degrees,degrees[,1]+degrees[,2])
+	if(ncol(soccapind)==2)
+		soccapind <- cbind(soccapind,soccapind[,1]+soccapind[,2])
 end.time <- Sys.time();
 total.time <- end.time - start.time;
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
@@ -44,7 +44,7 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.tim
 # sample a few objects
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Sample ",sample.size," objects\n",sep="")
-sampled <- sample(x=1:nrow(degrees),size=sample.size)
+sampled <- sample(x=1:nrow(soccapind),size=sample.size)
 
 
 ###############################################################################
@@ -52,21 +52,21 @@ sampled <- sample(x=1:nrow(degrees),size=sample.size)
 ###############################################################################
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Plot degree distributions\n",sep="")
-	for(i in 1:ncol(degrees))
+	for(i in 1:ncol(soccapind))
 	{	deg.name <- paste(degree.names[i],"-degree",sep="")
 		
 		# histogram
 		plot.file <- paste(folder.data,"degree-",degree.names[i],".histo.pdf",sep="")
 		cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Plot ",deg.name," histogram in file ",plot.file,"\n",sep="")
 		pdf(file=plot.file, bg="white")
-		hist(degrees[,i],probability=TRUE,breaks=100,main=paste("Distribution of",deg.name),xlab=deg.name,col="RED")
+		hist(soccapind[,i],probability=TRUE,breaks=100,main=paste("Distribution of",deg.name),xlab=deg.name,col="RED")
 		dev.off()
 		
 		# (partial) cumulative distribution
 		plot.file <- paste(folder.data,"degree-",degree.names[i],".cumdist.pdf",sep="")
 		cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Plot ",deg.name," cumulative distribution in file ",plot.file,"\n",sep="")
 		pdf(file=plot.file, bg="white")
-		ecdflt(x=degrees[sampled,i], xlab=deg.name, main=paste("Complementary Cumulative Distribution of",deg.name), log="y", complementary=TRUE, col="RED", points=1000) #
+		ecdflt(x=soccapind[sampled,i], xlab=deg.name, main=paste("Complementary Cumulative Distribution of",deg.name), log="y", complementary=TRUE, col="RED", points=1000) #
 		dev.off()
 	}
 end.time <- Sys.time();
@@ -116,10 +116,10 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning completed in ",total
 ###############################################################################
 # process degree vs. role measure correlations
 ###############################################################################
-cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process and record correlations between role measures\n",sep="")
-cor.mat <- cor(degrees, data)
+cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process and record correlations between degrees and role measures\n",sep="")
+cor.mat <- cor(soccapind, data)
 rownames(cor.mat) <- degree.names
-colnames(cor.mat) <- measure.names
+colnames(cor.mat) <- rolemeas.names
 cor.file <- paste(folder.data,"degrees.vs.rolemeasures.correlations.txt",sep="")
 write.table(cor.mat,cor.file,row.names=TRUE,col.names=TRUE)
 print(cor.mat)
@@ -129,14 +129,14 @@ print(cor.mat)
 # plot degrees vs. role measures
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Ploting role measures vs. degrees\n",sep="")
-for(i in 1:ncol(degrees))
+for(i in 1:ncol(soccapind))
 {	deg.name <- paste("degree-",degree.names[i],sep="")
 	
 	for(j in 1:ncol(data))
-	{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Ploting ",measure.names[j]," vs. ",deg.name,"\n",sep="")
-		plot.file <- paste(folder.data,deg.name,".vs.",measure.names[j],".pdf",sep="")
+	{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Ploting ",rolemeas.names[j]," vs. ",deg.name,"\n",sep="")
+		plot.file <- paste(folder.data,deg.name,".vs.",rolemeas.names[j],".pdf",sep="")
 		pdf(file=plot.file, bg="white")
-		plot(degrees[sampled,i],data[sampled,j],main=paste(measure.names[j],"vs.",deg.name),xlab=deg.name,ylab=measure.names[j],col="RED")
+		plot(soccapind[sampled,i],data[sampled,j],main=paste(rolemeas.names[j],"vs.",deg.name),xlab=deg.name,ylab=rolemeas.names[j],col="RED")
 		dev.off()
 	}
 }

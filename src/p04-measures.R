@@ -17,7 +17,7 @@ source("src/ecdflt.R")
 ###############################################################################
 folder.data <- "data/"	
 file.input <- "rolemeasures.raw.txt"		# TODO you can possibly change that
-measure.names <- c(							# TODO you might change that, if necessary
+rolemeas.names <- c(							# TODO you might change that, if necessary
 		"intensity-int-out","intensity-int-in","diversity-out","diversity-in","intensity-ext-out","intensity-ext-in","homogeneity-out","homogeneity-in")
 sample.size <- 100000						# TODO processing the whole dataset is to long, so the power-law distribution is tested only on a sample
 
@@ -75,17 +75,17 @@ start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Plot role measure distributions\n",sep="")
 	for(i in 1:ncol(data))
 	{	# histogram
-		plot.file <- paste(folder.data,"rolemeasure.",i,".",measure.names[i],".histo.pdf",sep="")
+		plot.file <- paste(folder.data,"rolemeasure.",i,".",rolemeas.names[i],".histo.pdf",sep="")
 		cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Plot role measure histogram in file ",plot.file,"\n",sep="")
 		pdf(file=plot.file, bg="white")
-		hist(data[,i],probability=TRUE,breaks=100,main=paste("Distribution of",measure.names[i]),xlab=measure.names[i],col="RED")
+		hist(data[,i],probability=TRUE,breaks=100,main=paste("Distribution of",rolemeas.names[i]),xlab=rolemeas.names[i],col="RED")
 		dev.off()
 		
 		# (partial) cumulative distribution
-		plot.file <- paste(folder.data,"rolemeasure.",i,".",measure.names[i],".cumdist.pdf",sep="")
+		plot.file <- paste(folder.data,"rolemeasure.",i,".",rolemeas.names[i],".cumdist.pdf",sep="")
 		cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Plot role measure cumulative distribution in file ",plot.file,"\n",sep="")
 		pdf(file=plot.file, bg="white")
-		ecdflt(x=data[sampled,i], xlab=measure.names[i], main=paste("Complementary Cumulative Distribution of",measure.names[i]), points=1000, log="y", col="RED", complementary=TRUE) #
+		ecdflt(x=data[sampled,i], xlab=rolemeas.names[i], main=paste("Complementary Cumulative Distribution of",rolemeas.names[i]), points=1000, log="y", col="RED", complementary=TRUE) #
 		dev.off()
 	}
 end.time <- Sys.time();
@@ -98,8 +98,8 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Plotting completed in ",total
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record correlations between measures\n",sep="")
 cor.mat <- cor(data)
-rownames(cor.mat) <- measure.names
-colnames(cor.mat) <- measure.names
+rownames(cor.mat) <- rolemeas.names
+colnames(cor.mat) <- rolemeas.names
 cor.file <- paste(folder.data,"rolemeasures.correlations.txt",sep="")
 write.table(cor.mat,cor.file,row.names=TRUE,col.names=TRUE)
 print(cor.mat)
@@ -111,9 +111,9 @@ print(cor.mat)
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Check for power-law distributions\n",sep="")
 fit <- matrix(ncol=2,nrow=ncol(data))
 colnames(fit) <- c("p-value","exponent")
-rownames(fit) <- measure.names
+rownames(fit) <- rolemeas.names
 for(i in 1:ncol(data))
-{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing role measure ",measure.names[i],"\n",sep="")
+{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing role measure ",rolemeas.names[i],"\n",sep="")
 	plf <- power.law.fit(x=data[sampled,i], implementation="plfit")
 	fit[i,"p-value"] <- plf$KS.p
 	fit[i,"exponent"] <- plf$alpha
