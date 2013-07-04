@@ -136,7 +136,7 @@ for(i in 1:ncol(degrees))
 	{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Ploting ",measure.names[j]," vs. ",deg.name,"\n",sep="")
 		plot.file <- paste(folder.data,deg.name,".vs.",measure.names[j],".pdf")
 		pdf(file=plot.file, bg="white")
-		plot(degrees[,i],data[,j],main=paste(measure.names[j],"vs.",deg.name),xlab=deg.name,ylab=measure.names[j],col="RED")
+		plot(degrees[sampled,i],data[sampled,j],main=paste(measure.names[j],"vs.",deg.name),xlab=deg.name,ylab=measure.names[j],col="RED")
 		dev.off()
 	}
 }
