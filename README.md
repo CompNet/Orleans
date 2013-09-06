@@ -32,16 +32,27 @@ How to use the R code
 	
 The scripts are numbered to indicate their order of execution. Each one corresponds
 to a specific process:
-	- install: installs the required R packages	
+
+	- install: installs the required R packages
+
 	- generation: allows generating dummy data (for testing purposes)
+
 	- degree: processes stats regarding degree distribution, generates plots
+
 	- soccap: same thing with social capitalism indices
+
 	- communities: same thing for (Louvain) community sizes
+
 	- measures:	same thing with role measures
+
 	- normalize: prepares the role measure for clustering
+
 	- clustering: applies a parallel version of k-means and evaluate the obtained clusters
+
 	- plot: render the resulting clusters
+
 	- anova: perform anovas on the role measures, using clusters as factors
+
 Cf. each scripts for more details.
 
 The src folder contain the R scripts. The data folder is supposed to contain the 
