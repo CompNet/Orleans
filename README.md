@@ -15,9 +15,12 @@ The C++ code was used to:
 	  community role.
 
 The R code was used to:
+
 	- Test and generate plots regarding the distribution of degree, social 
 	  capitalism indices, communities and role measures
+
 	- Normalize the role measure and partition them using k-means
+	- 
 	- Process statistics and generate plots to characterize the resulting clusters.
 	
 ==============================
