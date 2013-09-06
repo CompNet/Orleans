@@ -26,15 +26,15 @@ How to use the C++ code
 	-To be able to use parallelism, OpenMP is required
 
 
-To indicate the number of processors to use :
-export OMP_NUM_THREADS=nb_proc
+	To indicate the number of processors to use :
+	export OMP_NUM_THREADS=nb_proc
 
-Convert the graph graphes/easygraphe in a binary format renumbering the ids and put the result in convert :
-./bin/convert -i graphes/easygraphe -o convert/easygraphe -r
-Process the overlap and ratio indiced and put the result in results :
-./bin/overlap convert/easygraphe results/overlap_easy
-Process our measures, improvements to the ones introduced by Guimera and Amaral using the community detection result obtained using Louvain algorithm :
-./bin/guimera convert/easygraphe results/result_louvain results/result_guimera	
+	Convert the graph graphes/easygraphe in a binary format renumbering the ids and put the result in convert :
+	./bin/convert -i graphes/easygraphe -o convert/easygraphe -r
+	Process the overlap and ratio indiced and put the result in results :
+	./bin/overlap convert/easygraphe results/overlap_easy
+	Process our measures, improvements to the ones introduced by Guimera and Amaral using the community detection result obtained using Louvain algorithm :
+	./bin/guimera convert/easygraphe results/result_louvain results/result_guimera	
 		
 ==============================
 How to use the R code
