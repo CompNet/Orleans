@@ -1,7 +1,7 @@
-Orleans - R Clustering scripts
+Social Capitalist Analysis programs and scripts
 ==============================
 
-This project contains some source code used for the paper "Rôle communautaire des 
+This project contains some source code used for the paper "RÃ´e communautaire des 
 capitalistes sociaux dans Twitter". It contains both C++ and R programs and scripts.
 
 The C++ code was used to:
@@ -18,7 +18,7 @@ The R code was used to:
 	
 ==============================
 How to use the C++ code
-	...
+	<to be completed>
 		
 ==============================
 How to use the R code
