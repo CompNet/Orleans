@@ -6,12 +6,12 @@ capitalistes sociaux dans Twitter". It contains both C++ and R programs and scri
 
 The C++ code was used to:
 
-	+ process social capitalism indices
+	- process social capitalism indices
 
-	+ perform community detection thanks to a custom implementation of the Louvain
+	- perform community detection thanks to a custom implementation of the Louvain
 	  method, allowing to handle directed networks.
 
-	+ process several measures meant to characterize network nodes in terms of
+	- process several measures meant to characterize network nodes in terms of
 	  community role.
 
 The R code was used to:
