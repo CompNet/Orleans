@@ -21,11 +21,9 @@ The R code was used to:
 	
 ==============================
 How to use the C++ code
+
 	-Use make to compile
-
 	-To be able to use parallelism, OpenMP is required
-
-
 	To indicate the number of processors to use :
 	export OMP_NUM_THREADS=nb_proc
 
