@@ -1,4 +1,4 @@
-Social Capitalist Analysis programs and scripts
+Detection of Social Capitalists
 ==============================
 
 This project contains some source code used for the paper "Rôe communautaire des 
