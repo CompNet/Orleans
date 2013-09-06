@@ -5,11 +5,15 @@ This project contains some source code used for the paper "Rôe communautaire de
 capitalistes sociaux dans Twitter". It contains both C++ and R programs and scripts.
 
 The C++ code was used to:
+
 	+ process social capitalism indices
+
 	+ perform community detection thanks to a custom implementation of the Louvain
 	  method, allowing to handle directed networks.
+
 	+ process several measures meant to characterize network nodes in terms of
 	  community role.
+
 The R code was used to:
 	- Test and generate plots regarding the distribution of degree, social 
 	  capitalism indices, communities and role measures
