@@ -10,7 +10,7 @@
 # Use: this script should not be used like the others. For memory reasons,
 # we could not process all measures at once. It is necessary to restart R
 # to completely reset the memory (for some reason, gc() is not sufficient).
-# So, you should this script from the console, passing the number of the measure
+# So, you should run this script from the console, passing the number of the measure
 # to be tested, as a parameter of the command. Chain several commands
 # to execute the script as many times as you have measure. In our case, we
 # have 8 measures, so we just do (from the OS console): 

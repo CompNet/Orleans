@@ -66,8 +66,8 @@ print(summary(pca.obj))
 ###############################################################################
 # record results
 ###############################################################################
-anova.file <- paste(folder.data,"pca.k",k,".summary.txt",sep="")
-sink(anova.file)
+pca.file <- paste(folder.data,"pca.k",k,".summary.txt",sep="")
+sink(pca.file)
 	print(pca.obj)
 	print(summary(pca.obj))
 sink()
@@ -79,7 +79,7 @@ sink()
 plot.file <- paste(folder.data,"pca.k",k,".pdf",sep="")
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Plot results in file ",plot.file,"\n",sep="")
 pdf(file=plot.file, bg="white")
-plot(data[sampled,1], data[sampled,2],col=membership[sampled],xlab="First Principal Component",ylab="Second Principal Component",main=paste("Clusters for k=",k,sep=""))
+plot(pca.data[sampled,1], pca.data[sampled,2],col=membership[sampled],xlab="First Principal Component",ylab="Second Principal Component",main=paste("Clusters for k=",k,sep=""))
 # if you want to focus on a smaller part of the plot, use this command instead:
-# plot(data[sampled,1], data[sampled,2],col=membership[sampled],xlab="First Principal Component",ylab="Second Principal Component",main=paste("Clusters for k=",k,sep=""),xlim=c(0,20),ylim=c(0,20))
+# plot(pca.data[sampled,1], pca.data[sampled,2],col=membership[sampled],xlab="First Principal Component",ylab="Second Principal Component",main=paste("Clusters for k=",k,sep=""),xlim=c(0,20),ylim=c(0,20))
 dev.off()
