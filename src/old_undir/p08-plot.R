@@ -17,7 +17,7 @@
 # setup files
 ###############################################################################
 folder.data <- "data/"	
-k <- 6						# TODO we work only on the clusters found for this k
+k <- 2						# TODO we work only on the clusters found for this k
 sample.size <- 100000
 
 		

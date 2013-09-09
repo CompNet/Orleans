@@ -46,14 +46,14 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Normalizing data...\n",sep=
 		idx.na <- which(is.na(data[,c]))
 		if(length(idx.na)>0)
 		{	data[idx.na,c] <- 0
-			cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ....WARNING: ",length(idx.na)," NA values found in the raw data (col.",c,")\n")
+			cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ....WARNING: ",length(idx.na)," NA values found in the raw data (col.",c,")\n",sep="")
 		}
 		
 		# get rid of infinite values
 		idx.inf <- which(is.infinite(data[,c]))
 		if(length(idx.inf)>0)
 		{	data[idx.inf,c] <- 0
-			cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ....Replacing ",length(idx.inf)," infinite values by 0 in col.",c,")\n")
+			cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ....Replacing ",length(idx.inf)," infinite values by 0 in col.",c,")\n",sep="")
 		}
 		
 		# normalize

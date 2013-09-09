@@ -28,7 +28,7 @@ library("car")
 setwd("~/eclipse/workspaces/Networks/Orleans/")
 folder.data <- "data/"	
 file.input <- "rolemeasures.raw.txt"
-k <- 6												# TODO we work only on the clusters found for this k
+k <- 2												# TODO we work only on the clusters found for this k
 
 
 ###############################################################################
