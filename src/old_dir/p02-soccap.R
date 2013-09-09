@@ -6,7 +6,7 @@
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
-# source("src/old_undir/p02-soccap.R")
+# source("src/old_dir/p02-soccap.R")
 ###############################################################################
 library("igraph")
 source("src/ecdflt.R")
@@ -18,9 +18,9 @@ source("src/ecdflt.R")
 folder.data <- "data/"	
 file.input1 <- "soccapmeasures.txt"
 file.input2 <- "rolemeasures.raw.txt"
-rolemeas.names <- c("zscore", "participation")
+rolemeas.names <- c("z-score-out", "z-score-in", "participation-out", "participation-in")
 soccap.names <- c("ratio", "overlap")
-sample.size <- 100000	# processing the whole dataset is to long, so the power-law distribution is tested only on a sample
+sample.size <- 100000
 
 
 ###############################################################################
