@@ -78,7 +78,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Identifying original node r
 			cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing node ",i,"/",sample.size,"\n",sep="")
 		
 		# non-hubs
-		if(amaral_z[i]<2.5)
+		if(data[sampled[i],1]<2.5)
 		{	if(data[sampled[i],1]<0.05)
 				roles[i] <- 1	# Ultra-Peripheral
 			else if(data[sampled[i],1]<0.625)
@@ -125,8 +125,10 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Plot roles using original l
 	# plot nodes
 	role.colors <- c("darkgrey","red","green","blue","yellow","magenta","grey")
 	for(r in 1:length(roles))
-	{	color <- role.colors[r]
-		idx <- which(roles==role)
+	{	if(r%%1000==0)
+			cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing node ",r,"/",sample.size,"\n",sep="")
+		color <- role.colors[r]
+		idx <- which(roles==r)
 		points(data[sampled[idx],2],data[sampled[idx],1],pch=21,bg=color,cex=2)
 	}
 	
