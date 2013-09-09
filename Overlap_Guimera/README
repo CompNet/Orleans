@@ -1,0 +1,13 @@
+Utiliser la commande make pour compiler les fichiers
+
+Pour profiter du parallélisme, il est nécessaire d'installer OpenMP
+
+Préciser le nombre de processeurs utilisables avec :
+export OMP_NUM_THREADS=nb_proc
+
+Convertir le graphe graphes/easygraphe en format binaire en le renumérotant et placer le résultat dans convert :
+./bin/convert -i graphes/easygraphe -o convert/easygraphe -r
+Calculer l'overlap et le ratio et placer le résultat dans results : 
+./bin/overlap convert/easygraphe results/overlap_easy
+Calculer nos mesures, améliorations de celles introduites par Guimera et Amaral en utilisant le fichier de résultats de la détection de communautés effectuée par l'algorithme de louvain et les placer dans results :
+./bin/guimera convert/easygraphe results/result_louvain results/result_guimera
