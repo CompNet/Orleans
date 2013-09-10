@@ -1,8 +1,8 @@
 # Normalizes the raw data, so that the clustering tool can be applied later.
 # Expected data: a table, values separated by tabulations, in the following
 # order:
-#	- AG z-score
-#	- AG participation coefficient
+#	- AG's z-score
+#	- AG's participation coefficient
 # Infinite values are represented by +Inf or -Inf. NA are not allowed.
 #
 # version: 1

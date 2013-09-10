@@ -63,13 +63,13 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Processed in ",total.time," (
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Plot community sizes\n",sep="")
 	plot.file <- paste(folder.data,"communities.sizes.histo.pdf",sep="")
-	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Histogram plotted in file ",plot.file,"\n",sep="")
+	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Histogram being plotted in file ",plot.file,"\n",sep="")
 	pdf(file=plot.file, bg="white")
 	hist(com.sizes,probability=TRUE,breaks=5,main="Community Size Distribution",xlab="Community Size",col="RED")
 	dev.off()
 	
 	plot.file <- paste(folder.data,"communities.sizes.cumdist.pdf",sep="")
-	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Cumulative distribution plotted in file ",plot.file,"\n",sep="")
+	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Cumulative distribution being plotted in file ",plot.file,"\n",sep="")
 	pdf(file=plot.file, bg="white")
 	ecdflt(x=com.sizes, xlab="Community Size", main="Community Size Complementary Cumulative Distribution", log="y", col="RED", complementary=TRUE)
 	dev.off()

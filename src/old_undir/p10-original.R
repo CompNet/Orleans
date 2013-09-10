@@ -111,7 +111,8 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Plot roles using original l
 	# get extreme values for y axis
 	min.y <- min(data[sampled,1])
 	max.y <- max(data[sampled,1])
-
+#max.y <- 20	# zoom
+	
 	# init plot
 	plot.file <- paste(folder.data,"rolemeasures.original.pdf",sep="")
 	margin <- 0.025
@@ -134,7 +135,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Plot roles using original l
 	
 	# plot nodes
 	role.colors <- c("darkgrey","red","green","blue","yellow","magenta","grey")
-	for(r in 1:length(roles))
+	for(r in 1:length(role.colors))
 	{	if(r%%1000==0)
 			cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing node ",r,"/",sample.size,"\n",sep="")
 		color <- role.colors[r]

@@ -116,7 +116,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Plot roles using original l
 		max.y <- max(data[sampled,i])
 		
 		# init plot
-		plot.file <- paste(folder.data,"rolemeasures.original",dir.names[i],".pdf",sep="")
+		plot.file <- paste(folder.data,"rolemeasures.original.",dir.names[i],".pdf",sep="")
 		margin <- 0.025
 		pdf(file=plot.file, bg="white")
 		plot(0,cex.lab=1.5,cex.axis=1.5,
@@ -137,7 +137,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Plot roles using original l
 		
 		# plot nodes
 		role.colors <- c("darkgrey","red","green","blue","yellow","magenta","grey")
-		for(r in 1:length(roles))
+		for(r in 1:length(role.colors))
 		{	if(r%%1000==0)
 				cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing node ",r,"/",sample.size,"\n",sep="")
 			color <- role.colors[r]

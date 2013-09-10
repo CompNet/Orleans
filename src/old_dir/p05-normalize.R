@@ -1,10 +1,10 @@
 # Normalizes the raw data, so that the clustering tool can be applied later.
 # Expected data: a table, values separated by tabulations, in the following
 # order:
-#	- outgoing z-score coefficient
-#	- incoming z-score coefficient
-#	- outgoing participation coefficient
-#	- incoming participation coefficient
+#	- outgoing AG's z-score coefficient
+#	- incoming AG's z-score coefficient
+#	- outgoing AG's participation coefficient
+#	- incoming AG's participation coefficient
 # Infinite values are represented by +Inf or -Inf. NA are not allowed.
 #
 # version: 1
