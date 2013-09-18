@@ -50,6 +50,15 @@ cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Generating ",n.instances," 
 	for(i in 1:n.fields)
 		data[floor(runif(1,min=1,max=n.instances)),i] <- Inf
 
+
+###############################################################################
+# record cluster membership
+###############################################################################
+cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record membership vector to file\n",sep="")
+	file.clusters <- paste(folder.data,"cluster.k",n.cluster,".txt",sep="")
+	write.table(x=cbind(1:n.instances,data[,n.fields+1]), file=file.clusters, row.names=FALSE, col.names=FALSE)
+
+
 ###############################################################################
 # record role measures
 ###############################################################################
@@ -73,7 +82,8 @@ cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record communities to file\
 # generate and record a fake network
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Generate network\n",sep="")
-	g <- barabasi.game(n=n.instances, power=3, m=2)
+	#g <- barabasi.game(n=n.instances, power=3, m=2)
+	g <- erdos.renyi.game(n=n.instances, p.or.m=0.1, type="gnp", directed=TRUE, loops=FALSE)
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record network to file\n",sep="")
 	file.net <- paste(folder.data,"network.edgelist",sep="")
 	write.graph(graph=g, file=file.net, format="edgelist")
@@ -94,3 +104,5 @@ cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Generate social capitalism 
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record social capitalism measures to file\n",sep="")
 	file.soccap <- paste(folder.data,"soccapmeasures.txt",sep="")
 	write.table(x=soccap, file=file.soccap, row.names=FALSE, col.names=FALSE)
+
+
