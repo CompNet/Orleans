@@ -1,8 +1,11 @@
 # Compares the partitions (clusters) obtained with the
 # new method with those obtained with the old one.
 #
+# Note it is necessary to rename the cluster file obtained 
+# with the old measures before applying this script. 
+#
 # version: 1
-# Author: Vincent Labatut 06/2013
+# Author: Vincent Labatut 09/2013
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")

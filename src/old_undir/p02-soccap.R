@@ -2,11 +2,11 @@
 # capitalists indices.
 # 
 # Version: 1
-# Author: Vincent Labatut 06/2013
+# Author: Vincent Labatut 09/2013
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
-# source("src/old_undir/p02-soccap.R")
+# source("src/old_undir/02-soccap.R")
 ###############################################################################
 library("igraph")
 source("src/ecdflt.R")
@@ -16,8 +16,8 @@ source("src/ecdflt.R")
 # setup files
 ###############################################################################
 folder.data <- "data/"	
-file.input1 <- "soccapmeasures.txt"
-file.input2 <- "rolemeasures.raw.txt"
+file.input.soccap <- "soccapmeasures.txt"
+file.input.rolemeas <- "rolemeasures.raw.txt"
 rolemeas.names <- c("zscore", "participation")
 soccap.names <- c("ratio", "overlap")
 sample.size <- 100000	# processing the whole dataset is to long, so the power-law distribution is tested only on a sample
@@ -29,8 +29,8 @@ sample.size <- 100000	# processing the whole dataset is to long, so the power-la
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading social capitalism indices data\n",sep="")
 	# load the data
-	file.soccap <- paste(folder.data,file.input1,sep="")
-	soccapind <- as.matrix(read.table(file.soccap))
+	file.soccap <- paste(folder.data,file.input.soccap,sep="")
+	soccap.indices <- as.matrix(read.table(file.soccap))
 end.time <- Sys.time();
 total.time <- end.time - start.time;
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
@@ -40,7 +40,7 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.tim
 # sample a few objects
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Sample ",sample.size," objects\n",sep="")
-sampled <- sample(x=1:nrow(soccapind),size=sample.size)
+sampled <- sample(x=1:nrow(soccap.indices),size=sample.size)
 
 
 ###############################################################################
@@ -73,7 +73,7 @@ sampled <- sample(x=1:nrow(soccapind),size=sample.size)
 ###############################################################################
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading raw data\n",sep="")
-	file.data <- paste(folder.data,file.input2,sep="")
+	file.data <- paste(folder.data,file.input.rolemeas,sep="")
 	data <- as.matrix(read.table(file.data))
 end.time <- Sys.time();
 total.time <- end.time - start.time;
@@ -111,7 +111,7 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning completed in ",total
 # process social capitalism indices vs. role measures correlations
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process and record correlations between social capitalism indices and role measures\n",sep="")
-cor.mat <- cor(soccapind, data)
+cor.mat <- cor(soccap.indices, data)
 rownames(cor.mat) <- soccap.names
 colnames(cor.mat) <- rolemeas.names
 cor.file <- paste(folder.data,"soccap.vs.rolemeasures.correlations.txt",sep="")
@@ -123,12 +123,12 @@ print(cor.mat)
 # plot social capitalism indices vs. role measures
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Ploting role measures vs. social capitalism indices\n",sep="")
-for(i in 1:ncol(soccapind))
+for(i in 1:ncol(soccap.indices))
 {	for(j in 1:ncol(data))
 	{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Ploting ",rolemeas.names[j]," vs. ",soccap.names[i],"\n",sep="")
 		plot.file <- paste(folder.data,soccap.names[i],".vs.",rolemeas.names[j],".pdf",sep="")
 		pdf(file=plot.file, bg="white")
-		plot(soccapind[sampled,i],data[sampled,j],main=paste(rolemeas.names[j],"vs.",soccap.names[i]),xlab=soccap.names[i],ylab=rolemeas.names[j],col="RED")
+		plot(soccap.indices[sampled,i],data[sampled,j],main=paste(rolemeas.names[j],"vs.",soccap.names[i]),xlab=soccap.names[i],ylab=rolemeas.names[j],col="RED")
 		dev.off()
 	}
 }

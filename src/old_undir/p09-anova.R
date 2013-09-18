@@ -5,7 +5,7 @@
 # role.
 #
 # version: 1
-# Author: Vincent Labatut 06/2013
+# Author: Vincent Labatut 09/2013
 #  
 # Use: this script should not be used like the others. For memory reasons,
 # we could not process all measures at once. It is necessary to restart R
