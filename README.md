@@ -51,6 +51,7 @@ to a specific process:
 	- plot: renders the resulting clusters
 	- anova: performs anovas on the role measures, using clusters as factors
 	- comparison: compares the clusters obtained with the new measures, w
+	- hive: generates hive plots
 
 Cf. each scripts for more details.
 
