@@ -152,13 +152,13 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.tim
 
 
 ###############################################################################
-# generate hive plots
+# generate hive plots using social capitalist statuses as axes
 ###############################################################################
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Producing hive plots with statuses on axes\n",sep="")
 	node.colors <- c("#D1E365","#D6B7DD","#83E1A6","#EFA590","#87D8DB","#E1BD63","#BED888")
 	plot.file <- paste(folder.data,"hiveplot.pdf",sep="")
-#	pdf(file=plot.file, bg="white")
+	pdf(file=plot.file, bg="white")
 	grid.newpage()
 	pushViewport(viewport(layout=grid.layout(2, 4)))
 	for(i in 1:length(rolemeas.names))
@@ -180,11 +180,11 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Producing hive plots with s
 #			arrow = NULL,			# arrow fine tuning 
 			np=FALSE				# open new device when plotting
 		)
-		# TODO remove border?
 		grid.text(rolemeas.names[i], x=0.5, y=0.075)
 		popViewport(2)
+		# TODO remove border?
 	}
-#	dev.off()
+	dev.off()
 end.time <- Sys.time();
 total.time <- end.time - start.time;
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",total.time,"\n",sep="")
