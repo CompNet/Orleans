@@ -61,4 +61,6 @@ scripts, so it is important to execute them in the specified order.
 
 Note: the src/v1 archive contains the first version of the R scripts. Those were
 not able to handle the size of our data, so we finally did not use them, but kept 
-them as archives.
+them as archives. The original.data.tar.gz archive contains the clean version of 
+the networks used in the original Guimerà & Amaral paper, retrieved from
+http://www.tuhh.de/ibb/publications/databases-and-software.html

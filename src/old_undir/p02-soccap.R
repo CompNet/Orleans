@@ -40,7 +40,7 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.tim
 # sample a few objects
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Sample ",sample.size," objects\n",sep="")
-sampled <- sample(x=1:nrow(soccap.indices),size=sample.size)
+	sampled <- sample(x=1:nrow(soccap.indices),size=sample.size)
 
 
 ###############################################################################
