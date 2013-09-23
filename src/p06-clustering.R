@@ -97,7 +97,7 @@ for(i in 1:length(ks))
 ###############################################################################
 values.file <- paste(folder.data,"clusters.quality.txt",sep="")
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Record all quality values in ",values.file,"\n",sep="")
-write.table(quality,file=values.file,row.names=FALSE,col.names=FALSE)
+	write.table(quality,file=values.file,row.names=FALSE,col.names=FALSE)
 
 
 ###############################################################################
@@ -105,6 +105,6 @@ write.table(quality,file=values.file,row.names=FALSE,col.names=FALSE)
 ###############################################################################
 plot.file <- paste(folder.data,"clusters.quality.pdf",sep="")
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Plot quality values in ",plot.file,"\n",sep="")
-pdf(file=plot.file,bg="white")
-plot(quality[,1],quality[,2],type="l",xlab="Clusters",ylab="Davies-Bouldin index",col="RED")
-dev.off()
+	pdf(file=plot.file,bg="white")
+	plot(quality[,1],quality[,2],type="l",xlab="Clusters",ylab="Davies-Bouldin index",col="RED")
+	dev.off()

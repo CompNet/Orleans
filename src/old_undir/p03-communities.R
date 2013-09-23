@@ -6,7 +6,7 @@
 # starting from 1.
 #
 # version: 1
-# Author: Vincent Labatut 06/2013
+# Author: Vincent Labatut 09/2013
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")

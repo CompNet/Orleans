@@ -19,3 +19,11 @@ install.packages("clusterSim")
 
 # anova (unbalanced)
 install.packages("car")
+
+
+# Rand index
+install.packages("flexclust")
+
+
+# hive plots
+install.packages("HiveR")
