@@ -19,7 +19,7 @@ file.input <- "rolemeasures.raw.txt"
 rolemeas.names <- c("zscore", "participation")
 sample.size <- 100000
 k <- 2										# TODO we work only on the clusters found for this k
-zoom <- 20									# TODO maximal z-score value to be plotted (or NA for no limit)
+zoom <- NA									# TODO maximal z-score value to be plotted (or NA for no limit)
 
 
 ###############################################################################
@@ -186,10 +186,10 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Plot roles using original l
 	min.y <- min(data[sampled,1])
 	if(is.na(zoom))
 	{	max.y <- max(data[sampled,1])
-		plot.file <- paste(folder.data,"rolemeasures.original.all.pdf",sep="")
+		plot.file <- paste(folder.data,"clusters.original.all.pdf",sep="")
 	}else
 	{	max.y <- 20	# zoom
-		plot.file <- paste(folder.data,"rolemeasures.original.zoom.pdf",sep="")
+		plot.file <- paste(folder.data,"clusters.original.zoom.pdf",sep="")
 	}
 	
 	# init plot
