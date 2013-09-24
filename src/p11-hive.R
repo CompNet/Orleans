@@ -1,5 +1,14 @@
 # Generates hive plots of the network.
-#
+# 
+# Note: sampling the graph takes too long in R.
+# So the sampling part was implemented in Java, in
+# the ApplySampling class. So, you need to first
+# generate the sample.txt file, containing the id
+# of the nodes to be sampled, then apply the Java
+# program, which will generate a new (much smaller)
+# network file, then finally this script to generate
+# the hive plots. Not very straightforward, I know.
+# 
 # version: 1
 # Author: Vincent Labatut 09/2013
 #
@@ -24,7 +33,7 @@ rolemeas.names <- c(							# TODO you might change that, if necessary
 		"intensity-int-out","intensity-int-in","diversity-out","diversity-in","intensity-ext-out","intensity-ext-in","homogeneity-out","homogeneity-in")
 soccap.names <- c(								# TODO you might change that, if necessary
 		"ratio", "overlap")
-sample.size <- 250							# TODO processing the whole dataset is to long, so the power-law distribution is tested only on a sample
+sample.size <- 1000							# TODO processing the whole dataset is to long, so the power-law distribution is tested only on a sample
 
 
 ###############################################################################
@@ -43,13 +52,21 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.tim
 ###############################################################################
 # sample a few objects
 ###############################################################################
-cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Sample ",sample.size," objects\n",sep="")
-	sampled <- sample(x=1:nrow(soccap.indices),size=sample.size)
+cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process sample of size ",sample.size,"\n",sep="")
 	file.sample <- paste(folder.data,file.sample,sep="")
-	write.table(sampled,file.sample)
-	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Min value in sample: ",min(sampled)," objects\n",sep="")
-cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Sample ",sample.size," objects\n",sep="")
-
+	# if already processed, just used the file
+	if(file.exists(file.sample))
+	{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Load sample file\n",sep="")
+		sampled <- as.matrix(read.table(file.sample))
+		cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Sample size: ",length(sampled),"\n",sep="")
+		cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Min sample value: ",min(sampled),"\n",sep="")
+	}else
+	# otherwise, sample needs to be processed
+	{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Sample ",sample.size," objects\n",sep="")
+		sampled <- sample(x=1:nrow(soccap.indices),size=sample.size)
+		write.table(sampled,file.sample)
+		cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Min sample value: ",min(sampled),"\n",sep="")
+	}
 
 
 ###############################################################################
@@ -113,21 +130,19 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning completed in ",total
 
 
 ###############################################################################
-# read the sampled graph
+# read the graph retain only sampled links
 ###############################################################################
-start.time <- Sys.time();
-cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Load graph\n",sep="")
-	file.network <- paste(folder.data,file.input.network,".sample",sep="")
-	links <- as.matrix(read.table(file.network))
-	if(min(links)==0) links <- links + 1
-end.time <- Sys.time();
-total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Loading completed in ",total.time,"\n",sep="")
+# NOTE: We eventually did that part in Java, since the graph is to big
+#		So we use the sample.txt file to perform the sampling and generate a subgraph.
+#start.time <- Sys.time();
+#cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Load graph\n",sep="")
+#	file.network <- paste(folder.data,file.input.network,sep="")
+#	links <- as.matrix(read.table(file.network))
+#	if(min(links)==0) links <- links + 1
+#end.time <- Sys.time();
+#total.time <- end.time - start.time;
+#cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Loading completed in ",total.time,"\n",sep="")
 
-
-###############################################################################
-# retain only sampled links
-###############################################################################
 #start.time <- Sys.time();
 #cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Sample graph\n",sep="")
 #	#idx1 <- match(sampled,links[,1])
@@ -142,8 +157,19 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Loading completed in ",total.
 #end.time <- Sys.time();
 #total.time <- end.time - start.time;
 #cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",total.time,"\n",sep="")
-# NOTE: We eventually did that part in Java, since the graph is to big
-#		So we use the sample.txt file to perform the sampling and generate a subgraph.
+
+
+###############################################################################
+# directly read the sampled graph
+###############################################################################
+start.time <- Sys.time();
+cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Load graph\n",sep="")
+	file.network <- paste(folder.data,file.input.network,".sample",sep="")
+	links <- as.matrix(read.table(file.network))
+	if(min(links)==0) links <- links + 1
+end.time <- Sys.time();
+total.time <- end.time - start.time;
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Loading completed in ",total.time,"\n",sep="")
 
 
 ###############################################################################
