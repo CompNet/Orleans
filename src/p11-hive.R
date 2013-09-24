@@ -19,6 +19,7 @@ k <- 7											# TODO we work only on the clusters found for this k
 file.input.soccap <- "soccapmeasures.txt"		# TODO you can possibly change that
 file.input.rolemeas <- "rolemeasures.raw.txt"	# TODO you can possibly change that
 file.input.network <- "network.edgelist"		# TODO you can possibly change that
+file.sample <- "sample.txt"						# TODO you can possibly change that
 rolemeas.names <- c(							# TODO you might change that, if necessary
 		"intensity-int-out","intensity-int-in","diversity-out","diversity-in","intensity-ext-out","intensity-ext-in","homogeneity-out","homogeneity-in")
 soccap.names <- c(								# TODO you might change that, if necessary
@@ -43,7 +44,12 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.tim
 # sample a few objects
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Sample ",sample.size," objects\n",sep="")
-sampled <- sample(x=1:nrow(soccap.indices),size=sample.size)
+	sampled <- sample(x=1:nrow(soccap.indices),size=sample.size)
+	file.sample <- paste(folder.data,file.sample,sep="")
+	write.table(sampled,file.sample)
+	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Min value in sample: ",min(sampled)," objects\n",sep="")
+cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Sample ",sample.size," objects\n",sep="")
+
 
 
 ###############################################################################
@@ -107,11 +113,11 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning completed in ",total
 
 
 ###############################################################################
-# read the graph
+# read the sampled graph
 ###############################################################################
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Load graph\n",sep="")
-	file.network <- paste(folder.data,file.input.network,sep="")
+	file.network <- paste(folder.data,file.input.network,".sample",sep="")
 	links <- as.matrix(read.table(file.network))
 	if(min(links)==0) links <- links + 1
 end.time <- Sys.time();
@@ -122,20 +128,22 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Loading completed in ",total.
 ###############################################################################
 # retain only sampled links
 ###############################################################################
-start.time <- Sys.time();
-cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Sample graph\n",sep="")
-	#idx1 <- match(sampled,links[,1])
-	#idx1 <- idx1[!is.na(idx1)]
-	idx1 <- which(links[,1] %in% sampled)
-	#idx2 <- match(sampled,links[,2])
-	#idx2 <- idx2[!is.na(idx2)]
-	idx2 <- which(links[,2] %in% sampled)
-	idx <- intersect(idx1, idx2)
-	links <- links[idx,]
-	idx1 <- NULL; idx2 <- NULL; idx <- NULL; gc()
-end.time <- Sys.time();
-total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",total.time,"\n",sep="")
+#start.time <- Sys.time();
+#cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Sample graph\n",sep="")
+#	#idx1 <- match(sampled,links[,1])
+#	#idx1 <- idx1[!is.na(idx1)]
+#	idx1 <- which(links[,1] %in% sampled)
+#	#idx2 <- match(sampled,links[,2])
+#	#idx2 <- idx2[!is.na(idx2)]
+#	idx2 <- which(links[,2] %in% sampled)
+#	idx <- intersect(idx1, idx2)
+#	links <- links[idx,]
+#	idx1 <- NULL; idx2 <- NULL; idx <- NULL; gc()
+#end.time <- Sys.time();
+#total.time <- end.time - start.time;
+#cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",total.time,"\n",sep="")
+# NOTE: We eventually did that part in Java, since the graph is to big
+#		So we use the sample.txt file to perform the sampling and generate a subgraph.
 
 
 ###############################################################################
