@@ -28,7 +28,7 @@ k <- 6								# TODO we work only on the clusters found for this k
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading membership vector\n",sep="")
 	membership.file <- paste(folder.data,file.old,sep="")
-	membership.old <- as.matrix(read.table(membership.file))[,2] + 1	# the k-means implementation starts numbering clusters from 0
+	membership.old <- as.integer(as.matrix(read.table(membership.file))[,2] + 1)	# the k-means implementation starts numbering clusters from 0
 end.time <- Sys.time();
 total.time <- end.time - start.time;
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
@@ -40,7 +40,7 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.tim
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading membership vector\n",sep="")
 	membership.file <- paste(folder.data,"cluster.k",k,".txt",sep="")
-	membership.new <- as.matrix(read.table(membership.file))[,2] + 1	# the k-means implementation starts numbering clusters from 0
+	membership.new <- as.integer(as.matrix(read.table(membership.file))[,2] + 1)	# the k-means implementation starts numbering clusters from 0
 end.time <- Sys.time();
 total.time <- end.time - start.time;
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
@@ -71,4 +71,4 @@ cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record data\n",sep="")
 	agreement.file <- paste(folder.data,"agreement.txt",sep="")
 	values <- matrix(ncol=1,nrow=2,data=c(result.ri, result.ari))
 	rownames(values) <- c("RI", "ARI")
-	write.table(means,mean.file,row.names=TRUE,col.names=FALSE)
+	write.table(values,agreement.file,row.names=TRUE,col.names=FALSE)
