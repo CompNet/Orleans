@@ -24,7 +24,8 @@ library("grid")
 # setup files
 ###############################################################################
 folder.data <- "data/"	
-k <- 7											# TODO we work only on the clusters found for this k
+k <- 6											# TODO we work only on the clusters found for this k
+file.input.degrees <- "degrees.txt"				# TODO you can possibly change that
 file.input.soccap <- "soccapmeasures.txt"		# TODO you can possibly change that
 file.input.rolemeas <- "rolemeasures.raw.txt"	# TODO you can possibly change that
 file.input.network <- "network.edgelist"		# TODO you can possibly change that
@@ -33,20 +34,7 @@ rolemeas.names <- c(							# TODO you might change that, if necessary
 		"intensity-int-out","intensity-int-in","diversity-out","diversity-in","intensity-ext-out","intensity-ext-in","homogeneity-out","homogeneity-in")
 soccap.names <- c(								# TODO you might change that, if necessary
 		"ratio", "overlap")
-sample.size <- 1000							# TODO processing the whole dataset is to long, so the power-law distribution is tested only on a sample
-
-
-###############################################################################
-# load social capitalism indices
-###############################################################################
-start.time <- Sys.time();
-cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading social capitalism indices data\n",sep="")
-	# load the data
-	file.soccap <- paste(folder.data,file.input.soccap,sep="")
-	soccap.indices <- as.matrix(read.table(file.soccap))
-end.time <- Sys.time();
-total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
+sample.size <- 100000							# TODO processing the whole dataset is to long, so the power-law distribution is tested only on a sample
 
 
 ###############################################################################
@@ -62,11 +50,30 @@ cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process sample of size ",sa
 		cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Min sample value: ",min(sampled),"\n",sep="")
 	}else
 	# otherwise, sample needs to be processed
-	{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Sample ",sample.size," objects\n",sep="")
-		sampled <- sample(x=1:nrow(soccap.indices),size=sample.size)
-		write.table(sampled,file.sample)
+	{	# first we load the out-degree
+		cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Load degrees\n",sep="")
+		file.degrees <- paste(folder.data,file.input.degrees,sep="")
+		degrees <- as.matrix(read.table(file.degrees))
+		# then we sample amongst node with non-zero out degree (otherwise it's useless for a hiveplot)
+		cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Sample ",sample.size," objects\n",sep="")
+		idx <- which(degrees[,1]>0 | degrees[,2]>0)
+		sampled <- sample(x=idx,size=sample.size)
+		write.table(sampled,file.sample,row.names=FALSE,col.names=FALSE)
 		cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Min sample value: ",min(sampled),"\n",sep="")
 	}
+
+
+###############################################################################
+# load social capitalism indices
+###############################################################################
+start.time <- Sys.time();
+cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading social capitalism indices data\n",sep="")
+	# load the data
+	file.soccap <- paste(folder.data,file.input.soccap,sep="")
+	soccap.indices <- as.matrix(read.table(file.soccap))
+end.time <- Sys.time();
+total.time <- end.time - start.time;
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
 
 
 ###############################################################################
