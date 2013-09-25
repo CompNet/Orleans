@@ -34,7 +34,7 @@ rolemeas.names <- c(							# TODO you might change that, if necessary
 		"intensity-int-out","intensity-int-in","diversity-out","diversity-in","intensity-ext-out","intensity-ext-in","homogeneity-out","homogeneity-in")
 soccap.names <- c(								# TODO you might change that, if necessary
 		"ratio", "overlap")
-sample.size <- 10000							# TODO processing the whole dataset is to long, so the power-law distribution is tested only on a sample
+sample.size <- 100000							# TODO processing the whole dataset is to long, so the power-law distribution is tested only on a sample
 
 
 ###############################################################################
