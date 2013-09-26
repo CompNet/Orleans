@@ -8,6 +8,12 @@
 # program, which will generate a new (much smaller)
 # network file, then finally this script to generate
 # the hive plots. Not very straightforward, I know.
+#
+# Note: the message " Error in calcCurveGrob(x, x$debug) : End points must not be identical"
+# sometimes shows up when drawing the hive plots. It comes
+# from the method drawing the links as splines, and means
+# two nodes have the exact same position, which cannot be
+# handled by this method.
 # 
 # version: 1
 # Author: Vincent Labatut 09/2013
@@ -28,7 +34,7 @@ k <- 6											# TODO we work only on the clusters found for this k
 file.input.degrees <- "degrees.txt"				# TODO you can possibly change that
 file.input.soccap <- "soccapmeasures.txt"		# TODO you can possibly change that
 file.input.rolemeas <- "rolemeasures.raw.txt"	# TODO you can possibly change that
-file.input.network <- "network.edgelist"		# TODO you can possibly change that
+file.input.network <- "links-anon.txt"			# TODO you can possibly change that
 file.sample <- "sample.txt"						# TODO you can possibly change that
 rolemeas.names <- c(							# TODO you might change that, if necessary
 		"intensity-int-out","intensity-int-in","diversity-out","diversity-in","intensity-ext-out","intensity-ext-in","homogeneity-out","homogeneity-in")
@@ -63,6 +69,54 @@ cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process sample of size ",sa
 	}
 
 
+###############################################################################
+# read the graph retain only sampled links
+###############################################################################
+# NOTE: We eventually did that part in Java, since the graph is to big
+#		So we use the sample.txt file to perform the sampling and generate a subgraph.
+#start.time <- Sys.time();
+#cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Load graph\n",sep="")
+#	file.network <- paste(folder.data,file.input.network,sep="")
+#	links <- as.matrix(read.table(file.network))
+#	if(min(links)==0) links <- links + 1
+#end.time <- Sys.time();
+#total.time <- end.time - start.time;
+#cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Loading completed in ",total.time,"\n",sep="")
+	
+#start.time <- Sys.time();
+#cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Sample graph\n",sep="")
+#	#idx1 <- match(sampled,links[,1])
+#	#idx1 <- idx1[!is.na(idx1)]
+#	idx1 <- which(links[,1] %in% sampled)
+#	#idx2 <- match(sampled,links[,2])
+#	#idx2 <- idx2[!is.na(idx2)]
+#	idx2 <- which(links[,2] %in% sampled)
+#	idx <- intersect(idx1, idx2)
+#	links <- links[idx,]
+#	idx1 <- NULL; idx2 <- NULL; idx <- NULL; gc()
+#end.time <- Sys.time();
+#total.time <- end.time - start.time;
+#cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",total.time,"\n",sep="")
+	
+	
+###############################################################################
+# directly read the sampled graph
+###############################################################################
+start.time <- Sys.time();
+cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Load graph\n",sep="")
+	file.network <- paste(folder.data,file.input.network,".sampled",sep="")
+	links <- as.matrix(read.table(file.network))
+	#if(min(links)==0) links <- links + 1
+	# not all sampled nodes might be in the link list,
+	# since some of them might have no link with the other sampled nodes
+	# so the sampled vector needs an update
+	sampled <- sort(unique(c(links[,1],links[,2])))
+	sample.size <- length(sampled)
+end.time <- Sys.time();
+total.time <- end.time - start.time;
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Loading completed in ",total.time,"\n",sep="")
+	
+	
 ###############################################################################
 # load social capitalism indices
 ###############################################################################
@@ -137,49 +191,6 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning completed in ",total
 
 
 ###############################################################################
-# read the graph retain only sampled links
-###############################################################################
-# NOTE: We eventually did that part in Java, since the graph is to big
-#		So we use the sample.txt file to perform the sampling and generate a subgraph.
-#start.time <- Sys.time();
-#cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Load graph\n",sep="")
-#	file.network <- paste(folder.data,file.input.network,sep="")
-#	links <- as.matrix(read.table(file.network))
-#	if(min(links)==0) links <- links + 1
-#end.time <- Sys.time();
-#total.time <- end.time - start.time;
-#cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Loading completed in ",total.time,"\n",sep="")
-
-#start.time <- Sys.time();
-#cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Sample graph\n",sep="")
-#	#idx1 <- match(sampled,links[,1])
-#	#idx1 <- idx1[!is.na(idx1)]
-#	idx1 <- which(links[,1] %in% sampled)
-#	#idx2 <- match(sampled,links[,2])
-#	#idx2 <- idx2[!is.na(idx2)]
-#	idx2 <- which(links[,2] %in% sampled)
-#	idx <- intersect(idx1, idx2)
-#	links <- links[idx,]
-#	idx1 <- NULL; idx2 <- NULL; idx <- NULL; gc()
-#end.time <- Sys.time();
-#total.time <- end.time - start.time;
-#cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",total.time,"\n",sep="")
-
-
-###############################################################################
-# directly read the sampled graph
-###############################################################################
-start.time <- Sys.time();
-cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Load graph\n",sep="")
-	file.network <- paste(folder.data,file.input.network,".sample",sep="")
-	links <- as.matrix(read.table(file.network))
-	if(min(links)==0) links <- links + 1
-end.time <- Sys.time();
-total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Loading completed in ",total.time,"\n",sep="")
-
-
-###############################################################################
 # load membership vector
 ###############################################################################
 start.time <- Sys.time();
@@ -203,16 +214,19 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Producing hive plots with s
 	grid.newpage()
 	pushViewport(viewport(layout=grid.layout(2, 4)))
 	for(i in 1:length(rolemeas.names))
-	{	hpd.data <- data.frame(source=as.character(links[,1]),target=as.character(links[,2]), weight=1)
+	{	idx <- links[soccap.status[links[,1]]==soccap.status[links[,2]],]
+		
+		hpd.data <- data.frame(source=as.character(links[,1]),target=as.character(links[,2]), weight=1)
 		hpd <- edge2HPD(edge_df=hpd.data, type="2D", axis.cols=rep("black",3))
 		hpd$nodes$axis <- as.integer(soccap.status)
+#TODO normalize radius depending on axis membership and links, put some noise if needed, or remove one of the two nodes		
 		hpd$nodes$radius <- data[,i]
 		hpd$nodes$color <- sapply(membership,function(c) node.colors[c])
 #		hpd$edges$color <- "#BEBEBE33"
 		pushViewport(viewport(layout.pos.col=(i-1)%%4+1, layout.pos.row=(i-1)%/%4+1))
 		plotHive(HPD=hpd, bkgnd="white",
 			ch=0.1,					# size of the hole at the center 
-			method="norm", 			# how to position nodes on axes: "abs" "rank", "norm", "scale", "invert", "ranknorm"
+			method="abs", 			# how to position nodes on axes: "abs" "rank", "norm", "scale", "invert", "ranknorm"
 			dr.nodes=TRUE, 			# whether nodes should be displayed
 			axLabs=axis.names, 		# axis labels
 #			axLab.pos = NULL, 		# axis label position
