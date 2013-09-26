@@ -208,7 +208,7 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.tim
 ###############################################################################
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Producing hive plots with statuses on axes\n",sep="")
-	# re-number nodes in a consecutive way (not required by HiveR, but more convenient for filtering nodes)
+	# re-number nodes in a consecutive way (not required by HiveR, but more convenient for filtering)
 	links <- cbind(match(links[,1],sampled), match(links[,2],sampled))
 	# filter nodes by axis (linked nodes located on the same axis)
 	axis.filtered <- which(soccap.status[links[,1]]==soccap.status[links[,2]])
@@ -220,20 +220,31 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Producing hive plots with s
 	grid.newpage()
 	pushViewport(viewport(layout=grid.layout(2, 4)))
 	for(i in 1:length(rolemeas.names))
-	{	# we remove links between nodes occupying the same position (same axis, same radius)
+	{	# select data
 		radii <- data[,i] / max(data[,i])
-		radius.filtered <- which(radii[links[,1]]==radii[links[,2]])	# nodes with the same radius
-		total.filtered <- intersect(axis.filtered,radius.filtered)		# nodes with the same radius and axis
-		# select data
-		links.filtered <- links
 		axis <- as.integer(soccap.status)
 		colors <- sapply(membership,function(c) node.colors[c])
+		
+		# remove links between nodes occupying the same position (same axis, same radius)
+		radius.filtered <- which(radii[links[,1]]==radii[links[,2]])	# nodes with the same radius
+		total.filtered <- intersect(axis.filtered,radius.filtered)		# nodes with the same radius and axis
+		links.filtered <- links
 		if(length(total.filtered)>0)
-		{	links.filtered <- links[-total.filtered,]
-			radii <- radii[-total.filtered]
-			axis <- axis[-total.filtered]
-			colors <- colors[-total.filtered]
+			links.filtered <- links[-total.filtered,]
+		
+		# detect resulting isolates
+		t <- table(as.vector(links.filtered)) 
+		connected.nodes <- as.integer(names(t))
+		isolates <- setdiff(1:length(sampled),connected.nodes)
+		# remove isolates from node and link lists
+		if(length(isolates)>0)
+		{	sampled.filtered <- sampled[-isolates]
+			links.filtered <- cbind(match(links.filtered[,1],sampled.filtered), match(links.filtered[,2],sampled.filtered))
+			radii <- radii[-isolates]
+			axis <- axis[-isolates]
+			colors <- colors[-isolates]
 		}
+		
 		# build the hiveplot object
 		hpd.data <- data.frame(source=links.filtered[,1],target=links.filtered[,2], weight=1)
 		hpd <- edge2HPD(edge_df=hpd.data, type="2D", axis.cols=rep("black",3))
