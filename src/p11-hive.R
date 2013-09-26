@@ -277,24 +277,31 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",total.
 ###############################################################################
 # alternatively: export network as DOT file, to be used in JHive (http://www.bcgsc.ca/wiki/display/jhive/home)
 ###############################################################################
-for(j in 1:ncol(data))
-{	dot.file <- paste(folder.data,"network.",rolemeas.names[j],".dot",sep="")
-	con <- file(dot.file,"w")
-	writeLines("digraph ",rolemeas.names[j]," {", con)
-	# nodes
-	for(i in 1:sample.size)
-	{	line <- paste("node",i," [",sep="")
-			line <- paste(line," value=",data[i,j],sep="")
-		line <- paste(line," status=",axis.names[soccap.status[i]],sep="")
-		line <- paste(line," role=R",membership[i],sep="")
-		line <- paste(line," ]",sep="")
-		writeLines(line, con)
-	}
-	# links
-	for(i in 1:nrow(links))
-	{	line <- paste("node",links[i,1]," -> node",links[i,2],sep="")
-		writeLines(line, con)
-	}
-	writeLines("}", con)
-	close(con)
-}
+#start.time <- Sys.time();
+#cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Exporting network as DOT files\n",sep="")
+#	for(j in 1:ncol(data))
+#	{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing ",rolemeas.names[j]," infinite values by 0 in col.",c,")\n",sep="")
+#		dot.file <- paste(folder.data,"network.",rolemeas.names[j],".dot",sep="")
+#		con <- file(dot.file,"w")
+#		writeLines("digraph ",rolemeas.names[j]," {", con)
+#		# nodes
+#		for(i in 1:sample.size)
+#		{	line <- paste("node",i," [",sep="")
+#				line <- paste(line," value=",data[i,j],sep="")
+#			line <- paste(line," status=",axis.names[soccap.status[i]],sep="")
+#			line <- paste(line," role=R",membership[i],sep="")
+#			line <- paste(line," ]",sep="")
+#			writeLines(line, con)
+#		}
+#		# links
+#		for(i in 1:nrow(links))
+#		{	line <- paste("node",links[i,1]," -> node",links[i,2],sep="")
+#			writeLines(line, con)
+#		}
+#		writeLines("}", con)
+#		close(con)
+#	}
+#end.time <- Sys.time();
+#total.time <- end.time - start.time;
+#cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",total.time,"\n",sep="")
+	
