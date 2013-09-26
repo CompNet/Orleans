@@ -221,7 +221,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Producing hive plots with s
 	pushViewport(viewport(layout=grid.layout(2, 4)))
 	for(i in 1:length(rolemeas.names))
 	{	# select data
-		radii <- data[,i] / max(data[,i])
+		radii <- data[,i] #/ max(data[,i])
 		axis <- as.integer(soccap.status)
 		colors <- sapply(membership,function(c) node.colors[c])
 		
@@ -238,7 +238,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Producing hive plots with s
 		isolates <- setdiff(1:length(sampled),connected.nodes)
 		# remove isolates from node and link lists
 		if(length(isolates)>0)
-		{	sampled.filtered <- sampled[-isolates]
+		{	sampled.filtered <- (1:sample.size)[-isolates]
 			links.filtered <- cbind(match(links.filtered[,1],sampled.filtered), match(links.filtered[,2],sampled.filtered))
 			radii <- radii[-isolates]
 			axis <- axis[-isolates]
@@ -255,7 +255,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Producing hive plots with s
 		pushViewport(viewport(layout.pos.col=(i-1)%%4+1, layout.pos.row=(i-1)%/%4+1))
 		plotHive(HPD=hpd, bkgnd="white",
 			ch=0.1,							# size of the hole at the center 
-			method="abs", 					# how to position nodes on axes: "abs" "rank", "norm", "scale", "invert", "ranknorm"
+			method="ranknorm", 					# how to position nodes on axes: "abs" "rank", "norm", "scale", "invert", "ranknorm"
 			dr.nodes=TRUE, 					# whether nodes should be displayed
 			axLabs=axis.names, 				# axis labels
 #			axLab.pos = NULL, 				# axis label position
