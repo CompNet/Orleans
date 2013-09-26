@@ -51,7 +51,7 @@ cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process sample of size ",sa
 	# if already processed, just used the file
 	if(file.exists(file.sample))
 	{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Load sample file\n",sep="")
-		sampled <- as.matrix(read.table(file.sample))
+		sampled <- sort(as.matrix(read.table(file.sample)))
 		cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Sample size: ",length(sampled),"\n",sep="")
 		cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Min sample value: ",min(sampled),"\n",sep="")
 	}else
@@ -63,7 +63,7 @@ cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process sample of size ",sa
 		# then we sample amongst node with non-zero out degree (otherwise it's useless for a hiveplot)
 		cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Sample ",sample.size," objects\n",sep="")
 		idx <- which(degrees[,1]>0 | degrees[,2]>0)
-		sampled <- sample(x=idx,size=sample.size)
+		sampled <- sort(sample(x=idx,size=sample.size))
 		write.table(sampled,file.sample,row.names=FALSE,col.names=FALSE)
 		cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Min sample value: ",min(sampled),"\n",sep="")
 	}
@@ -208,18 +208,27 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.tim
 ###############################################################################
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Producing hive plots with statuses on axes\n",sep="")
+	# re-number nodes in a consecutive way (not required by HiveR, but more convenient for filtering nodes)
+	links <- cbind(match(links[,1],sampled), match(links[,2],sampled))
+	# filter nodes by axis (linked nodes located on the same axis)
+	axis.filtered <- which(soccap.status[links[,1]]==soccap.status[links[,2]])
+	# set up graphical parameters 
 	node.colors <- c("#D1E365","#D6B7DD","#83E1A6","#EFA590","#87D8DB","#E1BD63","#BED888")
 	plot.file <- paste(folder.data,"hiveplot.pdf",sep="")
+	# generate hiveplots
 	pdf(file=plot.file, bg="white")
 	grid.newpage()
 	pushViewport(viewport(layout=grid.layout(2, 4)))
 	for(i in 1:length(rolemeas.names))
-	{	idx <- links[soccap.status[links[,1]]==soccap.status[links[,2]],]
+	{	# we remove links between nodes occupying the same position (same axis, same radius)
+		radius.filtered <- which(data[links[,1],i]==data[links[,2],i])	# nodes with the same radius
+		total.filtered <- intersect(axis.filtered,radius.filtered)		# nodes with the same radius and axis
+		links.filtered <- links[-total.filtered,]
 		
-		hpd.data <- data.frame(source=as.character(links[,1]),target=as.character(links[,2]), weight=1)
+		# build the hiveplot object
+		hpd.data <- data.frame(source=as.character(links.filtered[,1]),target=as.character(links.filtered[,2]), weight=1)
 		hpd <- edge2HPD(edge_df=hpd.data, type="2D", axis.cols=rep("black",3))
 		hpd$nodes$axis <- as.integer(soccap.status)
-#TODO normalize radius depending on axis membership and links, put some noise if needed, or remove one of the two nodes		
 		hpd$nodes$radius <- data[,i]
 		hpd$nodes$color <- sapply(membership,function(c) node.colors[c])
 #		hpd$edges$color <- "#BEBEBE33"
