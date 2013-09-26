@@ -221,28 +221,37 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Producing hive plots with s
 	pushViewport(viewport(layout=grid.layout(2, 4)))
 	for(i in 1:length(rolemeas.names))
 	{	# we remove links between nodes occupying the same position (same axis, same radius)
-		radius.filtered <- which(data[links[,1],i]==data[links[,2],i])	# nodes with the same radius
+		radii <- data[,i] / max(data[,i])
+		radius.filtered <- which(radii[links[,1]]==radii[links[,2]])	# nodes with the same radius
 		total.filtered <- intersect(axis.filtered,radius.filtered)		# nodes with the same radius and axis
-		links.filtered <- links[-total.filtered,]
-		
+		# select data
+		links.filtered <- links
+		axis <- as.integer(soccap.status)
+		colors <- sapply(membership,function(c) node.colors[c])
+		if(length(total.filtered)>0)
+		{	links.filtered <- links[-total.filtered,]
+			radii <- radii[-total.filtered]
+			axis <- axis[-total.filtered]
+			colors <- colors[-total.filtered]
+		}
 		# build the hiveplot object
-		hpd.data <- data.frame(source=as.character(links.filtered[,1]),target=as.character(links.filtered[,2]), weight=1)
+		hpd.data <- data.frame(source=links.filtered[,1],target=links.filtered[,2], weight=1)
 		hpd <- edge2HPD(edge_df=hpd.data, type="2D", axis.cols=rep("black",3))
-		hpd$nodes$axis <- as.integer(soccap.status)
-		hpd$nodes$radius <- data[,i]
-		hpd$nodes$color <- sapply(membership,function(c) node.colors[c])
+		hpd$nodes$axis <- axis
+		hpd$nodes$radius <- radii
+		hpd$nodes$color <- colors
 #		hpd$edges$color <- "#BEBEBE33"
 		pushViewport(viewport(layout.pos.col=(i-1)%%4+1, layout.pos.row=(i-1)%/%4+1))
 		plotHive(HPD=hpd, bkgnd="white",
-			ch=0.1,					# size of the hole at the center 
-			method="abs", 			# how to position nodes on axes: "abs" "rank", "norm", "scale", "invert", "ranknorm"
-			dr.nodes=TRUE, 			# whether nodes should be displayed
-			axLabs=axis.names, 		# axis labels
-#			axLab.pos = NULL, 		# axis label position
+			ch=0.1,							# size of the hole at the center 
+			method="abs", 					# how to position nodes on axes: "abs" "rank", "norm", "scale", "invert", "ranknorm"
+			dr.nodes=TRUE, 					# whether nodes should be displayed
+			axLabs=axis.names, 				# axis labels
+#			axLab.pos = NULL, 				# axis label position
 			axLab.gpar=gpar(col="black"),	# axis label color and others
 #			anNodes = NULL, anNode.gpar = NULL,		# node label fine tuning
-#			arrow = NULL,			# arrow fine tuning 
-			np=FALSE				# open new device when plotting
+#			arrow = NULL,					# arrow fine tuning 
+			np=FALSE						# open new device when plotting
 		)
 		grid.text(rolemeas.names[i], x=0.5, y=0.075)
 		popViewport(2)
