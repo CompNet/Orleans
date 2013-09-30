@@ -47,7 +47,7 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.tim
 
 
 ###############################################################################
-# process similarity
+# process overall similarity (Rand index)
 ###############################################################################
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Processing Rand index\n",sep="")
@@ -62,13 +62,35 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Processing adjusted Rand in
 end.time <- Sys.time();
 total.time <- end.time - start.time;
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed (ARI=",result.ari,") in ",total.time,"\n",sep="")
-
-
-###############################################################################
-# record data
-###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record data\n",sep="")
 	agreement.file <- paste(folder.data,"agreement.txt",sep="")
 	values <- matrix(ncol=1,nrow=2,data=c(result.ri, result.ari))
 	rownames(values) <- c("RI", "ARI")
 	write.table(values,agreement.file,row.names=TRUE,col.names=FALSE)
+
+
+###############################################################################
+# process cluster-to-cluster similarities (Jaccard coefficient)
+###############################################################################
+start.time <- Sys.time();
+cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Processing Jaccard coefficient\n",sep="")
+	k.old <- max(membership.old)
+	k.new <- max(membership.new)
+	jaccard <- matrix(nrow=k.old, ncol=k.new)
+	for(i.old in 1:k.old)
+	{	c.old <- which(membership.old==i.old)
+		for(i.new in 1:k.new)
+		{	c.new <- which(membership.new==i.new)
+			u <- length(unique(c(c.old,c.new)))
+			i <- length(intersect(c.old,c.new))
+			jaccard[i.old,i.new] <- i/u
+		}
+	}
+end.time <- Sys.time();
+total.time <- end.time - start.time;
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",total.time,"\n",sep="")
+cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record data\n",sep="")
+	print(jaccard)
+	jaccard.file <- paste(folder.data,"jaccard.txt",sep="")
+	write.table(jaccard,jaccard.file)
+

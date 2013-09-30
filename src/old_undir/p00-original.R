@@ -1,4 +1,4 @@
-# Process orignal Guimerà & Amaral measures for their
+# Process orignal Guimera & Amaral measures for their
 # original data (so that we can compare their heuristic roles
 # with roles detected through our cluster-based method).
 #
