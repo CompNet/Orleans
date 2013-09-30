@@ -208,10 +208,8 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.tim
 ###############################################################################
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Producing hive plots with statuses on axes\n",sep="")
-	# re-number nodes in a consecutive way (not required by HiveR, but more convenient for filtering)
+	# re-number nodes in a consecutive way (not required by HiveR, but more convenient)
 	links <- cbind(match(links[,1],sampled), match(links[,2],sampled))
-	# filter nodes by axis (linked nodes located on the same axis)
-	axis.filtered <- which(soccap.status[links[,1]]==soccap.status[links[,2]])
 	# set up graphical parameters 
 	node.colors <- c("#D1E365","#D6B7DD","#83E1A6","#EFA590","#87D8DB","#E1BD63","#BED888")
 	plot.file <- paste(folder.data,"hiveplot.pdf",sep="")
@@ -225,37 +223,35 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Producing hive plots with s
 		axis <- as.integer(soccap.status)
 		colors <- sapply(membership,function(c) node.colors[c])
 		
-		# remove links between nodes occupying the same position (same axis, same radius)
-		radius.filtered <- which(radii[links[,1]]==radii[links[,2]])	# nodes with the same radius
-		total.filtered <- intersect(axis.filtered,radius.filtered)		# nodes with the same radius and axis
-		links.filtered <- links
-		if(length(total.filtered)>0)
-			links.filtered <- links[-total.filtered,]
-		
-		# detect resulting isolates
-		t <- table(as.vector(links.filtered)) 
-		connected.nodes <- as.integer(names(t))
-		isolates <- setdiff(1:length(sampled),connected.nodes)
-		# remove isolates from node and link lists
-		if(length(isolates)>0)
-		{	sampled.filtered <- (1:sample.size)[-isolates]
-			links.filtered <- cbind(match(links.filtered[,1],sampled.filtered), match(links.filtered[,2],sampled.filtered))
-			radii <- radii[-isolates]
-			axis <- axis[-isolates]
-			colors <- colors[-isolates]
-		}
-		
 		# build the hiveplot object
-		hpd.data <- data.frame(source=links.filtered[,1],target=links.filtered[,2], weight=1)
+		hpd.data <- data.frame(source=links[,1],target=links[,2], weight=1)
 		hpd <- edge2HPD(edge_df=hpd.data, type="2D", axis.cols=rep("black",3))
-		hpd$nodes$axis <- axis
-		hpd$nodes$radius <- radii
-		hpd$nodes$color <- colors
+		
+		# convert node ids
+		norm.hpd <- sumHPD(hpd, plot.list=TRUE)
+		new.ids <- c(norm.hpd[,1],norm.hpd[,5])
+		old.ids <- c(as.integer(as.character(norm.hpd[,3])),as.integer(as.character(norm.hpd[,7])))
+		node.nbr <- max(new.ids)
+		idx <- match(1:node.nbr, new.ids)
+		conv.table <- old.ids[idx]
+		
+		# setup the rest of the hiveplot information
+		hpd$nodes$axis <- axis[conv.table]
+		hpd$nodes$radius <- radii[conv.table]
+		hpd$nodes$color <- colors[conv.table]
 #		hpd$edges$color <- "#BEBEBE33"
+		
+		# deal with nodes occupying the exact same location (jiggle)
+		prob.links <- which(norm.hpd[,2]==norm.hpd[,6] & norm.hpd[,4]==norm.hpd[,8])
+		prob.nodes <- unique(c(norm.hpd[prob.links,1],norm.hpd[prob.links,5]))
+		hpd$nodes$radius[prob.nodes] <- hpd$nodes$radius[prob.nodes] + runif(length(prob.nodes),0,0.01)
+#		sumHPD(hpd, chk.sm.pt=TRUE)
+		
+		# generate the plot
 		pushViewport(viewport(layout.pos.col=(i-1)%%4+1, layout.pos.row=(i-1)%/%4+1))
 		plotHive(HPD=hpd, bkgnd="white",
 			ch=0.1,							# size of the hole at the center 
-			method="ranknorm", 					# how to position nodes on axes: "abs" "rank", "norm", "scale", "invert", "ranknorm"
+			method="norm", 					# how to position nodes on axes: "abs" "rank", "norm", "scale", "invert", "ranknorm"
 			dr.nodes=TRUE, 					# whether nodes should be displayed
 			axLabs=axis.names, 				# axis labels
 #			axLab.pos = NULL, 				# axis label position
