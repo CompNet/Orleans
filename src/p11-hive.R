@@ -239,7 +239,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Producing hive plots with s
 		hpd$nodes$axis <- axis[conv.table]
 		hpd$nodes$radius <- radii[conv.table]
 		hpd$nodes$color <- colors[conv.table]
-#		hpd$edges$color <- "#BEBEBE33"
+		hpd$edges$color <- "#BEBEBE33"
 		
 		# deal with nodes occupying the exact same location (jiggle)
 		prob.links <- which(norm.hpd[,2]==norm.hpd[,6] & norm.hpd[,4]==norm.hpd[,8])
@@ -248,7 +248,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Producing hive plots with s
 #		sumHPD(hpd, chk.sm.pt=TRUE)
 		
 		# generate the plot
-		pushViewport(viewport(layout.pos.col=(i-1)%%4+1, layout.pos.row=(i-1)%/%4+1))
+		pushViewport(viewport(layout.pos.col=(i-1)%/%2+1, layout.pos.row=(i-1)%%2+1))
 		plotHive(HPD=hpd, bkgnd="white",
 			ch=0.1,							# size of the hole at the center 
 			method="norm", 					# how to position nodes on axes: "abs" "rank", "norm", "scale", "invert", "ranknorm"
