@@ -37,7 +37,7 @@ file.input.rolemeas <- "rolemeasures.raw.txt"	# TODO you can possibly change tha
 file.input.network <- "links-anon.txt"			# TODO you can possibly change that
 file.sample <- "sample.txt"						# TODO you can possibly change that
 rolemeas.names <- c(							# TODO you might change that, if necessary
-		"intensity-int-out","intensity-int-in","diversity-out","diversity-in","intensity-ext-out","intensity-ext-in","homogeneity-out","homogeneity-in")
+		"intensity-int-out","intensity-int-in","diversity-out","diversity-in","intensity-ext-out","intensity-ext-in","heterogeneity-out","heterogeneity-in")
 soccap.names <- c(								# TODO you might change that, if necessary
 		"ratio", "overlap")
 sample.size <- 1000000							# TODO processing the whole dataset is to long, so the power-law distribution is tested only on a sample
