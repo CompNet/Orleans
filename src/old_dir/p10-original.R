@@ -8,7 +8,7 @@
 # source("src/old_dir/p10-original.R")
 ###############################################################################
 library("igraph")
-source("src/ecdflt.R")
+source("src/extras/ecdflt.R")
 k <- 6										# TODO we work only on the clusters found for this k
 zoom <- 20									# TODO maximal z-score value to be plotted (or NA for no limit)
 

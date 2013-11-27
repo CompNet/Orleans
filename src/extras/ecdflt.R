@@ -1,12 +1,12 @@
 # Plots cumulative distributions.
 #
-# Version: v1
+# Version: 1
 # Author: Vincent Labatut
 # Inspired by https://stat.ethz.ch/pipermail/r-help/2010-March/231899.html
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
-# source("src/ecdflt.R")
+# source("src/extras/ecdflt.R")
 ###############################################################################
 
 ecdflt <- function(x, complementary=FALSE, points=NA, ...)

@@ -52,7 +52,7 @@ to a specific process:
 	- anova: performs anovas on the role measures, using clusters as factors
 	- comparison: compares the clusters obtained with the new measures, w
 	- hive: generates hive plots
-	- ApplySampling: Java class written to speedup the sampling process (originally coded in R)
+	- extras/pplySampling: Java class written to speedup the sampling process (originally coded in R)
 
 Cf. each scripts for more details.
 
@@ -60,8 +60,8 @@ The src folder contain the R scripts. The data folder is supposed to contain the
 files required by the scripts. Some scripts require some files produced by other 
 scripts, so it is important to execute them in the specified order.
 
-Note: the src/v1 archive contains the first version of the R scripts. Those were
+Note: the src/extras/v1 archive contains the first version of the R scripts. Those were
 not able to handle the size of our data, so we finally did not use them, but kept 
-them as archives. The original.data.tar.gz archive contains the clean version of 
-the networks used in the original Guimer� & Amaral paper, retrieved from
+them as archives. The data/others/original.GA.data.tar.gz archive contains the clean version of 
+the networks used in the original Guimera & Amaral paper, retrieved from
 http://www.tuhh.de/ibb/publications/databases-and-software.html
