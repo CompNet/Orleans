@@ -14,7 +14,9 @@ import java.util.TreeSet;
 /**
  * Uniform sampling of a large network.
  * The network takes the form of an
- * edge list. 
+ * edge list. This was implemented to
+ * allow generating hive plots (otherwise
+ * the whole network was too big). 
  * 
  * @author Vincent Labatut
  */

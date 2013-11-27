@@ -1,4 +1,4 @@
-# Processes various calculations on the social
+# Performs various calculations on the social
 # capitalists indices.
 # 
 # Version: 1

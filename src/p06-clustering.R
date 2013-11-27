@@ -1,4 +1,4 @@
-# Applies the disytibuted k-means algorithm
+# Applies the distributed k-means algorithm
 # and process the Davies-Bouldin measure for
 # the specified interval of k. Of course,
 # the k-means program must have been unzipped
