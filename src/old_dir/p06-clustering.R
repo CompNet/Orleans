@@ -80,11 +80,11 @@ for(i in 1:length(ks))
 	# process quality measure
 	start.time <- Sys.time();
 	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Process Davies-Bouldin measure for k=",k,"\n",sep="")
-		db.value <- index.DB(x=data, cl=membership, centrotypes="centroids")$DB
-		quality[i,2] <- db.value
+		qual.value <- index.DB(x=data, cl=membership, centrotypes="centroids")$DB
+		quality[i,2] <- qual.value
 	end.time <- Sys.time();
 	total.time <- end.time - start.time;
-	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing completed in ",total.time,", DB(",k,")=",db.value,"\n",sep="")
+	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing completed in ",total.time,", DB(",k,")=",qual.value,"\n",sep="")
 
 	gc()
 	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Process completed for k=",k,"\n",sep="")

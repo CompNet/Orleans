@@ -172,8 +172,8 @@ for(network.name in network.names)
 	
 	for(k in 2:k.max)
 	{	membership <- kmeans(x=data, centers=k,  nstart=5, algorithm="Hartigan-Wong")$cluster
-		db.value <- index.DB(x=data, cl=membership, centrotypes="centroids")$DB
-		quality[r,k] <- db.value
+		qual.value <- index.DB(x=data, cl=membership, centrotypes="centroids")$DB
+		quality[r,k] <- qual.value
 	}
 }
 

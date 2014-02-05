@@ -46,11 +46,11 @@ to a specific process:
 	- soccap: same thing with social capitalism indices
 	- communities: same thing for (Louvain) community sizes
 	- measures:	same thing with role measures
-	- normalize: prepares the role measure for clustering
-	- clustering: applies a parallel version of k-means and evaluate the obtained clusters
+	- normalize: prepares the role measures for clustering
+	- clustering: applies a parallel version of k-means and evaluates the obtained clusters
 	- plot: renders the resulting clusters
-	- anova: performs anovas on the role measures, using clusters as factors
-	- comparison: compares the clusters obtained with the new measures, w
+	- anova: performs ANOVAs on the role measures, using clusters as factors
+	- comparison: compares the clusters obtained with the new measures
 	- hive: generates hive plots
 	- ApplySampling: Java class written to speedup the sampling process (originally coded in R)
 
