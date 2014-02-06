@@ -29,7 +29,7 @@ library("grid")
 ###############################################################################
 # setup files
 ###############################################################################
-folder.data <- "data/"	
+folder.data <- "Data/"	
 k <- 6											# TODO we work only on the clusters found for this k
 file.input.degrees <- "degrees.txt"				# TODO you can possibly change that
 file.input.soccap <- "soccapmeasures.txt"		# TODO you can possibly change that

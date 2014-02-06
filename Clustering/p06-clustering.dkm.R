@@ -20,7 +20,7 @@ library("clusterSim")
 ###############################################################################
 # setup files
 ###############################################################################
-folder.data <- "data/"	
+folder.data <- "Data/"	
 file.kmeans <- "~/Downloads/Simple_Kmeans/omp_main"		# TODO k-means executable file, adapt to your own case
 ks <- c(2:15)											# TODO values of k to be tried, you can change that
 
@@ -54,7 +54,7 @@ for(i in 1:length(ks))
 				" -i ", getwd(), "/", file.data,
 				" -n ", k,
 				sep="")
-		# ./omp_main -i ../../eclipse/workspaces/Networks/Orleans/data/normalized.numbered.txt -n 13
+		# ./omp_main -i ../../eclipse/workspaces/Networks/Orleans/Data/normalized.numbered.txt -n 13
 		# perform clustering
 		cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ....Executing command ",kmeans.command,"\n",sep="")
 		system(command=kmeans.command)

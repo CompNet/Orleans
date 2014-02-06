@@ -14,7 +14,7 @@ source("src/ecdflt.R")
 ###############################################################################
 # setup files
 ###############################################################################
-folder.data <- "data/"
+folder.data <- "Data/"
 file.input.degrees <- "degrees.txt"				# TODO you can possibly change that
 file.input.rolemeas <- "rolemeasures.raw.txt"	# TODO you can possibly change that
 rolemeas.names <- c(							# TODO you might change that, if necessary

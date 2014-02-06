@@ -15,7 +15,7 @@ source("src/ecdflt.R")
 ###############################################################################
 # setup files
 ###############################################################################
-folder.data <- "data/"	
+folder.data <- "Data/"	
 file.input.soccap <- "soccapmeasures.txt"
 file.input.rolemeas <- "rolemeasures.raw.txt"
 rolemeas.names <- c("zscore", "participation")

@@ -18,7 +18,7 @@ library("clusterSim")
 ###############################################################################
 # setup files
 ###############################################################################
-folder.data <- "data/"	
+folder.data <- "Data/"	
 file.input <- "rolemeasures.raw.txt"	# TODO you can possibly change that
 
 

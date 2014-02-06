@@ -16,7 +16,7 @@ library("clusterSim")
 ###############################################################################
 # setup files
 ###############################################################################
-folder.data <- "data/"	
+folder.data <- "Data/"	
 network.names <- c(
 	"afu",	# Archaeoglobus fulgidus
 	"ape",	# Aeropyrum pernix

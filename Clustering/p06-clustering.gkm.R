@@ -4,7 +4,7 @@
 # distributed one directly used in p06-clustering.dkm.R, 
 # or some R standard library.
 #
-# global k-means algorithm described in:
+# Global k-means algorithm described in:
 # http://www.cs.uoi.gr/~arly/papers/PR2003.pdf
 # Both the regular and fast versions are implemented here,
 # but not the k-d tree variant. Note the regular
@@ -25,7 +25,7 @@ library("cluster")		# Silhouette index
 ###############################################################################
 # setup files
 ###############################################################################
-folder.data <- "data/"	
+folder.data <- "Data/"	
 file.kmeans <- "~/Downloads/Simple_Kmeans/omp_main"		# TODO k-means executable file, adapt to your own case
 file.kmeans <- NA										# TODO or NA to use the standard k-means implementation from R
 ks <- c(2:15)											# TODO values of k to be tried, you can change that

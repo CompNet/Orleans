@@ -25,8 +25,8 @@ public class ApplySampling
 	/////////////////////////////////////////////////////////////////
 	public static void main(String[] args) throws FileNotFoundException
 	{	// set file names
-		//String path = "~/eclipse/workspaces/Networks/Orleans/data/";
-		String path = "/home/vlabatut/eclipse/workspaces/Networks/Orleans/data/";
+		//String path = "~/eclipse/workspaces/Networks/Orleans/Data/";
+		String path = "/home/vlabatut/eclipse/workspaces/Networks/Orleans/Data/";
 		String networkFile = "links-anon.txt";
 		String sampleFile = "sample.txt";
 		String nodeSeparator = " ";

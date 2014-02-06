@@ -15,7 +15,7 @@ source("src/ecdflt.R")
 ###############################################################################
 # setup files
 ###############################################################################
-folder.data <- "data/"	
+folder.data <- "Data/"	
 file.input <- "rolemeasures.raw.txt"		# TODO you can possibly change that
 rolemeas.names <- c(						# TODO you might change that, if necessary
 		"intensity-int-out","intensity-int-in","diversity-out","diversity-in","intensity-ext-out","intensity-ext-in","heterogeneity-out","heterogeneity-in")

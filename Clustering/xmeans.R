@@ -1,10 +1,13 @@
 # Author: Tsunenori Ishioka
-# take from http://www.rd.dnc.ac.jp/~tunenori/xmeans_e.html
+#
+# Taken from http://www.rd.dnc.ac.jp/~tunenori/xmeans_e.html
+#
 # Related papers: 
 #	- Extended k-means with an efficient estimation of the number of clusters
 #	  http://www.rd.dnc.ac.jp/~tunenori/doc/xmeans_ideal2000.pdf
 #	- X-means- Extending k-means with efficient estimation of the number of clusters
 #	  http://www.cs.cmu.edu/~dpelleg/download/xmeans.pdf
+###############################################################################
 
 
 # $Id: xmeans.prog,v 1.23 2012/04/12 11:21:12 tunenori Exp tunenori $

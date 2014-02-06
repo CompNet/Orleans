@@ -17,7 +17,7 @@ library("flexclust")
 ###############################################################################
 # setup files
 ###############################################################################
-folder.data <- "data/"	
+folder.data <- "Data/"	
 file.old <- "cluster.old.txt"		# TODO you can possibly change that
 k <- 6								# TODO we work only on the clusters found for this k
 

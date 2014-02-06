@@ -15,7 +15,7 @@ source("src/ecdflt.R")
 ###############################################################################
 # setup files
 ###############################################################################
-folder.data <- "data/"	
+folder.data <- "Data/"	
 file.input <- "rolemeasures.raw.txt"
 rolemeas.names <- c("zscore", "participation")
 sample.size <- 100000

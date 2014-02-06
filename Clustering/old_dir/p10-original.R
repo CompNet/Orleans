@@ -15,7 +15,7 @@ zoom <- 20									# TODO maximal z-score value to be plotted (or NA for no limi
 ###############################################################################
 # setup files
 ###############################################################################
-folder.data <- "data/"	
+folder.data <- "Data/"	
 file.input <- "rolemeasures.raw.txt"
 rolemeas.names <- c("z-score-out", "z-score-in", "participation-out", "participation-in")
 sample.size <- 100000

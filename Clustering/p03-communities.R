@@ -19,7 +19,7 @@ source("src/ecdflt.R")
 ###############################################################################
 # setup files
 ###############################################################################
-folder.data <- "data/"	
+folder.data <- "Data/"	
 file.input <- "communities.txt"		# TODO you can possibly change that
 
 

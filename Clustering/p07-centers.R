@@ -14,7 +14,7 @@
 ###############################################################################
 # setup files
 ###############################################################################
-folder.data <- "data/"	
+folder.data <- "Data/"	
 file.input <- "rolemeasures.raw.txt"		# TODO you can possibly change that
 k <- 6										# TODO we work only on the clusters found for this k
 
