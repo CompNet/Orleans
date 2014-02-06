@@ -9,6 +9,9 @@
 # source("src/ecdflt.R")
 ###############################################################################
 
+# x:			data to plot.
+# complentary:	cumulative or complementary cumulative distribution.
+# points:		number of points to plot (smaller than x length) or NA to plot all the points.
 ecdflt <- function(x, complementary=FALSE, points=NA, ...)
 {	size <- length(x)
 	if(is.na(points) || points>size)

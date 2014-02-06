@@ -1,8 +1,8 @@
 Detection of Social Capitalists
 ==============================
 
-This project contains some source code used for the paper "RÃ´le communautaire des 
-capitalistes sociaux dans Twitter". It contains both C++ and R programs and scripts.
+This project contains some source code used for the paper "Rôle communautaire des 
+capitalistes sociaux dans Twitter". It contains both C++ programs and R scripts.
 
 The C++ code was used to:
 
