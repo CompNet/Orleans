@@ -26,14 +26,20 @@ folder.out <- paste(folder.out,"/",sep="")
 # init parameters
 ###############################################################################
 ns.cluster <- c(5,10)							# numbers of clusters
-ns.instances <- c(100,1000,10000,100000)		# numbers of instances
+ns.instances <- c(100,1000,10000				# numbers of instances
+#	,100000
+)
 ns.fields <- c(2,10)							# numbers of attributes
-algo.names <- c("gkm","fgkm","xm")				# clustering algorithms
+algo.names <- c(								# clustering algorithms
+	"gkm", "fgkm", 
+	"xm"
+)			
 
 
 ###############################################################################
 # apply process
 ###############################################################################
+options(scipen=999)
 for(n.cluster in ns.cluster)
 {	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Processing ",n.cluster," clusters\n",sep="")
 	
@@ -88,9 +94,10 @@ for(n.cluster in ns.cluster)
 			if(file.exists(file.perf))
 			{	# load the existing table
 				cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ......Loading the existing performance table\n",sep="")
-				performance <- as.matrix(read.table(file.performance, header=TRUE,row.names=1))
+				performance <- as.matrix(read.table(file.perf, header=TRUE,row.names=1))
 			}else
-			{	performance <- matrix(ncol=3,nrow=length(algo.names))
+			{	# create a new table
+				performance <- matrix(ncol=3,nrow=length(algo.names))
 				rownames(performance) <- algo.names
 				colnames(performance) <- c("Clusters","ARI", "Time")
 			}	
