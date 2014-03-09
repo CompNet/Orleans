@@ -35,7 +35,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading community membershi
 		communities <- communities + 1
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
@@ -55,7 +55,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Process community sizes\n",
 	write.table(com.sizes, comsize.file, row.names=FALSE, col.names=FALSE)
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Processed in ",total.time," (",length(com.sizes)," communities)\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Processed in ",format(total.time)," (",length(com.sizes)," communities)\n",sep="")
 
 
 ###############################################################################
@@ -90,4 +90,4 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Check for power-law distrib
 	write.table(fit,power.file,row.names=FALSE)
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",format(total.time),"\n",sep="")

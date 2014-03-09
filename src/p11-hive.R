@@ -81,7 +81,7 @@ cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process sample of size ",sa
 #	if(min(links)==0) links <- links + 1
 #end.time <- Sys.time();
 #total.time <- end.time - start.time;
-#cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Loading completed in ",total.time,"\n",sep="")
+#cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Loading completed in ",format(total.time),"\n",sep="")
 	
 #start.time <- Sys.time();
 #cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Sample graph\n",sep="")
@@ -96,7 +96,7 @@ cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process sample of size ",sa
 #	idx1 <- NULL; idx2 <- NULL; idx <- NULL; gc()
 #end.time <- Sys.time();
 #total.time <- end.time - start.time;
-#cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",total.time,"\n",sep="")
+#cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",format(total.time),"\n",sep="")
 	
 	
 ###############################################################################
@@ -114,7 +114,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Load graph\n",sep="")
 	sample.size <- length(sampled)
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Loading completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Loading completed in ",format(total.time),"\n",sep="")
 	
 	
 ###############################################################################
@@ -127,7 +127,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading social capitalism i
 	soccap.indices <- as.matrix(read.table(file.soccap))
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
@@ -147,7 +147,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Detecting social capitalist
 	soccap.indices <- NULL; gc()
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
@@ -160,7 +160,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading raw data\n",sep="")
 	data <- data[sampled,]
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
@@ -187,7 +187,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning data\n",sep="")
 	}
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
@@ -200,7 +200,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading membership vector\n
 	membership <- membership[sampled]
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
@@ -267,7 +267,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Producing hive plots with s
 	dev.off()
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
@@ -299,5 +299,5 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",total.
 #	}
 #end.time <- Sys.time();
 #total.time <- end.time - start.time;
-#cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",total.time,"\n",sep="")
+#cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",format(total.time),"\n",sep="")
 	

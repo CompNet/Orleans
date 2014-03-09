@@ -34,7 +34,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading normalized data\n",
 	data <- as.matrix(read.table(file.data))
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
@@ -67,7 +67,7 @@ for(i in 1:length(ks))
 		file.rename(from=file.member,to=file.new)
 	end.time <- Sys.time();
 	total.time <- end.time - start.time;
-	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Process completed in ",total.time,"\n",sep="")
+	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Process completed in ",format(total.time),"\n",sep="")
 	
 	# load membership vector
 	start.time <- Sys.time();
@@ -75,7 +75,7 @@ for(i in 1:length(ks))
 		membership <- as.matrix(read.table(file.new))[,2] + 1	# the clusters are numbered from zero 
 	end.time <- Sys.time();
 	total.time <- end.time - start.time;
-	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Load completed in ",total.time,"\n",sep="")
+	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Load completed in ",format(total.time),"\n",sep="")
 	
 	# process quality measure
 	start.time <- Sys.time();
@@ -84,7 +84,7 @@ for(i in 1:length(ks))
 		quality[i,2] <- qual.value
 	end.time <- Sys.time();
 	total.time <- end.time - start.time;
-	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing completed in ",total.time,", DB(",k,")=",qual.value,"\n",sep="")
+	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing completed in ",format(total.time),", DB(",k,")=",qual.value,"\n",sep="")
 
 	gc()
 	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Process completed for k=",k,"\n",sep="")

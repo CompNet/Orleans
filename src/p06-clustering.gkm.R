@@ -41,7 +41,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading normalized data\n",
 	data <- as.matrix(read.table(file.data))
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
@@ -96,7 +96,7 @@ for(k in ks)
 			
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
-		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Process completed in ",total.time,"\n",sep="")
+		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Process completed in ",format(total.time),"\n",sep="")
 	} else
 		candidates <- data
 	
@@ -121,7 +121,7 @@ for(k in ks)
 			}
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
-		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Process completed in ",total.time," ss=",ss,"\n",sep="")
+		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Process completed in ",format(total.time)," ss=",ss,"\n",sep="")
 	}
 	
 	# updates centers using the min ones found during the last iteration
@@ -138,7 +138,7 @@ for(k in ks)
 		quality[k] <- qual.value
 	end.time <- Sys.time();
 	total.time <- end.time - start.time;
-	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing completed in ",total.time,", DB(",k,")=",qual.value,"\n",sep="")
+	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing completed in ",format(total.time),", DB(",k,")=",qual.value,"\n",sep="")
 	
 	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Process completed for k=",k,"\n",sep="")
 }
