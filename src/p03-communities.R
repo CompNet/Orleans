@@ -1,5 +1,6 @@
 # Analyzes the communities: process their size distribution,
 # then tries to fit it to a power law.
+# 
 # Expected file: a single vector of community numbers, one
 # for each node in the network. So in this file we have as 
 # many lines as nodes. Communities are supposed to be numbered
@@ -13,7 +14,7 @@
 # source("src/p03-communities.R")
 ###############################################################################
 library("igraph")
-source("src/ecdflt.R")
+source("src/extras/ecdflt.R")
 
 
 ###############################################################################
