@@ -30,7 +30,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading raw data\n",sep="")
 	data <- as.matrix(read.table(file.data))
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
@@ -57,7 +57,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning data\n",sep="")
 	}
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
@@ -89,7 +89,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Plot role measure distribut
 	}
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Plotting completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Plotting completed in ",format(total.time),"\n",sep="")
 	
 
 ###############################################################################

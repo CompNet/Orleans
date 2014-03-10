@@ -31,7 +31,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading membership vector\n
 	membership.old <- as.integer(as.matrix(read.table(membership.file))[,2] + 1)	# the k-means implementation starts numbering clusters from 0
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
@@ -43,7 +43,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading membership vector\n
 	membership.new <- as.integer(as.matrix(read.table(membership.file))[,2] + 1)	# the k-means implementation starts numbering clusters from 0
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
@@ -54,14 +54,14 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Processing Rand index\n",se
 	result.ri <- randIndex(membership.old,membership.new,correct=FALSE)
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed (RI=",result.ri,") in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed (RI=",result.ri,") in ",format(total.time),"\n",sep="")
 
 start.time <- Sys.time();
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Processing adjusted Rand index\n",sep="")
 	result.ari <- randIndex(membership.old,membership.new,correct=TRUE)
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed (ARI=",result.ari,") in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed (ARI=",result.ari,") in ",format(total.time),"\n",sep="")
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record data\n",sep="")
 	agreement.file <- paste(folder.data,"agreement.txt",sep="")
 	values <- matrix(ncol=1,nrow=2,data=c(result.ri, result.ari))
@@ -88,7 +88,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Processing Jaccard coeffici
 	}
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",format(total.time),"\n",sep="")
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record data\n",sep="")
 	print(jaccard)
 	jaccard.file <- paste(folder.data,"jaccard.txt",sep="")

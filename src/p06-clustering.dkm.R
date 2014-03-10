@@ -12,7 +12,7 @@
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
-# source("src/p06-clustering.R")
+# source("src/p06-clustering.dkm.R")
 ###############################################################################
 library("clusterSim")
 
@@ -34,7 +34,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading normalized data\n",
 	data <- as.matrix(read.table(file.data))
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
@@ -51,10 +51,10 @@ for(i in 1:length(ks))
 	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Applying k-means for k=",k,"\n",sep="")
 		# define command
 		kmeans.command <- paste(file.kmeans,
-			" -i ", getwd(), "/", file.data,
-			" -n ", k,
-			sep="")
-			# ./omp_main -i ../../eclipse/workspaces/Networks/Orleans/data/normalized.numbered.txt -n 13
+				" -i ", getwd(), "/", file.data,
+				" -n ", k,
+				sep="")
+		# ./omp_main -i ../../eclipse/workspaces/Networks/Orleans/data/normalized.numbered.txt -n 13
 		# perform clustering
 		cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ....Executing command ",kmeans.command,"\n",sep="")
 		system(command=kmeans.command)
@@ -67,7 +67,7 @@ for(i in 1:length(ks))
 		file.rename(from=file.member,to=file.new)
 	end.time <- Sys.time();
 	total.time <- end.time - start.time;
-	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Process completed in ",total.time,"\n",sep="")
+	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Process completed in ",format(total.time),"\n",sep="")
 	
 	# load membership vector
 	start.time <- Sys.time();
@@ -75,17 +75,17 @@ for(i in 1:length(ks))
 		membership <- as.matrix(read.table(file.new))[,2] + 1	# the clusters are numbered from zero 
 	end.time <- Sys.time();
 	total.time <- end.time - start.time;
-	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Load completed in ",total.time,"\n",sep="")
+	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Load completed in ",format(total.time),"\n",sep="")
 	
 	# process quality measure
 	start.time <- Sys.time();
 	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Process Davies-Bouldin measure for k=",k,"\n",sep="")
-		db.value <- index.DB(x=data, cl=membership, centrotypes="centroids")$DB
-		quality[i,2] <- db.value
+		qual.value <- index.DB(x=data, cl=membership, centrotypes="centroids")$DB
+		quality[i,2] <- qual.value
 	end.time <- Sys.time();
 	total.time <- end.time - start.time;
-	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing completed in ",total.time,", DB(",k,")=",db.value,"\n",sep="")
-
+	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing completed in ",format(total.time),", DB(",k,")=",qual.value,"\n",sep="")
+	
 	gc()
 	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Process completed for k=",k,"\n",sep="")
 	print(quality)
@@ -97,7 +97,7 @@ for(i in 1:length(ks))
 ###############################################################################
 values.file <- paste(folder.data,"clusters.quality.txt",sep="")
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Record all quality values in ",values.file,"\n",sep="")
-	write.table(quality,file=values.file,row.names=FALSE,col.names=FALSE)
+write.table(quality,file=values.file,row.names=FALSE,col.names=FALSE)
 
 
 ###############################################################################
@@ -105,6 +105,6 @@ cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Record all quality values
 ###############################################################################
 plot.file <- paste(folder.data,"clusters.quality.pdf",sep="")
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Plot quality values in ",plot.file,"\n",sep="")
-	pdf(file=plot.file,bg="white")
-	plot(quality[,1],quality[,2],type="l",xlab="Clusters",ylab="Davies-Bouldin index",col="RED")
-	dev.off()
+pdf(file=plot.file,bg="white")
+plot(quality[,1],quality[,2],type="l",xlab="Clusters",ylab="Davies-Bouldin index",col="RED")
+dev.off()

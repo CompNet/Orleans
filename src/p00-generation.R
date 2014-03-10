@@ -1,6 +1,6 @@
 # Generates dummy data to play with
 # (and test the rest of the scripts).
-#
+# 
 # version: 1
 # Author: Vincent Labatut 06/2013
 #
@@ -23,7 +23,7 @@ folder.data <- "data/"
 n.cluster <- 7
 n.communities <- 36
 # desired number of instances		# TODO can be changed for testing
-n.instances <- 250		
+n.instances <- 250
 # we have 2x4 role measures (mutually exclusive communities, directed network)
 n.fields <- 8
 

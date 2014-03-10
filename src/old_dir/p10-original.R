@@ -30,7 +30,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading raw data\n",sep="")
 	data <- as.matrix(read.table(file.data))
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
@@ -57,7 +57,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning data\n",sep="")
 	}
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
@@ -102,7 +102,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Identifying original node r
 	}
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Identification completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Identification completed in ",format(total.time),"\n",sep="")
 	
 
 ###############################################################################
@@ -166,7 +166,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Plot roles using original l
 	}
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Plotting completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Plotting completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
@@ -178,7 +178,7 @@ membership.file <- paste(folder.data,"cluster.k",k,".txt",sep="")
 membership <- as.matrix(read.table(membership.file))[,2] + 1	# the k-means implementation starts numbering clusters from 0
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
@@ -240,4 +240,4 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Plot roles using original l
 	}
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Plotting completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Plotting completed in ",format(total.time),"\n",sep="")

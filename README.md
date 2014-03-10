@@ -11,7 +11,7 @@ The C++ code was used to:
 	  method, allowing to handle directed networks.
 	- process several measures meant to characterize network nodes in terms of
 	  community role.
-
+ 
 The R code was used to:
 
 	- Test and generate plots regarding the distribution of degree, social 
@@ -46,13 +46,13 @@ to a specific process:
 	- soccap: same thing with social capitalism indices
 	- communities: same thing for (Louvain) community sizes
 	- measures:	same thing with role measures
-	- normalize: prepares the role measure for clustering
-	- clustering: applies a parallel version of k-means and evaluate the obtained clusters
+	- normalize: prepares the role measures for clustering
+	- clustering: applies a parallel version of k-means and evaluates the obtained clusters
 	- plot: renders the resulting clusters
-	- anova: performs anovas on the role measures, using clusters as factors
-	- comparison: compares the clusters obtained with the new measures, w
+	- anova: performs ANOVAs on the role measures, using clusters as factors
+	- comparison: compares the clusters obtained with the new measures
 	- hive: generates hive plots
-	- extras/pplySampling: Java class written to speedup the sampling process (originally coded in R)
+	- ApplySampling: Java class written to speedup the sampling process (originally coded in R)
 
 Cf. each scripts for more details.
 
@@ -60,8 +60,8 @@ The src folder contain the R scripts. The data folder is supposed to contain the
 files required by the scripts. Some scripts require some files produced by other 
 scripts, so it is important to execute them in the specified order.
 
-Note: the src/extras/v1 archive contains the first version of the R scripts. Those were
+Note: the src/v1 archive contains the first version of the R scripts. Those were
 not able to handle the size of our data, so we finally did not use them, but kept 
-them as archives. The data/others/original.GA.data.tar.gz archive contains the clean version of 
-the networks used in the original Guimera & Amaral paper, retrieved from
+them as archives. The original.data.tar.gz archive contains the clean version of 
+the networks used in the original Guimer� & Amaral paper, retrieved from
 http://www.tuhh.de/ibb/publications/databases-and-software.html

@@ -18,7 +18,7 @@ source("src/extras/ecdflt.R")
 folder.data <- "data/"	
 file.input <- "rolemeasures.raw.txt"		# TODO you can possibly change that
 rolemeas.names <- c(						# TODO you might change that, if necessary
-		"intensity-int-out","intensity-int-in","diversity-out","diversity-in","intensity-ext-out","intensity-ext-in","homogeneity-out","homogeneity-in")
+		"intensity-int-out","intensity-int-in","diversity-out","diversity-in","intensity-ext-out","intensity-ext-in","heterogeneity-out","heterogeneity-in")
 sample.size <- 100000						# TODO processing the whole dataset is to long, so the power-law distribution is tested only on a sample
 
 
@@ -31,7 +31,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading raw data\n",sep="")
 	data <- as.matrix(read.table(file.data))
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
@@ -58,7 +58,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning data\n",sep="")
 	}
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
@@ -90,7 +90,7 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Plot role measure distribut
 	}
 end.time <- Sys.time();
 total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Plotting completed in ",total.time,"\n",sep="")
+cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Plotting completed in ",format(total.time),"\n",sep="")
 	
 
 ###############################################################################
