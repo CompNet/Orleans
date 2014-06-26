@@ -1,4 +1,4 @@
-# Applies the global k-means algorithm, which
+# Applies the Global k-means algorithm, which
 # is deterministic and allows estimating stable clusters. 
 # It can rely on any k-means implementation, be it the 
 # distributed one directly used in p06-clustering.dkm.R, 
@@ -24,7 +24,7 @@ library("cluster")		# Silhouette index
 
 # x:			data points
 # fast:			use regular (FALSE) or fast (TRUE) global k-means
-# k.bounds:		inf and sup bounds for the tested numbers of clusters
+# k.bounds:		lower and upper bounds for the tested numbers of clusters
 # criterion:	criterion used to select the best number of clusters. Either ASW (average Silhouette width) or DB (Davies-Bouldin)
 # trace:		if TRUE, logs the process
 gkmeans <- function(x, fast=TRUE, k.bounds=c(2,15), criterion="ASW", trace=FALSE)
