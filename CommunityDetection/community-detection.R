@@ -10,6 +10,10 @@
 ###############################################################################
 library("igraph")
 
+source("CommunityDetection/igraph-louvain.R")
+source("CommunityDetection/directed-louvain.R")
+
+
 ###############################################################################
 # Returns the standard network filename.
 ###############################################################################
@@ -41,3 +45,16 @@ get.communities.filename <- function(algo)
 	return(resultat)
 }
 
+###############################################################################
+# Applies the specified community detection algorithm
+# to the network contained in the specified folder.
+#
+# folder.data: folder containing the network file, and will contain the community file.
+# algo: community detection method.
+###############################################################################
+detect.communities <- function(folder.data, algo)
+{	if(algo=="LV")
+		apply.igraph.louvain(folder.data, algo)
+	else if(algo=="LVdir")
+		apply.directed.louvain(folder.data, algo)
+}

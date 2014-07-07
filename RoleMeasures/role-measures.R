@@ -45,3 +45,36 @@ get.rolemeas.filename <- function(role.meas)
 	return(result)
 }
 
+###############################################################################
+# Returns the name of the file containing the role measures, 
+# for the specified code.
+# folder.data: folder containing all input and output files.
+# role.meas: role measure variant to process:
+#				- "GA": original Guimera-Amaral measures (2 measures)
+#				- "GAdir": our directd extension of GA (2x2 measures)
+#				- "DLPp": our own measures for partition-based communities (2x4 measures)
+#				- "DLPo": variant for overlapping communities  (2x6 measures)
+# comdet.algo: algorithm used for community detection (needed to infer the file name)
+###############################################################################
+process.rolemeas <- function(folder.data, role.meas, comdet.algo)
+{	# get file paths
+	net.file <- paste(folder.data,get.network.filename(),sep="")
+	com.file <- paste(folder.data,get.communities.filename(algo),sep="")
+	
+	# set up the appropriate command
+	if(role.meas=="GA")
+		cmd <- ""	# TODO
+	else if(role.meas=="GAdir")
+		cmd <- ""	# TODO
+	else if(role.meas=="DLPp")
+		cmd <- ""	# TODO
+	else if(role.meas=="DLPo")
+		cmd <- ""	# TODO
+	
+	# execute the command from R
+	system(command=cmd) 
+	
+	# possibly post-process
+	# TODO
+}
+

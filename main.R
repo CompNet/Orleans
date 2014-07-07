@@ -9,12 +9,14 @@
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
 # source("main.R")
 ###############################################################################
+source("CommunityDetection/community-detection.R")
+source("GenerateData/generate-data.R")
 
 ###############################################################################
 # Parameters
 ###############################################################################
 # whether or not to generate data (for testing purposes)
-generate.data <- TRUE
+gen.data <- FALSE
 # community detection algorithm
 comdet.algo <- "LV"			#TODO LV, LVdir
 # role measures
@@ -25,31 +27,25 @@ clust.algo <- "kmeans"		#TODO kmeans, xmeans, gkmeans, fgkmeans
 net.folder <- "data/test/"		#TODO  
 
 ###############################################################################
-# Load functions
-###############################################################################
-source("/GenerateData/generate-data.R")
-
-###############################################################################
 # 0. Detecting communities
 ###############################################################################
-if(generate.data)
+if(gen.data)
 {	n <- 1000
 	n.clust <- 7
 	n.com <- 36
 	directed <- TRUE
-	generate.data(folder.data=net.folder, role.meas, n, n.clust, clust.algo, n.com, comdet.algo)
+	generate.data(folder.data=net.folder, role.meas, n,directed,  n.clust, clust.algo, n.com, comdet.algo)
 }
 
 ###############################################################################
 # 1. Detecting communities
 ###############################################################################
-comdet.folder <- "CommunityDetection"
+detect.communities(folder.data=net.folder, algo=comdet.algo)
 
 ###############################################################################
 # 2. Processing role measures
 ###############################################################################
-role.folder <- "RoleMeasures"
-
+process.rolemeas(folder.data=net.folder, role.meas, comdet.algo)
 
 ###############################################################################
 # 3. Clustering role measures

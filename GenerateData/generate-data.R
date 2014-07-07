@@ -38,7 +38,7 @@ generate.network <- function(folder.data, directed=TRUE, n)
 	# process degree sequence
 	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process degree sequences\n",sep="")
 	degrees <- cbind(degree(graph=g,mode="in"),degree(graph=g,mode="out"),degree(graph=g,mode="all"))
-	colnames(degrees) <- get.degrees.name()
+	colnames(degrees) <- get.degrees.names()
 			
 	# record degree sequence
 	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record degree sequences to file\n",sep="")
@@ -55,8 +55,8 @@ generate.network <- function(folder.data, directed=TRUE, n)
 # n.clust: desired number of clusters.
 # clust.algo: cluster analysis algorithm (fake).
 ###############################################################################
-generate.rolemeas <- function(folder.data, role.mes, n, n.clust, clust.algo)
-{	meas.names <- get.rolemeas.names(role.mes)
+generate.rolemeas <- function(folder.data, role.meas, n, n.clust, clust.algo)
+{	meas.names <- get.rolemeas.names(role.meas)
 	n.fields <- length(meas.names)
 	
 	# generate fake role measures
@@ -76,17 +76,17 @@ generate.rolemeas <- function(folder.data, role.mes, n, n.clust, clust.algo)
 	# randomize instance order
 	x <- x[sample(nrow(x)),]
 	# set names
-	colnames(x) <- meas.names
+	colnames(x) <- c(meas.names,"Cluster")
 	
 	# record cluster membership
 	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record membership vector to file\n",sep="")
 	file.membership <- paste(folder.data,get.cluster.filename(algo=clust.algo,n.clust),sep="")
-	write.table(x=cbind(1:n,x[,n.fields+1]), file=file.membership, row.names=FALSE, col.names=FALSE)
+	write.table(x=x[,n.fields+1]-1, file=file.membership, row.names=FALSE, col.names=FALSE)
 
 	# record role measures
 	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record role measures to file\n",sep="")
 	x <- x[,-(n.fields+1)]
-	file.data <- paste(folder.data,get.rolemeas.filename(role.mes),sep="")
+	file.data <- paste(folder.data,get.rolemeas.filename(role.meas),sep="")
 	write.table(x=x,file=file.data,row.names=FALSE,col.names=TRUE)
 }
 
@@ -100,7 +100,7 @@ generate.rolemeas <- function(folder.data, role.mes, n, n.clust, clust.algo)
 ###############################################################################
 generate.communities <- function(folder.data, n, n.com, comdet.algo)
 {	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Generate communities\n",sep="")
-	coms <- floor(runif(n,min=1,max=n.com))
+	coms <- floor(runif(n,min=1,max=n.com)) - 1
 	
 	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record communities to file\n",sep="")
 	file.coms <- paste(folder.data,get.communities.filename(comdet.algo),sep="")
