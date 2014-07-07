@@ -40,15 +40,15 @@ algo.names <- c(								# clustering algorithms
 # apply process
 ###############################################################################
 options(scipen=999)
-for(n.cluster in ns.cluster)
-{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Processing ",n.cluster," clusters\n",sep="")
+for(n.clust in ns.cluster)
+{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Processing ",n.clust," clusters\n",sep="")
 	
-	for(n.instances in ns.instances)
-	{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing ",n.instances," instances\n",sep="")
+	for(n in ns.instances)
+	{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing ",n," instances\n",sep="")
 		
 		for(n.fields in ns.fields)
 		{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ....Processing ",n.fields," attributes\n",sep="")
-			file.base <- paste(folder.out,"clust=",n.cluster,".inst=",n.instances,".fields=",n.fields,sep="")
+			file.base <- paste(folder.out,"clust=",n.clust,".inst=",n,".fields=",n.fields,sep="")
 			file.membership <- paste(file.base,".membership.txt",sep="")
 			file.data <- paste(file.base,".data.txt",sep="")
 			
@@ -60,13 +60,13 @@ for(n.cluster in ns.cluster)
 			}else
 			{	# generate new data
 				cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ......Generating the data\n",sep="")
-				x <- matrix(ncol=(n.fields+1),nrow=n.instances)
-				cluster.size <- floor(n.instances / n.cluster)
-				for(c in 1:n.cluster)
+				x <- matrix(ncol=(n.fields+1),nrow=n)
+				cluster.size <- floor(n / n.clust)
+				for(c in 1:n.clust)
 				{	from <- (c-1)*cluster.size + 1
 					nbr <- cluster.size
-					if(c==n.cluster)
-						nbr <- n.instances - from + 1
+					if(c==n.clust)
+						nbr <- n - from + 1
 					to <- from + nbr - 1
 					for(f in 1:n.fields)
 						x[from:to,f] <- rnorm(n=nbr,mean=10*runif(1),sd=runif(1))

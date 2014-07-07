@@ -13,14 +13,32 @@
 ###############################################################################
 # Parameters
 ###############################################################################
+# whether or not to generate data (for testing purposes)
+generate.data <- TRUE
 # community detection algorithm
-comdet.algo <- ""
+comdet.algo <- "LV"			#TODO LV, LVdir
 # role measures
-role.mes <- ""
+role.meas <- "GA"			#TODO GA, GAdir, DLPp, DLPo
 # clustering algorithm
-clust.algo <- ""
-# network folder (all produced files are put in this folder)
-net.folder <- ""
+clust.algo <- "kmeans"		#TODO kmeans, xmeans, gkmeans, fgkmeans
+# data folder (all out and in files must be in this folder)
+net.folder <- "data/test/"		#TODO  
+
+###############################################################################
+# Load functions
+###############################################################################
+source("/GenerateData/generate-data.R")
+
+###############################################################################
+# 0. Detecting communities
+###############################################################################
+if(generate.data)
+{	n <- 1000
+	n.clust <- 7
+	n.com <- 36
+	directed <- TRUE
+	generate.data(folder.data=net.folder, role.meas, n, n.clust, clust.algo, n.com, comdet.algo)
+}
 
 ###############################################################################
 # 1. Detecting communities
@@ -40,5 +58,8 @@ cluster.folder <- "ClusterAnalysis"
 
 
 ###############################################################################
-# 4. 
+# 4. Additional stats
 ###############################################################################
+# social capitalism indices vs. role measures (correlation, plot)
+# degree distribution
+# degree vs. role measures (correlation, plot)

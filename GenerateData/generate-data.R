@@ -1,0 +1,132 @@
+# Generates dummy data to play with
+# (and test the rest of the scripts).
+#
+# version: 2
+# Author: Vincent Labatut 06/2013,07/2014
+#
+# setwd("~/eclipse/workspaces/Networks/Orleans/")
+# setwd("C:/Eclipse/workspaces/Networks/Orleans/")
+# source("GenerateData/generate-data.R")
+###############################################################################
+library("igraph")
+
+source("ClusterAnalysis/cluster-analysis.R")
+source("CommunityDetection/community-detection.R")
+source("RoleMeasures/role-measures.R")
+
+###############################################################################
+# Generates and record a fake network,
+# as well as its degree sequence.
+# 
+# folder.data: name of the folder containing all files to be generated.
+# directed: whether the generated network should be directed or not.
+# n: number of nodes.
+###############################################################################
+generate.network <- function(folder.data, directed=TRUE, n)
+{	# generate network
+	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Generate network\n",sep="")
+	#g <- barabasi.game(n=n.instances, power=3, m=2)
+	g <- erdos.renyi.game(n=n, p.or.m=0.1, type="gnp", directed=directed, loops=FALSE)
+	
+	# record network as edgelist file
+	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record network to file\n",sep="")
+	file.net <- paste(folder.data,get.network.filename(),sep="")
+	#write.graph(graph=g, file=file.net, format="edgelist")
+	el <- get.edgelist(graph=g) - 1 # we want to number nodes starting from 0
+	write.table(x=el, file=file.net, row.names=FALSE, col.names=FALSE)
+	
+	# process degree sequence
+	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process degree sequences\n",sep="")
+	degrees <- cbind(degree(graph=g,mode="in"),degree(graph=g,mode="out"),degree(graph=g,mode="all"))
+	colnames(degrees) <- get.degrees.name()
+			
+	# record degree sequence
+	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record degree sequences to file\n",sep="")
+	file.degree <- paste(folder.data,get.degrees.filename(),sep="")
+	write.table(x=degrees, file=file.degree, row.names=FALSE, col.names=TRUE)
+}
+
+###############################################################################
+# Generates the role measures and clusters.
+# 
+# folder.data: name of the folder containing all files to be generated.
+# role.mes: type of role measures.
+# n: desired number of nodes.
+# n.clust: desired number of clusters.
+# clust.algo: cluster analysis algorithm (fake).
+###############################################################################
+generate.rolemeas <- function(folder.data, role.mes, n, n.clust, clust.algo)
+{	meas.names <- get.rolemeas.names(role.mes)
+	n.fields <- length(meas.names)
+	
+	# generate fake role measures
+	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Generating ",n," instances distributed over ",n.clust," clusters...\n",sep="")
+	x <- matrix(ncol=n.fields+1,nrow=n)
+	cluster.size <- floor(n / n.clust)
+	for(c in 1:n.clust)
+	{	from <- (c-1)*cluster.size + 1
+		nbr <- cluster.size
+		if(c==n.clust)
+			nbr <- n - from + 1
+		to <- from + nbr - 1
+		for(f in 1:n.fields)
+			x[from:to,f] <- rnorm(n=nbr,mean=10*runif(1),sd=runif(1))
+		x[from:to,n.fields+1] <- c
+	}
+	# randomize instance order
+	x <- x[sample(nrow(x)),]
+	# set names
+	colnames(x) <- meas.names
+	
+	# record cluster membership
+	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record membership vector to file\n",sep="")
+	file.membership <- paste(folder.data,get.cluster.filename(algo=clust.algo,n.clust),sep="")
+	write.table(x=cbind(1:n,x[,n.fields+1]), file=file.membership, row.names=FALSE, col.names=FALSE)
+
+	# record role measures
+	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record role measures to file\n",sep="")
+	x <- x[,-(n.fields+1)]
+	file.data <- paste(folder.data,get.rolemeas.filename(role.mes),sep="")
+	write.table(x=x,file=file.data,row.names=FALSE,col.names=TRUE)
+}
+
+###############################################################################
+# Generate and records fake communities.
+#
+# folder.data: name of the folder to contain all generated data.
+# n: desired number of nodes.
+# n.com: desired number of communities.
+# comdet.algo: community detection algorithm (fake).
+###############################################################################
+generate.communities <- function(folder.data, n, n.com, comdet.algo)
+{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Generate communities\n",sep="")
+	coms <- floor(runif(n,min=1,max=n.com))
+	
+	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record communities to file\n",sep="")
+	file.coms <- paste(folder.data,get.communities.filename(comdet.algo),sep="")
+	write.table(x=coms,file=file.coms,row.names=FALSE,col.names=FALSE)
+}
+
+###############################################################################
+# Main function for data generation.
+# Warning: existing files might be replaced by generated ones.
+#
+# folder.data: name of the folder to contain all generated data.
+# role.mes: name of the role measures.
+# n: desired number of nodes.
+# directed: whether the network should be directed (does not affect the measures)
+# n.clust: desired number of clusters.
+# clust.algo: clustering algorithm (fake).
+# n.com: desired number of communities.
+# comdet.algo: community detection algorithm (fake).
+###############################################################################
+generate.data <- function(folder.data, role.meas, n, directed, n.clust, clust.algo, n.com, comdet.algo)
+{	# generate network and degree
+	generate.network(folder.data, directed, n)
+	
+	# generate role measures and clusters
+	generate.rolemeas(folder.data, role.meas, n, n.clust, clust.algo)
+		
+	# generate communities
+	generate.communities(folder.data, n, n.com, comdet.algo)
+}
