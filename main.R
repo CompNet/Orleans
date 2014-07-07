@@ -41,6 +41,7 @@ if(gen.data)
 # 1. Detecting communities
 ###############################################################################
 detect.communities(folder.data=net.folder, algo=comdet.algo)
+#TODO check for community stability
 
 ###############################################################################
 # 2. Processing role measures
@@ -51,11 +52,14 @@ process.rolemeas(folder.data=net.folder, role.meas, comdet.algo)
 # 3. Clustering role measures
 ###############################################################################
 cluster.folder <- "ClusterAnalysis"
-
+#1) normalize
+#2) apply cluster analysis
 
 ###############################################################################
 # 4. Additional stats
 ###############################################################################
 # social capitalism indices vs. role measures (correlation, plot)
-# degree distribution
+# degree (distribution, plot)
 # degree vs. role measures (correlation, plot)
+# community sizes (distribution, plot)
+# role measures (distribution, correlation, plot)
