@@ -1,9 +1,9 @@
-# Adapter allowing to apply the classic distributd k-means algoritm
+# Adapter allowing to apply the distributed k-means algoritm
 # implemented by Wei-keng Liao.
 # http://users.eecs.northwestern.edu/~wkliao/Kmeans/
 # 
-# Version: 1
-# Author: Vincent Labatut 07/2014
+# Version: 2
+# Author: Vincent Labatut 06/2013,07/2014
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
