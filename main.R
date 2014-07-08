@@ -51,9 +51,7 @@ process.rolemeas(folder.data=net.folder, role.meas, comdet.algo)
 ###############################################################################
 # 3. Clustering role measures
 ###############################################################################
-cluster.folder <- "ClusterAnalysis"
-#1) normalize
-#2) apply cluster analysis
+detect.clusters(folder.data=net.folder, algo=clust.algo)
 
 ###############################################################################
 # 4. Additional stats

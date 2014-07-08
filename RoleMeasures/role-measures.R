@@ -39,9 +39,13 @@ get.rolemeas.names <- function(role.meas)
 #				- "GAdir": our directd extension of GA (2x2 measures)
 #				- "DLPp": our own measures for partition-based communities (2x4 measures)
 #				- "DLPo": variant for overlapping communities  (2x6 measures)
+# norm: whether one wants the filename for the original or normalized data.
 ###############################################################################
-get.rolemeas.filename <- function(role.meas)
-{	result <- paste("rolemeas.",role.meas,".txt",sep="")
+get.rolemeas.filename <- function(role.meas, norm=FALSE)
+{	result <- paste("rolemeas.",role.meas,sep="")
+	if(norm)
+		result <- paste(result,".normalized",sep="")
+	result <- paste(result,".txt",sep="")
 	return(result)
 }
 
@@ -60,6 +64,9 @@ process.rolemeas <- function(folder.data, role.meas, comdet.algo)
 {	# get file paths
 	net.file <- paste(folder.data,get.network.filename(),sep="")
 	com.file <- paste(folder.data,get.communities.filename(algo),sep="")
+	
+	# first convert the network
+	# TODO easygraphe?
 	
 	# set up the appropriate command
 	if(role.meas=="GA")
