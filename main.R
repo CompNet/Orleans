@@ -22,7 +22,7 @@ comdet.algo <- "LV"			#TODO LV, LVdir
 # role measures
 role.meas <- "GA"			#TODO GA, GAdir, DLPp, DLPo
 # clustering algorithm
-clust.algo <- "kmeans"		#TODO kmeans, dkmeans, xmeans, gkmeans, fgkmeans
+clust.algo <- "kmeans"		#TODO kmeans, pkmeans, xmeans, gkmeans, fgkmeans
 # data folder (all out and in files must be in this folder)
 net.folder <- "data/test/"		#TODO  
 
@@ -61,3 +61,4 @@ detect.clusters(folder.data=net.folder, role.meas, clust.algo, comdet.algo)
 # degree vs. role measures (correlation, plot)
 # community sizes (distribution, plot)
 # role measures (distribution, correlation, plot)
+# record/plot clustering/comdet quality measures

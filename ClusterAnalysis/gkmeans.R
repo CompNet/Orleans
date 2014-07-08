@@ -21,14 +21,35 @@
 library("clusterSim")	# Davies-Bouldin index
 library("cluster")		# Silhouette index
 
-
-apply.xmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
-{
-	#TODO	
+###############################################################################
+# Adapter function allowing to use global k-means from our own scripts.
+#
+# folder.data: folder containing all input and output files.
+# role.meas: type of role measures.
+# clust.algo: cluster analysis method.
+# comdet.algo: community detection algorithm.
+###############################################################################
+apply.gkmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
+{	# load the normalized data
+	in.file <- get.rolemeas.filename(folder.data,role.meas,norm=TRUE,comdet.algo)
+	data <- as.matrix(read.table(in.file))
+	
+	# apply global k-means
+	if(clust.algo=="fgkmeans")
+		fast = TRUE
+	else
+		fast = FALSE
+	temp <- gkmeans(x=data, fast, k.bounds=c(2,15), criterion="ASW", trace=TRUE)
+	membership <- temp$cluster
+	
+	# record result
+	out.file <- get.cluster.filename(folder.data,role.meas,0,clust.algo,comdet.algo)
+	write.table(x=membership, file=out.file, row.names=FALSE, col.names=FALSE)
 }
 
 ###############################################################################
 # Applies the global k-means clustering method.
+#
 # x: data points
 # fast: use regular (FALSE) or fast (TRUE) global k-means
 # k.bounds: lower and upper bounds for the tested numbers of clusters
@@ -42,8 +63,10 @@ gkmeans <- function(x, fast=TRUE, k.bounds=c(2,15), criterion="ASW", trace=FALSE
 	centers <- matrix(ncol=ncol(x),nrow=1)
 	centers[1,] <- apply(x, 2, mean)
 	min.clusters <- rep(1,nrow(x))
-	best.quality <- 0
+	best.quality <- NA
 	best.result <- NA
+	if(criterion=="ASW")
+		distances <- dist(x)
 	
 	# iteratively process the clusters using the global k-means principle
 	for(k in k.bounds[1]:k.bounds[2])
@@ -128,17 +151,17 @@ gkmeans <- function(x, fast=TRUE, k.bounds=c(2,15), criterion="ASW", trace=FALSE
 		
 		# process quality measure
 		start.time <- Sys.time();
-			if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Process quality measure for k=",k,"\n",sep="")
+		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Process quality measure for k=",k,"\n",sep="")
 			if(criterion=="DB")
 			{	qual.value <- index.DB(x=data, cl=min.clusters, centrotypes="centroids")$DB
-				if(qual.value<best.quality)
+				if(is.na(best.quality) | qual.value<best.quality)
 				{	best.quality <- qual.value
 					best.result <- min.res
 				}
 			}
 			else if(criterion=="ASW")
-			{	qual.value <- summary(silhouette(x=min.clusters, dist(x)))$avg.width
-				if(qual.value>best.quality)
+			{	qual.value <- summary(silhouette(x=min.clusters, distances))$avg.width
+				if(is.na(best.quality) | qual.value>best.quality)
 				{	best.quality <- qual.value
 					best.result <- min.res
 				}

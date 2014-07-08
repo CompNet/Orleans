@@ -10,7 +10,7 @@
 ###############################################################################
 
 ###############################################################################
-# Adapter function allowing to use xmeans from our own scripts.
+# Adapter function allowing to use x-means from our own scripts.
 #
 # folder.data: folder containing all input and output files.
 # role.meas: type of role measures.
