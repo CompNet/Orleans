@@ -12,6 +12,7 @@
 ###############################################################################
 # Returns the list of names for the community role measures
 # corresponding to the specified code.
+#
 # role.meas: role measure variant:
 #				- "GA": original Guimera-Amaral measures (2 measures)
 #				- "GAdir": our directd extension of GA (2x2 measures)
@@ -34,24 +35,30 @@ get.rolemeas.names <- function(role.meas)
 ###############################################################################
 # Returns the name of the file containing the role measures, 
 # for the specified code.
+#
+# folder.data: folder containing all input and output files.
 # role.meas: role measure variant:
 #				- "GA": original Guimera-Amaral measures (2 measures)
 #				- "GAdir": our directd extension of GA (2x2 measures)
 #				- "DLPp": our own measures for partition-based communities (2x4 measures)
 #				- "DLPo": variant for overlapping communities  (2x6 measures)
 # norm: whether one wants the filename for the original or normalized data.
+# comdet.algo: algorithm used for community detection (needed to infer the file name)
 ###############################################################################
-get.rolemeas.filename <- function(role.meas, norm=FALSE)
-{	result <- paste("rolemeas.",role.meas,sep="")
+get.rolemeas.filename <- function(folder.data, role.meas, norm=FALSE, comdet.algo)
+{	result <- paste(folder.data,"comdet=",comdet.algo,sep="")
+	result <- paste(result,".rolemeas=",role.meas,sep="")
 	if(norm)
-		result <- paste(result,".normalized",sep="")
-	result <- paste(result,".txt",sep="")
+		result <- paste(result,".normvals.txt",sep="")
+	else
+		result <- paste(result,".rawvals.txt",sep="")
 	return(result)
 }
 
 ###############################################################################
 # Returns the name of the file containing the role measures, 
 # for the specified code.
+#
 # folder.data: folder containing all input and output files.
 # role.meas: role measure variant to process:
 #				- "GA": original Guimera-Amaral measures (2 measures)
@@ -62,8 +69,9 @@ get.rolemeas.filename <- function(role.meas, norm=FALSE)
 ###############################################################################
 process.rolemeas <- function(folder.data, role.meas, comdet.algo)
 {	# get file paths
-	net.file <- paste(folder.data,get.network.filename(),sep="")
-	com.file <- paste(folder.data,get.communities.filename(algo),sep="")
+	net.file <- get.network.filename(folder.data)
+	com.file <- get.communities.filename(folder.data,comdet.algo)
+	out.file <- get.rolemeas.filename(folder.data,role.meas,norm=FALSE,comdet.algo)
 	
 	# first convert the network
 	# TODO easygraphe?
@@ -84,4 +92,3 @@ process.rolemeas <- function(folder.data, role.meas, comdet.algo)
 	# possibly post-process
 	# TODO
 }
-

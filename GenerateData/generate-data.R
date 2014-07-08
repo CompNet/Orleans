@@ -30,10 +30,10 @@ generate.network <- function(folder.data, directed=TRUE, n)
 	
 	# record network as edgelist file
 	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record network to file\n",sep="")
-	file.net <- paste(folder.data,get.network.filename(),sep="")
+	net.file <- get.network.filename(folder.data)
 	#write.graph(graph=g, file=file.net, format="edgelist")
 	el <- get.edgelist(graph=g) - 1 # we want to number nodes starting from 0
-	write.table(x=el, file=file.net, row.names=FALSE, col.names=FALSE)
+	write.table(x=el, file=net.file, row.names=FALSE, col.names=FALSE)
 	
 	# process degree sequence
 	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process degree sequences\n",sep="")
@@ -42,8 +42,8 @@ generate.network <- function(folder.data, directed=TRUE, n)
 			
 	# record degree sequence
 	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record degree sequences to file\n",sep="")
-	file.degree <- paste(folder.data,get.degrees.filename(),sep="")
-	write.table(x=degrees, file=file.degree, row.names=FALSE, col.names=TRUE)
+	degree.file <- get.degrees.filename(folder.data)
+	write.table(x=degrees, file=degree.file, row.names=FALSE, col.names=TRUE)
 }
 
 ###############################################################################
@@ -54,8 +54,9 @@ generate.network <- function(folder.data, directed=TRUE, n)
 # n: desired number of nodes.
 # n.clust: desired number of clusters.
 # clust.algo: cluster analysis algorithm (fake).
+# comdet.algo: community detection algorithm (fake).
 ###############################################################################
-generate.rolemeas <- function(folder.data, role.meas, n, n.clust, clust.algo)
+generate.rolemeas <- function(folder.data, role.meas, n, n.clust, clust.algo, comdet.algo)
 {	meas.names <- get.rolemeas.names(role.meas)
 	n.fields <- length(meas.names)
 	
@@ -80,13 +81,13 @@ generate.rolemeas <- function(folder.data, role.meas, n, n.clust, clust.algo)
 	
 	# record cluster membership
 	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record membership vector to file\n",sep="")
-	file.membership <- paste(folder.data,get.cluster.filename(algo=clust.algo,n.clust),sep="")
+	file.membership <- get.cluster.filename(folder.data, role.meas, n.clust=0, clust.algo, comdet.algo)
 	write.table(x=x[,n.fields+1]-1, file=file.membership, row.names=FALSE, col.names=FALSE)
 
 	# record role measures
 	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record role measures to file\n",sep="")
 	x <- x[,-(n.fields+1)]
-	file.data <- paste(folder.data,get.rolemeas.filename(role.meas),sep="")
+	file.data <- get.rolemeas.filename(folder.data,role.meas,norm=FALSE,comdet.algo)
 	write.table(x=x,file=file.data,row.names=FALSE,col.names=TRUE)
 }
 
@@ -95,15 +96,16 @@ generate.rolemeas <- function(folder.data, role.meas, n, n.clust, clust.algo)
 #
 # folder.data: name of the folder to contain all generated data.
 # n: desired number of nodes.
+# clust.algo: cluster analysis algorithm (fake).
 # n.com: desired number of communities.
 # comdet.algo: community detection algorithm (fake).
 ###############################################################################
-generate.communities <- function(folder.data, n, n.com, comdet.algo)
+generate.communities <- function(folder.data, n, clust.algo, n.com, comdet.algo)
 {	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Generate communities\n",sep="")
 	coms <- floor(runif(n,min=1,max=n.com)) - 1
 	
 	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record communities to file\n",sep="")
-	file.coms <- paste(folder.data,get.communities.filename(comdet.algo),sep="")
+	file.coms <- get.communities.filename(folder.data,comdet.algo)
 	write.table(x=coms,file=file.coms,row.names=FALSE,col.names=FALSE)
 }
 
@@ -125,8 +127,8 @@ generate.data <- function(folder.data, role.meas, n, directed, n.clust, clust.al
 	generate.network(folder.data, directed, n)
 	
 	# generate role measures and clusters
-	generate.rolemeas(folder.data, role.meas, n, n.clust, clust.algo)
+	generate.rolemeas(folder.data, role.meas, n, n.clust, clust.algo, comdet.algo)
 		
 	# generate communities
-	generate.communities(folder.data, n, n.com, comdet.algo)
+	generate.communities(folder.data, n, clust.algo, n.com, comdet.algo)
 }

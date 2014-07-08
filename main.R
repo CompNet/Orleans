@@ -22,7 +22,7 @@ comdet.algo <- "LV"			#TODO LV, LVdir
 # role measures
 role.meas <- "GA"			#TODO GA, GAdir, DLPp, DLPo
 # clustering algorithm
-clust.algo <- "kmeans"		#TODO kmeans, xmeans, gkmeans, fgkmeans
+clust.algo <- "kmeans"		#TODO kmeans, dkmeans, xmeans, gkmeans, fgkmeans
 # data folder (all out and in files must be in this folder)
 net.folder <- "data/test/"		#TODO  
 
@@ -34,13 +34,13 @@ if(gen.data)
 	n.clust <- 7
 	n.com <- 36
 	directed <- TRUE
-	generate.data(folder.data=net.folder, role.meas, n,directed,  n.clust, clust.algo, n.com, comdet.algo)
+	generate.data(folder.data=net.folder, role.meas, n, directed,  n.clust, clust.algo, n.com, comdet.algo)
 }
 
 ###############################################################################
 # 1. Detecting communities
 ###############################################################################
-detect.communities(folder.data=net.folder, algo=comdet.algo)
+detect.communities(folder.data=net.folder, comdet.algo)
 #TODO check for community stability
 
 ###############################################################################
@@ -51,7 +51,7 @@ process.rolemeas(folder.data=net.folder, role.meas, comdet.algo)
 ###############################################################################
 # 3. Clustering role measures
 ###############################################################################
-detect.clusters(folder.data=net.folder, algo=clust.algo)
+detect.clusters(folder.data=net.folder, role.meas, clust.algo, comdet.algo)
 
 ###############################################################################
 # 4. Additional stats

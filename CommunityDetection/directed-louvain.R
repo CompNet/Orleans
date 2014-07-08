@@ -13,13 +13,12 @@
 # Applies the directed version of the Louvain community detection algorithm.
 #
 # folder.data: folder containing the network file, and will contain the community file.
-# algo: community detection method.
+# comdet.algo: community detection method.
 ###############################################################################
-apply.directed.louvain <- function(folder.data, algo)
+apply.directed.louvain <- function(folder.data, comdet.algo)
 {	# set up the command, including all required parameters
-	net.file <- get.network.filename()
-	in.file <- paste(folder.data,net.file,sep="")
-	cmd <- paste("blablabla ",in.filesep="") # TODO
+	net.file <- get.network.filename(folder.data)
+	cmd <- paste("blablabla ",net.file,sep="") # TODO
 	
 	# execute the command from R
 	system(command=cmd) 

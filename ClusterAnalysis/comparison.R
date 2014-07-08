@@ -7,7 +7,8 @@
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
 # source("ClusterAnalysis/clust.tool.comp.R")
 ###############################################################################
-library("flexclust")				# rand index
+library("flexclust")					# rand index
+
 source("ClusterAnalysis/gkmeans.R")		# (fast) global k-means
 source("ClusterAnalysis/xmeans.R")		# x-means
 

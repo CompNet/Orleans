@@ -9,6 +9,28 @@
 #	  http://www.cs.cmu.edu/~dpelleg/download/xmeans.pdf
 ###############################################################################
 
+###############################################################################
+# Adapter function allowing to use xmeans from our own scripts.
+#
+# folder.data: folder containing all input and output files.
+# role.meas: type of role measures.
+# clust.algo: cluster analysis method.
+# comdet.algo: community detection algorithm.
+###############################################################################
+apply.xmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
+{	# load the normalized data
+	in.file <- get.rolemeas.filename(folder.data,role.meas,norm=TRUE,comdet.algo)
+	data <- as.matrix(read.table(in.file))
+	
+	# apply x-means	
+	temp <- xmeans(x=data, ik=2, iter.max=15, pr.proc=TRUE, ignore.covar=TRUE, merge.cls=FALSE)
+	membership <- temp$cluster
+		
+	# record result
+	out.file <- get.cluster.filename(folder.data,role.meas,0,clust.algo,comdet.algo)
+	write.table(x=membership, file=out.file, row.names=FALSE, col.names=FALSE)
+}
+
 
 # $Id: xmeans.prog,v 1.23 2012/04/12 11:21:12 tunenori Exp tunenori $
 #

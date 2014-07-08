@@ -22,11 +22,21 @@ library("clusterSim")	# Davies-Bouldin index
 library("cluster")		# Silhouette index
 
 
-# x:			data points
-# fast:			use regular (FALSE) or fast (TRUE) global k-means
-# k.bounds:		lower and upper bounds for the tested numbers of clusters
-# criterion:	criterion used to select the best number of clusters. Either ASW (average Silhouette width) or DB (Davies-Bouldin)
-# trace:		if TRUE, logs the process
+apply.xmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
+{
+	#TODO	
+}
+
+###############################################################################
+# Applies the global k-means clustering method.
+# x: data points
+# fast: use regular (FALSE) or fast (TRUE) global k-means
+# k.bounds: lower and upper bounds for the tested numbers of clusters
+# criterion: criterion used to select the best number of clusters:
+#				- ASW: average Silhouette width
+#				- DB: Davies-Bouldin
+# trace: if TRUE, logs the process
+###############################################################################
 gkmeans <- function(x, fast=TRUE, k.bounds=c(2,15), criterion="ASW", trace=FALSE)
 {	# process the initial center (means of data attributes)
 	centers <- matrix(ncol=ncol(x),nrow=1)

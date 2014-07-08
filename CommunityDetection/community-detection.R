@@ -16,16 +16,20 @@ source("CommunityDetection/directed-louvain.R")
 
 ###############################################################################
 # Returns the standard network filename.
+#
+# folder.data: folder containing the network file, and will contain the community file.
 ###############################################################################
-get.network.filename <- function()
-{	return("network.edgelist")
+get.network.filename <- function(folder.data)
+{	result <- paste(folder.data,"network.edgelist",sep="")
 }
 
 ###############################################################################
 # Returns the standard degree filename.
+#
+# folder.data: folder containing the network file, and will contain the community file.
 ###############################################################################
-get.degrees.filename <- function()
-{	return("degrees.txt")
+get.degrees.filename <- function(folder.data)
+{	result <- paste(folder.data,"degrees.txt",sep="")
 }
 
 ###############################################################################
@@ -38,10 +42,12 @@ get.degrees.names <- function()
 ###############################################################################
 # Returns the standard community structure filename.
 #
-# algo: community detection method.
+# folder.data: folder containing the network file, and will contain the community file.
+# comdet.algo: community detection method.
 ###############################################################################
-get.communities.filename <- function(algo)
-{	resultat <- paste("communities.",algo,".txt",sep="")
+get.communities.filename <- function(folder.data, comdet.algo)
+{	result <- paste(folder.data,"comdet=",comdet.algo,sep="")
+	resultat <- paste(resultat,".communities.txt",sep="")
 	return(resultat)
 }
 
@@ -52,9 +58,9 @@ get.communities.filename <- function(algo)
 # folder.data: folder containing the network file, and will contain the community file.
 # algo: community detection method.
 ###############################################################################
-detect.communities <- function(folder.data, algo)
-{	if(algo=="LV")
-		apply.igraph.louvain(folder.data, algo)
+detect.communities <- function(folder.data, comdet.algo)
+{	if(comdet.algo=="LV")
+		apply.igraph.louvain(folder.data, comdet.algo)
 	else if(algo=="LVdir")
-		apply.directed.louvain(folder.data, algo)
+		apply.directed.louvain(folder.data, comdet.algo)
 }

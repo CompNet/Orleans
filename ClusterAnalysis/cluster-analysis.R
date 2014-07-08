@@ -12,10 +12,21 @@ source("RoleMeasures/role-measures.R")
 
 ###############################################################################
 # Returns the standard cluster filename.
+#
+# folder.data: folder containing all input and output files.
+# role.meas: type of role measures.
+# n.clust: number of detected clusters (optional).
+# clust.algo: cluster analysis algorithm.
+# comdet.algo: community detection algorithm.
 ###############################################################################
-get.cluster.filename <- function(algo, n.clust)
-{	resultat <- paste("clusters.",algo,".k",n.clust,".txt",sep="")
-	return(resultat)
+get.cluster.filename <- function(folder.data, role.meas, n.clust=0, clust.algo, comdet.algo)
+{	result <- paste(folder.data,"comdet=",comdet.algo,sep="")
+	result <- paste(result,".rolemeas=",role.meas,sep="")
+	result <- paste(result,".clusters=",clust.algo,sep="")
+	if(k>0)
+		result <- paste(result,".k",n.clust,sep="")
+	result <- paste(result,"clusters.txt",sep="")
+	return(result)
 }
 
 ###############################################################################
@@ -23,19 +34,22 @@ get.cluster.filename <- function(algo, n.clust)
 # to the data contained in the specified folder.
 #
 # folder.data: folder containing all input and output files.
-# algo: cluster analysis method.
 # role.meas: code representing the used role measures (cf. RoleMeasures/role-measures.R)
+# clust.algo: cluster analysis method.
+# comdet.algo: community detection algorithm.
 ###############################################################################
-detect.clusters <- function(folder.data, algo, role.meas)
+detect.clusters <- function(folder.data, role.meas, clust.algo, comdet.algo)
 {	# possibly normalize data
-	normalize.data(folder.data, role.meas)
+	normalize.data(folder.data, role.meas, clust.algo, comdet.algo)
 		
 	# apply clustering method
 	if(algo=="kmeans")
 		apply.kmeans(folder.data, algo, role.meas)
+	else if(algo=="dkmeans")
+		apply.dkmeans(folder.data, algo, role.meas)
 	else if(algo=="xmeans")
-		apply.gkmeans(folder.data, algo, role.meas)
-	else if(algo=="xmeans")
+		apply.xmeans(folder.data, algo, role.meas)
+	else if(algo=="gkmeans")
 		apply.gkmeans(folder.data, algo, role.meas)
 	else if(algo=="fgkmeans")
 		apply.fgkmeans(folder.data, algo, role.meas)
@@ -48,17 +62,22 @@ detect.clusters <- function(folder.data, algo, role.meas)
 #
 # Note: we don't re-process the data of the normalized file
 # already exists.
+#
+# folder.data: folder containing all input and output files.
+# role.meas: code representing the used role measures (cf. RoleMeasures/role-measures.R)
+# clust.algo: cluster analysis method.
+# comdet.algo: community detection algorithm.
 ###############################################################################
-normalize.data <- function(folder.data, role.meas)
-{	file.input <- get.rolemeas.filename(role.meas,norm=FALSE)
-	path.input <- paste(folder.data,file.input,sep="")
+normalize.data <- function(folder.data, role.meas, clust.algo, comdet.algo)
+{	in.file <- get.rolemeas.filename(folder.data, role.meas, norm=FALSE, comdet.algo)
+	out.file <- get.rolemeas.filename(folder.data, role.meas, norm=TRUE, comdet.algo)
 	
 	# we normalize only if the file doesn't aleady exist
 	if(!file.exists(path.input))
 	{	# load the data
 		start.time <- Sys.time();
 		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading raw data...\n",sep="")
-			x <- as.matrix(read.table(path.input))
+			x <- as.matrix(read.table(in.file))
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
 		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
@@ -80,9 +99,7 @@ normalize.data <- function(folder.data, role.meas)
 		# record
 		start.time <- Sys.time();
 		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Recording normalized data\n",sep="")
-			file.output <- get.rolemeas.filename(role.meas,norm=TRUE)
-			path.output <- paste(folder.data,file.output,sep="")
-			write.table(x=x,file=path.output,row.names=FALSE,col.names=FALSE)
+			write.table(x=x,file=out.file,row.names=FALSE,col.names=FALSE)
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
 		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Recording completed in ",total.time,"\n",sep="")
