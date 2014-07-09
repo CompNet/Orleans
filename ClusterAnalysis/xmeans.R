@@ -24,7 +24,7 @@ apply.xmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
 	
 	# apply x-means	
 	temp <- xmeans(x=data, ik=2, iter.max=15, pr.proc=TRUE, ignore.covar=TRUE, merge.cls=FALSE)
-	membership <- temp$cluster
+	membership <- temp$cluster - 1 # number from 0
 		
 	# record result
 	out.file <- get.cluster.filename(folder.data,role.meas,0,clust.algo,comdet.algo)

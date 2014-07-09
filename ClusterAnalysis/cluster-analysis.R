@@ -44,17 +44,17 @@ detect.clusters <- function(folder.data, role.meas, clust.algo, comdet.algo)
 		
 	# apply clustering method
 	if(algo=="kmeans")
-		apply.kmeans(folder.data, algo, role.meas)
+		apply.kmeans(folder.data, role.meas, clust.algo, comdet.algo)
 	else if(algo=="pkmeans")
-		apply.pkmeans(folder.data, algo, role.meas)
+		apply.pkmeans(folder.data, role.meas, clust.algo, comdet.algo)
 	else if(algo=="xmeans")
 		apply.xmeans(folder.data, role.meas, clust.algo, comdet.algo)
 	else if(algo=="gkmeans")
-		apply.gkmeans(folder.data, algo, role.meas)
+		apply.gkmeans(folder.data, role.meas, clust.algo, comdet.algo)
 	else if(algo=="fgkmeans")
-		apply.fgkmeans(folder.data, algo, role.meas)
+		apply.fgkmeans(folder.data, role.meas, clust.algo, comdet.algo)
 }
-
+	
 ###############################################################################
 # Normalizes the previously processed role measures, in order
 # to get better results when doing the cluster analysis.

@@ -26,8 +26,8 @@ apply.pkmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
 	temp.file <- paste(in.file,".membership",sep="")
 	data <- as.matrix(read.table(in.file))
 	
-	temp <- iterative.pkmeans(data, ik=2, iter.max=15, pr.proc=TRUE, ignore.covar=TRUE, merge.cls=FALSE)
-	membership <- temp$cluster
+	temp <- iterative.pkmeans(data, ks=c(2:15), criterion="ASW", trace=TRUE)
+	membership <- temp$cluster - 1 # number from 0
 	
 	# record result
 	out.file <- get.cluster.filename(folder.data,role.meas,0,clust.algo,comdet.algo)
@@ -45,7 +45,7 @@ apply.pkmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
 #				- DB: Davies-Bouldin
 # trace: if TRUE, logs the process
 ###############################################################################
-iterative.pkmeans(data, ks=c(2:15), criterion="ASW", trace=FALSE)
+iterative.pkmeans <- function(data, ks=c(2:15), criterion="ASW", trace=FALSE)
 {	# init
 	best.quality <- 0
 	best.result <- NA
@@ -104,7 +104,6 @@ iterative.pkmeans(data, ks=c(2:15), criterion="ASW", trace=FALSE)
 				best.result <- min.res
 			}
 		}
-		qual.value <- index.DB(x=data, cl=membership, centrotypes="centroids")$DB
 		quality[i,2] <- qual.value
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
