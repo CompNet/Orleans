@@ -22,15 +22,17 @@ comdet.algo <- "LV"			#TODO LV, LVdir
 # role measures
 role.meas <- "GA"			#TODO GA, GAdir, DLPp, DLPo
 # clustering algorithm
-clust.algo <- "kmeans"		#TODO kmeans, pkmeans, xmeans, gkmeans, fgkmeans
+clust.algo <- "xmeans"		#TODO kmeans, pkmeans, xmeans, gkmeans, fgkmeans
 # data folder (all out and in files must be in this folder)
-net.folder <- "data/test/"		#TODO  
+net.folder <- "data/test/"		#TODO put the network folder
 
 ###############################################################################
 # 0. Detecting communities
 ###############################################################################
 if(gen.data)
-{	n <- 1000
+{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Generate data\n",sep="")
+	
+	n <- 1000
 	n.clust <- 7
 	n.com <- 36
 	directed <- TRUE
@@ -40,18 +42,21 @@ if(gen.data)
 ###############################################################################
 # 1. Detecting communities
 ###############################################################################
-detect.communities(folder.data=net.folder, comdet.algo)
+#cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Detect communities\n",sep="")
+#detect.communities(folder.data=net.folder, comdet.algo)
 #TODO check for community stability
 
 ###############################################################################
 # 2. Processing role measures
 ###############################################################################
-process.rolemeas(folder.data=net.folder, role.meas, comdet.algo)
+#cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process role measures\n",sep="")
+#process.rolemeas(folder.data=net.folder, role.meas, comdet.algo)
 
 ###############################################################################
 # 3. Clustering role measures
 ###############################################################################
-detect.clusters(folder.data=net.folder, role.meas, clust.algo, comdet.algo)
+#cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Detect clusters\n",sep="")
+#detect.clusters(folder.data=net.folder, role.meas, clust.algo, comdet.algo)
 
 ###############################################################################
 # 4. Additional stats
@@ -62,3 +67,5 @@ detect.clusters(folder.data=net.folder, role.meas, clust.algo, comdet.algo)
 # community sizes (distribution, plot)
 # role measures (distribution, correlation, plot)
 # record/plot clustering/comdet quality measures
+
+cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Generate communities\n",sep="")

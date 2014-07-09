@@ -8,6 +8,10 @@
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
 # source("GenerateData/cluster-analysis.R")
 ###############################################################################
+source("ClusterAnalysis/gkmeans.R")
+source("ClusterAnalysis/kmeans.R")
+source("ClusterAnalysis/pkmeans.R")
+source("ClusterAnalysis/xmeans.R")
 source("RoleMeasures/role-measures.R")
 
 ###############################################################################
@@ -22,10 +26,10 @@ source("RoleMeasures/role-measures.R")
 get.cluster.filename <- function(folder.data, role.meas, n.clust=0, clust.algo, comdet.algo)
 {	result <- paste(folder.data,"comdet=",comdet.algo,sep="")
 	result <- paste(result,".rolemeas=",role.meas,sep="")
-	result <- paste(result,".clusters=",clust.algo,sep="")
-	if(k>0)
+	result <- paste(result,".clust=",clust.algo,sep="")
+	if(n.clust>0)
 		result <- paste(result,".k",n.clust,sep="")
-	result <- paste(result,"clusters.txt",sep="")
+	result <- paste(result,".clusters.txt",sep="")
 	return(result)
 }
 
@@ -43,16 +47,16 @@ detect.clusters <- function(folder.data, role.meas, clust.algo, comdet.algo)
 	normalize.data(folder.data, role.meas, clust.algo, comdet.algo)
 		
 	# apply clustering method
-	if(algo=="kmeans")
+	if(clust.algo=="kmeans")
 		apply.kmeans(folder.data, role.meas, clust.algo, comdet.algo)
-	else if(algo=="pkmeans")
+	else if(clust.algo=="pkmeans")
 		apply.pkmeans(folder.data, role.meas, clust.algo, comdet.algo)
-	else if(algo=="xmeans")
+	else if(clust.algo=="xmeans")
 		apply.xmeans(folder.data, role.meas, clust.algo, comdet.algo)
-	else if(algo=="gkmeans")
+	else if(clust.algo=="gkmeans")
 		apply.gkmeans(folder.data, role.meas, clust.algo, comdet.algo)
-	else if(algo=="fgkmeans")
-		apply.fgkmeans(folder.data, role.meas, clust.algo, comdet.algo)
+	else if(clust.algo=="fgkmeans")
+		apply.gkmeans(folder.data, role.meas, clust.algo, comdet.algo)
 }
 	
 ###############################################################################
@@ -73,11 +77,11 @@ normalize.data <- function(folder.data, role.meas, clust.algo, comdet.algo)
 	out.file <- get.rolemeas.filename(folder.data, role.meas, norm=TRUE, comdet.algo)
 	
 	# we normalize only if the file doesn't aleady exist
-	if(!file.exists(path.input))
+	if(!file.exists(out.file))
 	{	# load the data
 		start.time <- Sys.time();
 		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading raw data...\n",sep="")
-			x <- as.matrix(read.table(in.file))
+			x <- as.matrix(read.table(in.file,header=TRUE))
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
 		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
@@ -88,6 +92,7 @@ normalize.data <- function(folder.data, role.meas, clust.algo, comdet.algo)
 			for(c in 1:ncol(x))
 			{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing col.",c,"\n",sep="")
 				average <- mean(x[,c])
+				print(x)
 				stdev <- sd(x[,c])
 				cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ....Normalizing col.",c,": avg=",average," stdev=",stdev,"\n",sep="")
 				x[,c] <- (x[,c] - average) / stdev

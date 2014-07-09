@@ -47,8 +47,8 @@ get.degrees.names <- function()
 ###############################################################################
 get.communities.filename <- function(folder.data, comdet.algo)
 {	result <- paste(folder.data,"comdet=",comdet.algo,sep="")
-	resultat <- paste(resultat,".communities.txt",sep="")
-	return(resultat)
+	result <- paste(result,".communities.txt",sep="")
+	return(result)
 }
 
 ###############################################################################
@@ -59,8 +59,15 @@ get.communities.filename <- function(folder.data, comdet.algo)
 # algo: community detection method.
 ###############################################################################
 detect.communities <- function(folder.data, comdet.algo)
-{	if(comdet.algo=="LV")
+{	start.time <- Sys.time();
+	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Detecting communities\n",sep="")
+	
+	if(comdet.algo=="LV")
 		apply.igraph.louvain(folder.data, comdet.algo)
 	else if(algo=="LVdir")
 		apply.directed.louvain(folder.data, comdet.algo)
+	
+	end.time <- Sys.time();
+	total.time <- end.time - start.time;
+	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Communities detected in ",format(total.time),"\n",sep="")
 }

@@ -66,7 +66,13 @@ gkmeans <- function(x, fast=TRUE, k.bounds=c(2,15), criterion="ASW", trace=FALSE
 	best.quality <- NA
 	best.result <- NA
 	if(criterion=="ASW")
-		distances <- dist(x)
+	{	start.time <- Sys.time();
+		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing distances\n",sep="")
+			distances <- dist(x)
+		end.time <- Sys.time();
+		total.time <- end.time - start.time;
+		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Process completed in ",format(total.time),"\n",sep="")
+	}
 	
 	# iteratively process the clusters using the global k-means principle
 	for(k in k.bounds[1]:k.bounds[2])
@@ -151,7 +157,7 @@ gkmeans <- function(x, fast=TRUE, k.bounds=c(2,15), criterion="ASW", trace=FALSE
 		
 		# process quality measure
 		start.time <- Sys.time();
-		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Process quality measure for k=",k,"\n",sep="")
+		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Process ",criterion," measure for k=",k,"\n",sep="")
 			if(criterion=="DB")
 			{	qual.value <- index.DB(x=data, cl=min.clusters, centrotypes="centroids")$DB
 				if(is.na(best.quality) | qual.value<best.quality)

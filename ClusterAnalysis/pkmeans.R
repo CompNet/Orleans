@@ -26,8 +26,8 @@ apply.pkmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
 	temp.file <- paste(in.file,".membership",sep="")
 	data <- as.matrix(read.table(in.file))
 	
-	temp <- iterative.pkmeans(data, ks=c(2:15), criterion="ASW", trace=TRUE)
-	membership <- temp$cluster - 1 # number from 0
+	membership <- iterative.pkmeans(data, ks=c(2:15), criterion="ASW", trace=TRUE)
+	membership <- membership - 1 # number from 0
 	
 	# record result
 	out.file <- get.cluster.filename(folder.data,role.meas,0,clust.algo,comdet.algo)
@@ -49,6 +49,14 @@ iterative.pkmeans <- function(data, ks=c(2:15), criterion="ASW", trace=FALSE)
 {	# init
 	best.quality <- 0
 	best.result <- NA
+	if(criterion=="ASW")
+	{	start.time <- Sys.time();
+		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing distances\n",sep="")
+			distances <- dist(data)
+		end.time <- Sys.time();
+		total.time <- end.time - start.time;
+		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Process completed in ",format(total.time),"\n",sep="")
+	}
 	
 	# apply distributed k-means	
 	file.kmeans <- "ClusterAnalysis/pkmeans/omp_main"	# location of the parallel k-means software
@@ -82,29 +90,29 @@ iterative.pkmeans <- function(data, ks=c(2:15), criterion="ASW", trace=FALSE)
 		# load membership vector
 		start.time <- Sys.time();
 		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Load membership vector (",file.new,")\n",sep="")
-		membership <- as.matrix(read.table(file.new))[,2] + 1	# the clusters are numbered from zero 
+			membership <- as.matrix(read.table(file.new))[,2] + 1	# the clusters are numbered from zero 
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
 		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Load completed in ",format(total.time),"\n",sep="")
 		
 		# process quality measure
 		start.time <- Sys.time();
-		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Process Davies-Bouldin measure for k=",k,"\n",sep="")
-		if(criterion=="DB")
-		{	qual.value <- index.DB(x=data, cl=membership, centrotypes="centroids")$DB
-			if(is.na(best.quality) | qual.value<best.quality)
-			{	best.quality <- qual.value
-				best.result <- min.res
+		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Process ",criterion," measure for k=",k,"\n",sep="")
+			if(criterion=="DB")
+			{	qual.value <- index.DB(x=data, cl=membership, centrotypes="centroids")$DB
+				if(is.na(best.quality) | qual.value<best.quality)
+				{	best.quality <- qual.value
+					best.result <- membership
+				}
 			}
-		}
-		else if(criterion=="ASW")
-		{	qual.value <- summary(silhouette(x=membership, dist(x)))$avg.width
-			if(is.na(best.quality) | qual.value>best.quality)
-			{	best.quality <- qual.value
-				best.result <- min.res
+			else if(criterion=="ASW")
+			{	qual.value <- summary(silhouette(x=membership, distances))$avg.width
+				if(is.na(best.quality) | qual.value>best.quality)
+				{	best.quality <- qual.value
+					best.result <- membership
+				}
 			}
-		}
-		quality[i,2] <- qual.value
+			quality[i,2] <- qual.value
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
 		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing completed in ",format(total.time),", DB(",k,")=",qual.value,"\n",sep="")

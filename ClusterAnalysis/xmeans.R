@@ -23,7 +23,8 @@ apply.xmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
 	data <- as.matrix(read.table(in.file))
 	
 	# apply x-means	
-	temp <- xmeans(x=data, ik=2, iter.max=15, pr.proc=TRUE, ignore.covar=TRUE, merge.cls=FALSE)
+	trace <- FALSE
+	temp <- xmeans(x=data, ik=2, iter.max=15, pr.proc=trace, ignore.covar=TRUE, merge.cls=FALSE)
 	membership <- temp$cluster - 1 # number from 0
 		
 	# record result
