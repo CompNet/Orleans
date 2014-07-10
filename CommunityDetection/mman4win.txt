@@ -1,0 +1,4 @@
+see http://mbrownnyc.wordpress.com/2014/01/08/build-grok-on-windows-with-mingw/
+to install the mman library for windows (MinGW)
+
+-VL-

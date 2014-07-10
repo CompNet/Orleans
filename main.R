@@ -18,9 +18,9 @@ source("GenerateData/generate-data.R")
 # whether or not to generate data (for testing purposes)
 gen.data <- FALSE
 # community detection algorithm
-comdet.algo <- "LV"			#TODO LV, LVdir
+comdet.algo <- "LV"			#TODO LV, LV-dir, OSLOM-undir-p, OSLOM-dir-p, OSLOM-undir-o, OSLOM-dir-o
 # role measures
-role.meas <- "GA"			#TODO GA, GAdir, DLPp, DLPo
+role.meas <- "GA"			#TODO GA, GA-dir, DLP-p, DLP-o
 # clustering algorithm
 clust.algo <- "xmeans"		#TODO kmeans, pkmeans, xmeans, gkmeans, fgkmeans
 # data folder (all out and in files must be in this folder)

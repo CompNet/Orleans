@@ -64,8 +64,10 @@ detect.communities <- function(folder.data, comdet.algo)
 	
 	if(comdet.algo=="LV")
 		apply.igraph.louvain(folder.data, comdet.algo)
-	else if(algo=="LVdir")
+	else if(comdet.algo=="LV-dir")
 		apply.directed.louvain(folder.data, comdet.algo)
+	else if(comdet.algo %in% c("OSLOM-undir-p", "OSLOM-dir-p", "OSLOM-undir-o", "OSLOM-dir-o"))
+		apply.oslom(floder.data, comdet.algo)
 	
 	end.time <- Sys.time();
 	total.time <- end.time - start.time;
