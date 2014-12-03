@@ -1,4 +1,4 @@
-# Adapter allowing to apply the classic k-means algoritm
+# Adapter allowing to apply the classic k-means algorithm
 # implemented in R.
 # 
 # Version: 1
