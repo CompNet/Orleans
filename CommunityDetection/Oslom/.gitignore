@@ -6,3 +6,15 @@
 /infomap_undir.exe
 /infomap_dir_script.exe
 /infomap_dir.exe
+/community
+/convert
+/hierarchy
+/infomap_dir
+/infomap_dir_script
+/infomap_undir
+/infomap_undir_script
+/louvain_script
+/oslom_dir
+/oslom_undir
+/pajek_write_dir
+/pajek_write_undir

@@ -27,7 +27,7 @@ clust.algo <- "xmeans"		#TODO kmeans, pkmeans, xmeans, gkmeans, fgkmeans
 net.folder <- "data/test/"		#TODO put the network folder
 
 ###############################################################################
-# 0. Detecting communities
+# 0. Generate data
 ###############################################################################
 if(gen.data)
 {	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Generate data\n",sep="")

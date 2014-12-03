@@ -1,3 +1,9 @@
 /list_out
 /a.out
 /a.exe
+/community.o
+/graph_binary.o
+/graph.o
+/main_community.o
+/main_convert.o
+/main_hierarchy.o
