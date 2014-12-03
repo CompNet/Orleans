@@ -16,13 +16,21 @@
 # comdet.algo: community detection method.
 ###############################################################################
 apply.directed.louvain <- function(folder.data, comdet.algo)
-{	# set up the command, including all required parameters
-	net.file <- get.network.filename(folder.data)
-	cmd <- paste("blablabla ",net.file,sep="") # TODO
+{	compiled.file <- get.network.clean.filename(folder.data)
+	
+	# compile to a binary file if necessary
+	if(!file.exists(compiled.file))
+		compile.graph.file(folder.data)
+	
+	# set up the command, including all required parameters
+	cmd <- paste("blablabla ",compiled.file,sep="") # TODO complete with appropriate parameters
 	
 	# execute the command from R
 	system(command=cmd) 
 	
 	# possibly rename the outputted file (to fit the R scripts requirements)
 	# TODO
+	
+	# convert the 2 column files (node,com) to a single column one (com)
+	# TODO 
 }

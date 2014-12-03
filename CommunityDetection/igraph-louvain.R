@@ -17,16 +17,23 @@ library("igraph")
 # comdet.algo: community detection method.
 ###############################################################################
 apply.igraph.louvain <- function(folder.data, comdet.algo)
-{	# load the edgelist
-	net.file <- get.network.filename(folder.data)
-	el <- as.matrix(read.table(net.file))
-	el <- el + 1 # number from 1
+{	# renumber the original edgelist, if necessary
+	clean.file <- get.network.clean.filename(folder.data)
+	if(!file.exists(clean.file))
+		clean.graph.file(folder.data)
+	
+	# load the clean edgelist
+	clean.file <- get.network.clean.filename(folder.data)
+	el <- as.matrix(read.table(clean.file))
+	el <- el + 1 # number from 1 for igraph
 		
 	# build graph from edgelist
 	g <- graph.edgelist(el, directed=FALSE)
 	
 	# apply louvain
 	temp <- multilevel.community(graph=g, weights=NULL)
+	
+	# normalize membership for compatibility issues
 	membership <- temp$membership - 1	# to get numbers starting from 0
 	
 	# record result

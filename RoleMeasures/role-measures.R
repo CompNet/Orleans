@@ -8,6 +8,7 @@
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
 # source("RoleMeasures/role-measures.R")
 ###############################################################################
+source("CommunityDetection/community-detection.R")
 
 ###############################################################################
 # Returns the list of names for the community role measures
@@ -70,11 +71,14 @@ get.rolemeas.filename <- function(folder.data, role.meas, norm=FALSE, comdet.alg
 process.rolemeas <- function(folder.data, role.meas, comdet.algo)
 {	# get file paths
 	net.file <- get.network.filename(folder.data)
+	clean.file <- get.network.clean.filename(folder.data) #TODO one or the other?
+	compiled.file <- get.network.compiled.filename(folder.data) #TODO one or the other?
 	com.file <- get.communities.filename(folder.data,comdet.algo)
 	out.file <- get.rolemeas.filename(folder.data,role.meas,norm=FALSE,comdet.algo)
 	
-	# first convert the network
-	# TODO easygraphe?
+	# compile to a binary file if necessary
+	if(!file.exists(compiled.file))
+		compile.graph.file(folder.data)
 	
 	# set up the appropriate command
 	if(role.meas=="GA")

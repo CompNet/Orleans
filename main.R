@@ -68,4 +68,4 @@ if(gen.data)
 # role measures (distribution, correlation, plot)
 # record/plot clustering/comdet quality measures
 
-cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Generate communities\n",sep="")
+cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Done\n",sep="")
