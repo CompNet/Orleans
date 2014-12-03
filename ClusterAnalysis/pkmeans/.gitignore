@@ -1,0 +1,13 @@
+/file_io.o
+/mpi_io.o
+/mpi_kmeans.o
+/mpi_main
+/mpi_main.o
+/omp_kmeans.o
+/omp_main
+/omp_main.o
+/pnetcdf_io.o
+/seq_kmeans.o
+/seq_main
+/seq_main.o
+/wtime.o
