@@ -1,5 +1,5 @@
 # Generates dummy data to play with
-# (and test the rest of the scripts).
+# (and to test the rest of the scripts).
 #
 # version: 2
 # Author: Vincent Labatut 06/2013,07/2014
@@ -15,7 +15,7 @@ source("CommunityDetection/community-detection.R")
 source("RoleMeasures/role-measures.R")
 
 ###############################################################################
-# Generates and record a fake network,
+# Generates and records a fake network,
 # as well as its degree sequence.
 # 
 # folder.data: name of the folder containing all files to be generated.
@@ -92,7 +92,7 @@ generate.rolemeas <- function(folder.data, role.meas, n, n.clust, clust.algo, co
 }
 
 ###############################################################################
-# Generate and records fake communities.
+# Generates and records fake communities.
 #
 # folder.data: name of the folder to contain all generated data.
 # n: desired number of nodes.
@@ -111,7 +111,7 @@ generate.communities <- function(folder.data, n, clust.algo, n.com, comdet.algo)
 
 ###############################################################################
 # Main function for data generation.
-# Warning: existing files might be replaced by generated ones.
+# Warning: existing files might be replaced by newly generated ones.
 #
 # folder.data: name of the folder to contain all generated data.
 # role.mes: name of the role measures.

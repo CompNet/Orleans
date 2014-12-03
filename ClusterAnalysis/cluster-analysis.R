@@ -64,7 +64,7 @@ detect.clusters <- function(folder.data, role.meas, clust.algo, comdet.algo)
 # to get better results when doing the cluster analysis.
 # We center/reduce the data.
 #
-# Note: we don't re-process the data of the normalized file
+# Note: we don't re-process the data if the normalized file
 # already exists.
 #
 # folder.data: folder containing all input and output files.

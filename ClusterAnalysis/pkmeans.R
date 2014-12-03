@@ -1,4 +1,4 @@
-# Adapter allowing to apply the distributed k-means algoritm
+# Adapter allowing to apply the distributed k-means algorithm
 # implemented by Wei-keng Liao.
 # http://users.eecs.northwestern.edu/~wkliao/Kmeans/
 # 
