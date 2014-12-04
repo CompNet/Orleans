@@ -16,8 +16,10 @@
 
 #include <assert.h>
 
-float** omp_kmeans(int, float**, int, int, int, float, int*);
-float** seq_kmeans(float**, int, int, int, float, int*);
+// TODO >> modified by VL: added new parameter "float**" for initial centers
+float** omp_kmeans(int, float**, int, int, int, float**, float, int*);
+float** seq_kmeans(float**, int, int, int, float**, float, int*);
+// TODO << end of the modification
 
 float** file_read(int, char*, int*, int*);
 int     file_write(char*, int, int, int, float**, int*, int);

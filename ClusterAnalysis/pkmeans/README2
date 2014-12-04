@@ -1,0 +1,15 @@
+The software was modified so that you can now specify the initial centers
+(this was necessary to apply the global k-means approach).
+So, there is now a new optional z option to put right after the data file name.
+If no centers are specified, the software uses the k first objects (as in the
+original implementation).
+Modifications are explicitly indicated in the source code.
+
+Vincent Labatut
+Nov. 2014
+
+--------------------------------------------------------------------
+example:
+./mpi_main -i /.../test.data.txt -z /.../test.centers.txt -n 3
+where test.centers.txt is formatted like test.data.txt (see README) but with only k=3 objects
+(used as centers).
