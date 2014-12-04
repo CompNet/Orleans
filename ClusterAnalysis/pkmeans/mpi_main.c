@@ -46,8 +46,13 @@ int     mpi_write(int, char*, int, int, int, float**, int*, int, MPI_Comm,
 /*---< usage() >------------------------------------------------------------*/
 static void usage(char *argv0, float threshold) {
     char *help =
-        "Usage: %s [switches] -i filename -n num_clusters\n"
+// TODO >> modified by VL: added new option "-c centers_filename "
+		"Usage: %s [switches] -i filename -c centers_filename -n num_clusters\n"
+// TODO << end of the modification
         "       -i filename    : file containing data to be clustered\n"
+// TODO >> modified by VL: added new option
+		"       -z centers_filename    : file containing the initial centers (default: first num_clusters objects)\n"
+// TODO << end of the modification
         "       -b             : input file is in binary format (default no)\n"
         "       -r             : output file in binary format (default no)\n"
         "       -n num_clusters: number of clusters (K must > 1)\n"
@@ -73,6 +78,9 @@ int main(int argc, char **argv) {
            int     numClusters, numCoords, numObjs, totalNumObjs;
            int    *membership;    /* [numObjs] */
            char   *filename;
+// TODO >> modified by VL: new variable representing the centers file name
+		  char   *centers_filename;
+// TODO << end of the modification
            char   *var_name;
            float **objects;       /* [numObjs][numCoords] data objects */
            float **clusters;      /* [numClusters][numCoords] cluster center */
@@ -98,13 +106,22 @@ int main(int argc, char **argv) {
     is_output_timing = 0;
     is_print_usage   = 0;
     filename         = NULL;
+// TODO >> modified by VL: initialization of the new variable
+	centers_filename = NULL;
+// TODO << end of the modification
     do_pnetcdf       = 0;
     var_name         = NULL;
 
-    while ( (opt=getopt(argc,argv,"i:n:t:v:c:abdorhq"))!= EOF) {
-        switch (opt) {
+// TODO >> modified by VL: added the letter z
+    while ( (opt=getopt(argc,argv,"i:z:n:t:v:c:abdorhq"))!= EOF) {
+// TODO << end of the modification
+       switch (opt) {
             case 'i': filename=optarg;
                       break;
+// TODO >> modified by VL: initialize centers filename
+            case 'z': centers_filename=optarg;
+				  	  break;
+// TODO << end of the modification
             case 'b': isInFileBinary = 1;
                       break;
             case 'r': isOutFileBinary = 1;
@@ -189,19 +206,30 @@ int main(int argc, char **argv) {
 
     /* checking if numObjs < nproc is done in the I/O routine */
 
-    /* pick first numClusters elements in feature[] as initial cluster centers*/
-    if (rank == 0) {
-        if (numObjs < numClusters) {
-            /* read the first numClusters data points from file */
-            read_n_objects(isInFileBinary, filename, numClusters, numCoords, clusters);
-        }
-        else {
-            /* copy the first numClusters elements in feature[] */
-            for (i=0; i<numClusters; i++)
-                for (j=0; j<numCoords; j++)
-                    clusters[i][j] = objects[i][j];
-        }
-    }
+// TODO >> modified by VL: initialize variable "clusters"
+	// possibly load the centers from a file
+	if (centers_filename != NULL)
+	{	int num_centers, num_coords;
+		clusters = file_read(0, centers_filename, &num_centers, &num_coords);
+		// no control over the numbers of centers and coordinates
+	}
+	// otherwise, pick the first numClusters elements of objects[] as initial cluster centers
+	else
+// TODO << end of the modification
+
+		/* pick first numClusters elements in feature[] as initial cluster centers*/
+		if (rank == 0) {
+			if (numObjs < numClusters) {
+				/* read the first numClusters data points from file */
+				read_n_objects(isInFileBinary, filename, numClusters, numCoords, clusters);
+			}
+			else {
+				/* copy the first numClusters elements in feature[] */
+				for (i=0; i<numClusters; i++)
+					for (j=0; j<numCoords; j++)
+						clusters[i][j] = objects[i][j];
+			}
+		}
     MPI_Bcast(clusters[0], numClusters*numCoords, MPI_FLOAT, 0, MPI_COMM_WORLD);
 
     /* membership: the cluster id for each data object */
@@ -248,6 +276,10 @@ int main(int argc, char **argv) {
             printf("\nPerforming **** Simple Kmeans  (MPI) ****\n");
             printf("Num of processes = %d\n", nproc);
             printf("Input file:        %s\n", filename);
+// TODO >> modified by VL: display centers filename
+		if(centers_filename!=NULL)
+			printf("Centers file:     %s\n", centers_filename);
+// TODO << end of the modifications
             printf("numObjs          = %d\n", totalNumObjs);
             printf("numCoords        = %d\n", numCoords);
             printf("numClusters      = %d\n", numClusters);

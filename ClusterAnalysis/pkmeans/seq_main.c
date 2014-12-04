@@ -32,8 +32,13 @@ int      _debug;
 /*---< usage() >------------------------------------------------------------*/
 static void usage(char *argv0, float threshold) {
     char *help =
-        "Usage: %s [switches] -i filename -n num_clusters\n"
+// TODO >> modified by VL: added new option "-c centers_filename "
+        "Usage: %s [switches] -i filename -c centers_filename -n num_clusters\n"
+// TODO << end of the modification
         "       -i filename    : file containing data to be clustered\n"
+// TODO >> modified by VL: added new option
+		"       -z centers_filename    : file containing the initial centers (default: first num_clusters objects)\n"
+// TODO << end of the modification
         "       -b             : input file is in binary format (default no)\n"
         "       -n num_clusters: number of clusters (K must > 1)\n"
         "       -t threshold   : threshold value (default %.4f)\n"
@@ -55,6 +60,9 @@ int main(int argc, char **argv) {
            int     numClusters, numCoords, numObjs;
            int    *membership;    /* [numObjs] */
            char   *filename;
+// TODO >> modified by VL: new variable representing the centers file name
+           char   *centers_filename;
+// TODO << end of the modification
            float **objects;       /* [numObjs][numCoords] data objects */
            float **clusters;      /* [numClusters][numCoords] cluster center */
            float   threshold;
@@ -68,11 +76,20 @@ int main(int argc, char **argv) {
     isBinaryFile     = 0;
     is_output_timing = 0;
     filename         = NULL;
+// TODO >> modified by VL: initialization of the new variable
+    centers_filename = NULL;
+// TODO << end of the modification
 
-    while ( (opt=getopt(argc,argv,"p:i:n:t:abdohq"))!= EOF) {
+// TODO >> modified by VL: added the letter z
+    while ( (opt=getopt(argc,argv,"p:i:z:n:t:abdohq"))!= EOF) {
+// TODO << end of the modification
         switch (opt) {
             case 'i': filename=optarg;
                       break;
+// TODO >> modified by VL: initialize centers filename
+            case 'z': centers_filename=optarg;
+                      break;
+// TODO << end of the modification
             case 'b': isBinaryFile = 1;
                       break;
             case 't': threshold=atof(optarg);
@@ -110,8 +127,33 @@ int main(int argc, char **argv) {
     membership = (int*) malloc(numObjs * sizeof(int));
     assert(membership != NULL);
 
-    clusters = seq_kmeans(objects, numCoords, numObjs, numClusters, threshold,
-                          membership);
+// TODO >> modified by VL: initialize variable "clusters"
+    /* allocate a 2D space for returning variable clusters[] (coordinates of cluster centers) */
+    clusters    = (float**) malloc(numClusters *             sizeof(float*));
+    assert(clusters != NULL);
+    clusters[0] = (float*)  malloc(numClusters * numCoords * sizeof(float));
+    assert(clusters[0] != NULL);
+    int i,j;
+    for (i=1; i<numClusters; i++)
+        clusters[i] = clusters[i-1] + numCoords;
+
+    // possibly load the centers from a file
+    if (centers_filename != NULL)
+    {	int num_centers, num_coords;
+    	clusters = file_read(0, centers_filename, &num_centers, &num_coords);
+    	// no control over the numbers of centers and coordinates
+    }
+	// otherwise, pick the first numClusters elements of objects[] as initial cluster centers
+    else
+    {	for (i=0; i<numClusters; i++)
+    		for (j=0; j<numCoords; j++)
+    			clusters[i][j] = objects[i][j];
+    }
+// TODO << end of the modification
+
+// TODO >> modified by VL: added "clusters" as a parameter representing the initial centers
+    clusters = seq_kmeans(objects, numCoords, numObjs, numClusters, clusters, threshold, membership);
+// TODO << end of the modification
 
     free(objects[0]);
     free(objects);
@@ -135,6 +177,10 @@ int main(int argc, char **argv) {
         printf("\nPerforming **** Regular Kmeans (sequential version) ****\n");
 
         printf("Input file:     %s\n", filename);
+// TODO >> modified by VL: display centers filename
+        if(centers_filename!=NULL)
+        	printf("Centers file:     %s\n", centers_filename);
+// TODO << end of the modifications
         printf("numObjs       = %d\n", numObjs);
         printf("numCoords     = %d\n", numCoords);
         printf("numClusters   = %d\n", numClusters);

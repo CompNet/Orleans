@@ -68,10 +68,14 @@ int find_nearest_cluster(int     numClusters, /* no. clusters */
 
 /*----< seq_kmeans() >-------------------------------------------------------*/
 /* return an array of cluster centers of size [numClusters][numCoords]       */
+// TODO modified by VL to allow the specification of initial cluster centers
 float** seq_kmeans(float **objects,      /* in: [numObjs][numCoords] */
                    int     numCoords,    /* no. features */
                    int     numObjs,      /* no. objects */
                    int     numClusters,  /* no. clusters */
+// TODO >> modified by VL: parameter containing the initial cluster centers
+				   float  **clusters,    /* cluster centers */
+// TODO << end of the modification
                    float   threshold,    /* % objects change membership */
                    int    *membership)   /* out: [numObjs] */
 {
@@ -79,22 +83,26 @@ float** seq_kmeans(float **objects,      /* in: [numObjs][numCoords] */
     int     *newClusterSize; /* [numClusters]: no. objects assigned in each
                                 new cluster */
     float    delta;          /* % of objects change their clusters */
-    float  **clusters;       /* out: [numClusters][numCoords] */
+// TODO >> commented by VL: moved to the main function
+//    float  **clusters;       /* out: [numClusters][numCoords] */
+// TODO << end of commented code
     float  **newClusters;    /* [numClusters][numCoords] */
 
-    /* allocate a 2D space for returning variable clusters[] (coordinates
-       of cluster centers) */
-    clusters    = (float**) malloc(numClusters *             sizeof(float*));
-    assert(clusters != NULL);
-    clusters[0] = (float*)  malloc(numClusters * numCoords * sizeof(float));
-    assert(clusters[0] != NULL);
-    for (i=1; i<numClusters; i++)
-        clusters[i] = clusters[i-1] + numCoords;
-
-    /* pick first numClusters elements of objects[] as initial cluster centers*/
-    for (i=0; i<numClusters; i++)
-        for (j=0; j<numCoords; j++)
-            clusters[i][j] = objects[i][j];
+// TODO >> commented by VL: moved to the main function
+//    /* allocate a 2D space for returning variable clusters[] (coordinates
+//       of cluster centers) */
+//    clusters    = (float**) malloc(numClusters *             sizeof(float*));
+//    assert(clusters != NULL);
+//    clusters[0] = (float*)  malloc(numClusters * numCoords * sizeof(float));
+//    assert(clusters[0] != NULL);
+//    for (i=1; i<numClusters; i++)
+//        clusters[i] = clusters[i-1] + numCoords;
+//
+//    /* pick first numClusters elements of objects[] as initial cluster centers*/
+//    for (i=0; i<numClusters; i++)
+//        for (j=0; j<numCoords; j++)
+//            clusters[i][j] = objects[i][j];
+// TODO << end of commented code
 
     /* initialize membership[] */
     for (i=0; i<numObjs; i++) membership[i] = -1;
