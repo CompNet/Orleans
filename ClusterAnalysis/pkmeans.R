@@ -26,7 +26,8 @@ apply.pkmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
 	temp.file <- paste(in.file,".membership",sep="")
 	data <- as.matrix(read.table(in.file))
 	
-	membership <- iterative.pkmeans(data, ks=c(2:15), criterion="ASW", trace=TRUE)
+	membership <- iterative.pkmeans(data, ks=c(2:15), criterion="ASW", 
+			folder.data, file.data=in.file, role.meas, clust.algo, comdet.algo, trace=TRUE)
 	membership <- membership - 1 # number from 0
 	
 	# record result
@@ -43,9 +44,15 @@ apply.pkmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
 # criterion: criterion used to select the best number of clusters:
 #				- ASW: average Silhouette width
 #				- DB: Davies-Bouldin
+# folder.data: main folder (needed for external programs)
+# file.data: input file (already loaded, but path needed for external programs)
+# role.meas: name of the role measure (needed for external programs)
+# clust.ago: name of the clustering algorithm (needed for external programs)
+# comdet.ago: name of the community detection algorithm (needed for external programs)
 # trace: if TRUE, logs the process
 ###############################################################################
-iterative.pkmeans <- function(data, ks=c(2:15), criterion="ASW", trace=FALSE)
+iterative.pkmeans <- function(data, ks=c(2:15), criterion="ASW", 
+		folder.data, file.data, role.meas, clust.algo, comdet.algo, trace=FALSE)
 {	# init
 	best.quality <- 0
 	best.result <- NA
@@ -78,7 +85,8 @@ iterative.pkmeans <- function(data, ks=c(2:15), criterion="ASW", trace=FALSE)
 		if(trace) cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ....Executing command ",kmeans.command,"\n",sep="")
 		system(command=kmeans.command)
 		# move produced membership file (not the others, we don't care)
-		file.new <- get.cluster.filename(folder.data,role.meas,n.clust=k,clust.elgo,comdet.algo)
+		temp.file <- paste(file.data,".membership",sep="")
+		file.new <- get.cluster.filename(folder.data,role.meas,n.clust=k,clust.algo,comdet.algo)
 		if(trace) cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ......Moving file ",temp.file," to ",file.new,"\n",sep="")
 		if(file.exists(file.new))
 			file.remove(file.new)

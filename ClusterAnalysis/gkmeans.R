@@ -35,11 +35,16 @@ apply.gkmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
 	data <- as.matrix(read.table(in.file))
 	
 	# apply global k-means
-	if(clust.algo=="fgkmeans")
+	if(clust.algo=="fgkmeans" || clust.algo=="fgpkmeans")
 		fast = TRUE
 	else
 		fast = FALSE
-	temp <- gkmeans(x=data, fast, k.bounds=c(2,15), criterion="ASW", trace=TRUE)
+	if(clust.algo=="gpkmeans" || clust.algo=="fgpkmeans")
+		parallel = TRUE
+	else
+		parallel = FALSE
+	temp <- gkmeans(x=data, fast=fast, parallel=parallel, k.bounds=c(2,15), criterion="ASW", 
+			folder.data, file.data=in.file, role.meas, clust.algo, comdet.algo, trace=TRUE)
 	membership <- temp$cluster - 1 # number from 0
 	
 	# record result
@@ -52,13 +57,20 @@ apply.gkmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
 #
 # x: data points
 # fast: use regular (FALSE) or fast (TRUE) global k-means
+# parallel: use regular R (FALSE) or parallel (TRUE) version of k-means.
 # k.bounds: lower and upper bounds for the tested numbers of clusters
 # criterion: criterion used to select the best number of clusters:
 #				- ASW: average Silhouette width
 #				- DB: Davies-Bouldin
+# folder.data: main folder (needed for external programs)
+# file.data: input file (already loaded, but path needed for external programs)
+# role.meas: name of the role measure (needed for external programs)
+# clust.ago: name of the clustering algorithm (needed for external programs)
+# comdet.ago: name of the community detection algorithm (needed for external programs)
 # trace: if TRUE, logs the process
 ###############################################################################
-gkmeans <- function(x, fast=TRUE, k.bounds=c(2,15), criterion="ASW", trace=FALSE)
+gkmeans <- function(x, fast=TRUE, parallel=FALSE, k.bounds=c(2,15), criterion="ASW", 
+		folder.data, file.data, role.meas, clust.algo, comdet.algo, trace=FALSE)
 {	# process the initial center (means of data attributes)
 	centers <- matrix(ncol=ncol(x),nrow=1)
 	centers[1,] <- apply(x, 2, mean)
@@ -135,7 +147,7 @@ gkmeans <- function(x, fast=TRUE, k.bounds=c(2,15), criterion="ASW", trace=FALSE
 				{	# set up centers
 					c <- rbind(centers[1:(k-1),],candidates[i,])
 					# apply k-means
-					res <- kmeans(x=x, centers=c, iter.max=10, algorithm=c("Hartigan-Wong"))
+					res <- inner.apply.kmeans(data=x, centers, folder.data, file.data, role.meas, clust.algo, comdet.algo, trace)
 					ss <- res$tot.withinss
 					# possibly update min variables
 					if(ss<min.error)
@@ -181,4 +193,95 @@ gkmeans <- function(x, fast=TRUE, k.bounds=c(2,15), criterion="ASW", trace=FALSE
 	
 	# set up the final result
 	return(best.result)
+}
+
+###############################################################################
+# Applies the basic k-means clustering method in the context of global
+# k-means.
+#
+# data: objects to cluster (already loaded)
+# centers: initial centers (coordinates)
+# folder.data: main folder (needed for external programs)
+# file.data: input file (already loaded, but path needed for external programs)
+# role.meas: name of the role measure (needed for external programs)
+# clust.ago: name of the clustering algorithm (needed for external programs)
+# comdet.ago: name of the community detection algorithm (needed for external programs)
+# trace: if TRUE, logs the process
+###############################################################################
+inner.apply.kmeans(data, centers, folder.data, file.data, role.meas, clust.algo, comdet.algo, trace)
+{	# regular k-means
+	if(clust.algo=="fgkmeans" || clust.algo=="gkmeans")
+		result <- kmeans(x=data, centers=centers, iter.max=10, algorithm=c("Hartigan-Wong"))
+	
+	# parallel k-means
+	else
+	{	start.time <- Sys.time();
+			k <- nrow(centers)
+			if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ........Applying Parallel k-means for k=",k,"\n",sep="")
+			
+			# record the centers in a specific file (to be removed later)
+			file.centers <- paste(file.data,".centers",sep="")
+			write.table(x=centers,file=file.centers,row.names=FALSE,col.names=FALSE)
+			
+			# location of the parallel k-means software
+			file.kmeans <- "ClusterAnalysis/pkmeans/omp_main"	
+			
+			# define command
+			kmeans.command <- paste(file.kmeans,
+					" -i ", getwd(), "/", file.data,
+					" -z ", getwd(), "/", file.centers,
+					" -n ", k,
+					sep="")
+			
+			# perform clustering
+			if(trace) cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..........Executing command ",kmeans.command,"\n",sep="")
+			system(command=kmeans.command)
+	
+			# move produced cluster file
+			temp.cluster.file <- paste(file.data,".membership",sep="")
+			file.new <- get.cluster.filename(folder.data,role.meas,n.clust=k,clust.elgo,comdet.algo)
+			if(trace) cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..........Moving file ",temp.cluster.file," to ",file.new,"\n",sep="")
+			if(file.exists(file.new))
+				file.remove(file.new)
+			file.rename(from=temp.file,to=file.new)
+		end.time <- Sys.time();
+		total.time <- end.time - start.time;
+		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ........Process completed in ",format(total.time),"\n",sep="")
+		
+		# load then remove centers file
+		start.time <- Sys.time();
+			temp.center.file <- paste(file.data,".cluster_centers",sep="")
+			if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ........Load/remove centers file (",temp.center.file,")\n",sep="")
+			centers2 <- as.matrix(read.table(file=temp.center.file))
+			file.remove(temp.center.file)
+		end.time <- Sys.time();
+		total.time <- end.time - start.time;
+		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ........Load completed in ",format(total.time),"\n",sep="")
+		
+		# load membership vector
+		start.time <- Sys.time();
+			if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ........Load membership vector (",file.new,")\n",sep="")
+			membership <- as.matrix(read.table(file.new))[,2] + 1	# the clusters are numbered from zero 
+		end.time <- Sys.time();
+		total.time <- end.time - start.time;
+		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ........Load completed in ",format(total.time),"\n",sep="")
+		
+		# process within-cluster sum of squares
+		start.time <- Sys.time();
+			if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ........Process within-cluster sum of squares\n",sep="")
+			temp <- sapply(1:k, function(num)
+			{	idx <- which(membership==num)
+				mean.coord <- apply(data[idx,], 2, mean)
+				wcs <- apply(data[idx,], 1, function(x) (x - mean.coord)^2)
+				return(sum(wcs))
+			})
+			wcss <- sum(temp)
+		end.time <- Sys.time();
+		total.time <- end.time - start.time;
+		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ........Process completed in ",format(total.time)," (",wcss,")\n",sep="")
+		
+		result = list(cluster=membership,centers=centers2,tot.withinss=wcss)
+	}
+	
+	return(result)
 }
