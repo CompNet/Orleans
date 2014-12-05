@@ -28,8 +28,33 @@ get.cluster.filename <- function(folder.data, role.meas, n.clust=0, clust.algo, 
 	result <- paste(result,".rolemeas=",role.meas,sep="")
 	result <- paste(result,".clust=",clust.algo,sep="")
 	if(n.clust>0)
-		result <- paste(result,".k",n.clust,sep="")
+		result <- paste(result,".k=",n.clust,sep="")
 	result <- paste(result,".clusters.txt",sep="")
+	return(result)
+}
+
+###############################################################################
+# Returns the standard filename for the performances of a clustering algorithm.
+#
+# folder.data: folder containing all input and output files.
+# role.meas: type of role measures.
+# clust.algo: cluster analysis algorithm.
+# comdet.algo: community detection algorithm.
+# perf.meas: performance measure used to assess the clusters.
+# plot: wheter the file should be a PDF (TRUE) or just text (FALSE)
+###############################################################################
+get.cluster.perf.filename <- function(folder.data, role.meas, clust.algo, comdet.algo, perf.meas, plot=FALSE)
+{	result <- paste(folder.data,"comdet=",comdet.algo,sep="")
+	result <- paste(result,".rolemeas=",role.meas,sep="")
+	result <- paste(result,".clust=",clust.algo,sep="")
+	result <- paste(result,".perf=",perf.meas,sep="")
+	
+	if(plot)
+		ext <- "pdf"
+	else
+		ext <- "txt"
+	result <- paste(result,".",ext,sep="")
+	
 	return(result)
 }
 
@@ -56,6 +81,10 @@ detect.clusters <- function(folder.data, role.meas, clust.algo, comdet.algo)
 	else if(clust.algo=="gkmeans")
 		apply.gkmeans(folder.data, role.meas, clust.algo, comdet.algo)
 	else if(clust.algo=="fgkmeans")
+		apply.gkmeans(folder.data, role.meas, clust.algo, comdet.algo)
+	else if(clust.algo=="gpkmeans")
+		apply.gkmeans(folder.data, role.meas, clust.algo, comdet.algo)
+	else if(clust.algo=="fgpkmeans")
 		apply.gkmeans(folder.data, role.meas, clust.algo, comdet.algo)
 }
 	

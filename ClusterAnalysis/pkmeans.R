@@ -32,7 +32,7 @@ apply.pkmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
 	
 	# record result
 	out.file <- get.cluster.filename(folder.data,role.meas,0,clust.algo,comdet.algo)
-	write.table(x=best.result, file=out.file, row.names=FALSE, col.names=FALSE)
+	write.table(x=membership, file=out.file, row.names=FALSE, col.names=FALSE)
 }
 
 ###############################################################################
@@ -68,14 +68,15 @@ iterative.pkmeans <- function(data, ks=c(2:15), criterion="ASW",
 	# apply distributed k-means	
 	file.kmeans <- "ClusterAnalysis/pkmeans/omp_main"	# location of the parallel k-means software
 	quality <- matrix(NA,ncol=2,nrow=length(ks))
+	colnames(quality) <- c("k",criterion)
 	quality[,1] <- ks
 	for(i in 1:length(ks))
-	{	# apply k-means
-		k <- ks[i]
+	{	k <- ks[i]
 		if(trace) cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing k=",k,"\n",sep="")
 		
 		start.time <- Sys.time();
 		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Applying k-means for k=",k,"\n",sep="")
+		
 		# define command
 		kmeans.command <- paste(file.kmeans,
 				" -i ", getwd(), "/", file.data,
@@ -84,6 +85,7 @@ iterative.pkmeans <- function(data, ks=c(2:15), criterion="ASW",
 		# perform clustering
 		if(trace) cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ....Executing command ",kmeans.command,"\n",sep="")
 		system(command=kmeans.command)
+		
 		# move produced membership file (not the others, we don't care)
 		temp.file <- paste(file.data,".membership",sep="")
 		file.new <- get.cluster.filename(folder.data,role.meas,n.clust=k,clust.algo,comdet.algo)
@@ -129,6 +131,15 @@ iterative.pkmeans <- function(data, ks=c(2:15), criterion="ASW",
 		if(trace) cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Process completed for k=",k,"\n",sep="")
 		if(trace) print(quality)
 	}
+	
+	# record performance
+	if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ..Recording the performances\n",sep="")
+	perf.file <- get.cluster.perf.filename(folder.data,role.meas,clust.algo,comdet.algo,perf.meas=criterion,plot=FALSE)
+	write.table(x=quality,file=perf.file,row.names=FALSE,col.names=TRUE)
+	perf.file <- get.cluster.perf.filename(folder.data,role.meas,clust.algo,comdet.algo,perf.meas=criterion,plot=TRUE)
+	pdf(file=perf.file,bg="white")
+	plot(x=quality,type="o",col="RED")
+	dev.off()
 	
 	return(best.result)
 }

@@ -26,7 +26,7 @@ apply.xmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
 	trace <- FALSE
 	temp <- xmeans(x=data, ik=2, iter.max=15, pr.proc=trace, ignore.covar=TRUE, merge.cls=FALSE)
 	membership <- temp$cluster - 1 # number from 0
-		
+	
 	# record result
 	out.file <- get.cluster.filename(folder.data,role.meas,0,clust.algo,comdet.algo)
 	write.table(x=membership, file=out.file, row.names=FALSE, col.names=FALSE)

@@ -23,7 +23,7 @@ apply.kmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
 	data <- as.matrix(read.table(in.file))
 	
 	# apply k-means	
-	membership <- iterative.kmeans(data, ks=c(2:15), criterion="ASW", trace=TRUE)
+	membership <- iterative.kmeans(data, ks=c(2:15), criterion="ASW", folder.data, role.meas, clust.algo, comdet.algo, trace=TRUE)
 	membership <- membership - 1 # number from 0
 	
 	# record result
@@ -40,9 +40,14 @@ apply.kmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
 # criterion: criterion used to select the best number of clusters:
 #				- ASW: average Silhouette width
 #				- DB: Davies-Bouldin
+# folder.data: folder containing all input and output files.
+# role.meas: type of role measures.
+# clust.algo: cluster analysis method.
+# comdet.algo: community detection algorithm.
 # trace: if TRUE, logs the process
 ###############################################################################
-iterative.kmeans <- function(data, ks=c(2:15), criterion="ASW", trace=FALSE)
+iterative.kmeans <- function(data, ks=c(2:15), criterion="ASW", 
+		folder.data, role.meas, clust.algo, comdet.algo, trace=FALSE)
 {	# init
 	best.quality <- 0
 	best.result <- NA
@@ -57,6 +62,7 @@ iterative.kmeans <- function(data, ks=c(2:15), criterion="ASW", trace=FALSE)
 	
 	# apply distributed k-means	
 	quality <- matrix(NA,ncol=2,nrow=length(ks))
+	colnames(quality) <- c("k",criterion)
 	quality[,1] <- ks
 	for(i in 1:length(ks))
 	{	# apply k-means
@@ -97,6 +103,15 @@ iterative.kmeans <- function(data, ks=c(2:15), criterion="ASW", trace=FALSE)
 		if(trace) cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Process completed for k=",k,"\n",sep="")
 		if(trace) print(quality)
 	}
+	
+	# record performance
+	if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ..Recording the performances\n",sep="")
+	perf.file <- get.cluster.perf.filename(folder.data,role.meas,clust.algo,comdet.algo,perf.meas=criterion,plot=FALSE)
+	write.table(x=quality,file=perf.file,row.names=FALSE,col.names=TRUE)
+	perf.file <- get.cluster.perf.filename(folder.data,role.meas,clust.algo,comdet.algo,perf.meas=criterion,plot=TRUE)
+	pdf(file=perf.file,bg="white")
+	plot(x=quality,type="o",col="RED")
+	dev.off()
 	
 	return(best.result)
 }

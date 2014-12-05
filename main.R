@@ -9,6 +9,7 @@
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
 # source("main.R")
 ###############################################################################
+source("ClusterAnalysis/cluster-analysis.R")
 source("CommunityDetection/community-detection.R")
 source("GenerateData/generate-data.R")
 
@@ -22,7 +23,7 @@ comdet.algo <- "LV"			#TODO LV, LV-dir, OSLOM-undir-p, OSLOM-dir-p, OSLOM-undir-
 # role measures
 role.meas <- "GA"			#TODO GA, GA-dir, DLP-p, DLP-o
 # clustering algorithm
-clust.algo <- "xmeans"		#TODO kmeans, pkmeans, xmeans, gkmeans, fgkmeans
+clust.algo <- "gpkmeans"		#TODO kmeans, pkmeans, xmeans, gkmeans, fgkmeans, gpkmeans, fgpkmeans
 # data folder (all out and in files must be in this folder)
 net.folder <- "data/test/"		#TODO put the network folder
 
@@ -55,8 +56,8 @@ if(gen.data)
 ###############################################################################
 # 3. Clustering role measures
 ###############################################################################
-#cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Detect clusters\n",sep="")
-#detect.clusters(folder.data=net.folder, role.meas, clust.algo, comdet.algo)
+cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Detect clusters\n",sep="")
+detect.clusters(folder.data=net.folder, role.meas, clust.algo, comdet.algo)
 
 ###############################################################################
 # 4. Additional stats
