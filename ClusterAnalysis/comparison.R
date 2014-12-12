@@ -56,7 +56,7 @@ algo.names <- c(	# clustering algorithms
 	"hclust"
 #	"xmeans"
 )			
-
+#TODO renommer les différents fichiers générés pour les conserver (en particulier le plot de perfs)
 
 ###############################################################################
 # apply process
