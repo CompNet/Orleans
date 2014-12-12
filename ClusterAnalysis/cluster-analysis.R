@@ -8,6 +8,7 @@
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
 # source("GenerateData/cluster-analysis.R")
 ###############################################################################
+source("ClusterAnalysis/clara.R")
 source("ClusterAnalysis/gkmeans.R")
 source("ClusterAnalysis/kmeans.R")
 source("ClusterAnalysis/pkmeans.R")
@@ -72,7 +73,9 @@ detect.clusters <- function(folder.data, role.meas, clust.algo, comdet.algo)
 	normalize.data(folder.data, role.meas, clust.algo, comdet.algo)
 		
 	# apply clustering method
-	if(clust.algo=="kmeans")
+	if(clust.algo=="clara")
+		result <- apply.clara(folder.data, role.meas, clust.algo, comdet.algo)
+	else if(clust.algo=="kmeans")
 		result <- apply.kmeans(folder.data, role.meas, clust.algo, comdet.algo)
 	else if(clust.algo=="pkmeans")
 		result <- apply.pkmeans(folder.data, role.meas, clust.algo, comdet.algo)

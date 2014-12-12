@@ -26,19 +26,34 @@ folder.out <- paste(folder.out,"/",sep="")
 ###############################################################################
 # init parameters
 ###############################################################################
-ns.cluster <- c(5,10)							# numbers of clusters
-ns.instances <- c(100,1000,10000				# numbers of instances
-#	,100000
-)
-ns.fields <- c(2,10)							# numbers of attributes
-role.meas="dummy"
+role.meas="dummy"	# dummy variables
 comdet.algo="dummy"
-algo.names <- c(								# clustering algorithms
-	"gkmeans", 
-	"fgkmeans",
-	"gpkmeans", 
-	"fgpkmeans", 
-	"xmeans"
+ns.cluster <- c(	# numbers of clusters
+#		5,
+		7
+#		10
+	)							
+ns.instances <- c(	# numbers of instances
+		10^2,
+		10^3,
+		10^4,
+		10^5,
+		10^6,
+		10^7,
+		10^8
+)
+ns.fields <- c(		# numbers of attributes
+#		2,
+		4
+#		10
+)
+algo.names <- c(	# clustering algorithms
+	"clara"
+#	"gkmeans", 
+#	"fgkmeans",
+#	"gpkmeans", 
+#	"fgpkmeans", 
+#	"xmeans"
 )			
 
 
@@ -154,11 +169,11 @@ for(n.clust in ns.cluster)
 #					points(est.centers, col=1:nrow(est.centers), pch = 8)
 					dev.off()
 				}
+				
+				# record the performance table
+				cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ......Recording the performance table\n",sep="")
+				write.table(x=performance, file=file.perf, row.names=TRUE, col.names=TRUE)
 			}
-			
-			# record the performance table
-			cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ......Recording the performance table\n",sep="")
-			write.table(x=performance, file=file.perf, row.names=TRUE, col.names=TRUE)
 		}
 	}
 }
