@@ -5,18 +5,18 @@
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
-# source("ClusterAnalysis/clust.tool.comp.R")
+# source("ClusterAnalysis/comparison.R")
 ###############################################################################
 library("flexclust")					# rand index
 
-source("ClusterAnalysis/gkmeans.R")		# (fast) global k-means
-source("ClusterAnalysis/xmeans.R")		# x-means
+source("ClusterAnalysis/cluster-analysis.R")
+source("RoleMeasures/role-measures.R")
 
 
 ###############################################################################
 # setup files
 ###############################################################################
-folder.data <- "Data/"
+folder.data <- "data/"
 folder.out <- paste(folder.data,"clust.tool.comp",sep="")
 if(!file.exists(folder.out))
 	dir.create(folder.out)
@@ -31,16 +31,21 @@ ns.instances <- c(100,1000,10000				# numbers of instances
 #	,100000
 )
 ns.fields <- c(2,10)							# numbers of attributes
+role.meas="dummy"
+comdet.algo="dummy"
 algo.names <- c(								# clustering algorithms
-	"gkm", "fgkm", 
-	"xm"
+	"gkmeans", 
+	"fgkmeans",
+	"gpkmeans", 
+	"fgpkmeans", 
+	"xmeans"
 )			
 
 
 ###############################################################################
 # apply process
 ###############################################################################
-options(scipen=999)
+options(scipen=999) #disable scientific notation in the R console
 for(n.clust in ns.cluster)
 {	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Processing ",n.clust," clusters\n",sep="")
 	
@@ -82,13 +87,18 @@ for(n.clust in ns.cluster)
 				# record data and actual clusters
 				cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ......Recording the generated data\n",sep="")
 				write.table(x=membership, file=file.membership, row.names=FALSE, col.names=FALSE)
-				write.table(x=x, file=file.data, row.names=FALSE, col.names=FALSE)
+				write.table(x=x, file=file.data, row.names=FALSE, col.names=TRUE)
 				# record plots
 				file.plot <- paste(file.base,".data.pdf",sep="")
 				pdf(file=file.plot, bg="white")
 				plot(x=x, col=membership)
 				dev.off()
 			}
+			
+			# possibly remove the normalized data
+			file.norm <- get.rolemeas.filename(folder.out, role.meas, norm=TRUE, comdet.algo)
+			if(file.exists(file.norm))
+				file.remove(file.norm)
 			
 			# init the performance table
 			file.perf <- paste(file.base,".performance.txt",sep="")
@@ -108,27 +118,19 @@ for(n.clust in ns.cluster)
 			for(algo.name in algo.names)
 			{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ......Treating algo ",algo.name,"\n",sep="")
 				file.membership <- paste(file.base,".",algo.name,".clusters.txt",sep="")
-				file.centers <- paste(file.base,".",algo.name,".centers.txt",sep="")
+#				file.centers <- paste(file.base,".",algo.name,".centers.txt",sep="")
 				
-				if(file.exists(file.membership) & file.exists(file.centers))
+				if(file.exists(file.membership) #& file.exists(file.centers)
+				)
 				{	# we do nothing then, actually
 					cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ........Algo has been already applied previously\n",sep="")
 				}else
 				{	start.time <- Sys.time()
 					cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ........Estimating the clusters\n",sep="")
-						if(algo.name=="gkm")
-						{	res <- gkmeans(x=x, fast=FALSE, k.bounds=c(2,15), criterion="ASW", trace=TRUE)
-							est.membership <- res$cluster
-							est.centers <- res$centers
-						}else if(algo.name=="fgkm")
-						{	res <- gkmeans(x=x, fast=TRUE, k.bounds=c(2,15), criterion="ASW", trace=TRUE)	
-							est.membership <- res$cluster
-							est.centers <- res$centers
-						}else if(algo.name=="xm")
-						{	res <- xmeans(x=x, pr.proc=FALSE)
-							est.membership <- res$cluster
-							est.centers <- res$centers
-						}
+						temp.file <- get.rolemeas.filename(folder.out, role.meas, norm=FALSE, comdet.algo)
+						file.rename(from=file.data, to=temp.file)
+						est.membership <- detect.clusters(folder.data=folder.out, role.meas=role.meas, clust.algo=algo.name, comdet.algo=comdet.algo)
+						file.rename(from=temp.file, to=file.data)
 					end.time <- Sys.time()
 					total.time <- end.time - start.time
 					cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ........Estimation completed in ",format(total.time),"\n",sep="")
@@ -144,12 +146,12 @@ for(n.clust in ns.cluster)
 					# record estimated clusters and centers
 					cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ........Recording the estimated data\n",sep="")
 					write.table(x=est.membership, file=file.membership, row.names=FALSE, col.names=FALSE)
-					write.table(x=est.centers, file=file.centers, row.names=FALSE, col.names=FALSE)
+#					write.table(x=est.centers, file=file.centers, row.names=FALSE, col.names=FALSE)
 					# record plots
 					file.plot <- paste(file.base,".",algo.name,".pdf",sep="")
 					pdf(file=file.plot, bg="white")
 					plot(x=x, col=est.membership)
-					points(est.centers, col=1:nrow(est.centers), pch = 8)
+#					points(est.centers, col=1:nrow(est.centers), pch = 8)
 					dev.off()
 				}
 			}
@@ -160,4 +162,3 @@ for(n.clust in ns.cluster)
 		}
 	}
 }
-

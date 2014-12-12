@@ -50,6 +50,8 @@ apply.gkmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
 	# record result
 	out.file <- get.cluster.filename(folder.data,role.meas,0,clust.algo,comdet.algo)
 	write.table(x=membership, file=out.file, row.names=FALSE, col.names=FALSE)
+	
+	return(membership)
 }
 
 ###############################################################################
@@ -144,7 +146,9 @@ gkmeans <- function(x, fast=TRUE, parallel=FALSE, k.bounds=c(2,15), criterion="A
 		# apply k-means using each candidate instance as a potential center for the next cluster
 		for(i in 1:nrow(candidates))
 		{	start.time <- Sys.time();
-				if(trace & i %% 1000 == 0) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Applying k-means for k=",k," and candidate ",i,"/",nrow(candidates),"\n",sep="")
+				if(trace
+#						& i %% 1000 == 0
+				) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Applying k-means for k=",k," and candidate ",i,"/",nrow(candidates),"\n",sep="")
 				if(any(apply(centers, 1, function(x, want) isTRUE(all.equal(x, want)), candidates[i,])))
 				{	if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ......This instance (",i,")is already a center, so we skip it\n",sep="")
 				}
@@ -164,7 +168,9 @@ gkmeans <- function(x, fast=TRUE, parallel=FALSE, k.bounds=c(2,15), criterion="A
 				}
 			end.time <- Sys.time();
 			total.time <- end.time - start.time;
-			if(trace & i %% 1000 == 0) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Process completed in ",format(total.time)," ss=",ss,"\n",sep="")
+			if(trace 
+#					& i %% 1000 == 0
+			) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Process completed in ",format(total.time)," ss=",ss,"\n",sep="")
 		}
 		
 		# updates centers using the min ones found during the last iteration
@@ -288,8 +294,7 @@ inner.apply.kmeans <- function(data, centers, folder.data, file.data, role.meas,
 			temp <- sapply(1:k, function(num)
 			{	idx <- which(membership==num)
 				if(length(idx)>1)
-				{	
-print(idx)					
+				{	#print(idx)					
 					mean.coord <- apply(data[idx,], 2, mean)
 					wcs <- apply(data[idx,], 1, function(x) (x - mean.coord)^2)
 					total <- sum(wcs)
