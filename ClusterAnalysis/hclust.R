@@ -25,7 +25,7 @@ apply.hclust <- function(folder.data, role.meas, clust.algo, comdet.algo)
 	data <- as.matrix(read.table(in.file))
 	
 	# apply k-means	
-	membership <- iterative.hclust(data, criterion="ASW", folder.data, role.meas, clust.algo, comdet.algo, trace=TRUE)
+	membership <- iterative.hclust(data, ks=c(2:15), criterion="ASW", folder.data, role.meas, clust.algo, comdet.algo, trace=TRUE)
 	membership <- membership - 1 # number from 0
 	
 	# record result
@@ -49,7 +49,7 @@ apply.hclust <- function(folder.data, role.meas, clust.algo, comdet.algo)
 # comdet.algo: community detection algorithm.
 # trace: if TRUE, logs the process
 ###############################################################################
-iterative.hclust <- function(data, criterion="ASW", 
+iterative.hclust <- function(data, ks=c(2:15), criterion="ASW", 
 		folder.data, role.meas, clust.algo, comdet.algo, trace=FALSE)
 {	# init
 	best.quality <- NA
@@ -68,14 +68,10 @@ iterative.hclust <- function(data, criterion="ASW",
 	colnames(quality) <- c("k",criterion)
 	quality[,1] <- ks
 	
-	# apply hclust
-	k <- ks[i]
-	if(trace) cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing k=",k,"\n",sep="")
-	
 	# perform clustering
 	start.time <- Sys.time();
-	if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Applying k-means for k=",k,"\n",sep="")
-		dendrogram <- hclust(X=data, method="centroid", metric="euclidean")
+	if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Applying hclust\n",sep="")
+		dendrogram <- hclust.vector(X=data, method="centroid", metric="euclidean")
 cat("dendrogram height:",dendrogram$height,"\n",sep="")
 	end.time <- Sys.time();
 	total.time <- end.time - start.time;
@@ -84,8 +80,9 @@ cat("dendrogram height:",dendrogram$height,"\n",sep="")
 	# process quality measure
 	for(i in 1:length(ks))
 	{	start.time <- Sys.time();
+		k <- ks[i]
 		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Process ",criterion," measure for k=",k,"\n",sep="")
-			membership <- cutree(dendrogram,ks[i])
+			membership <- cutree(dendrogram,k)
 			if(criterion=="DB")
 			{	qual.value <- index.DB(x=data, cl=membership, centrotypes="centroids")$DB
 				if(is.na(best.quality) | qual.value<best.quality)

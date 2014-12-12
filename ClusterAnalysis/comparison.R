@@ -48,12 +48,12 @@ ns.fields <- c(		# numbers of attributes
 #		10
 )
 algo.names <- c(	# clustering algorithms
-	"clara"
+#	"clara"
 #	"gkmeans", 
 #	"fgkmeans",
 #	"gpkmeans", 
 #	"fgpkmeans",
-#	"hclust"
+	"hclust"
 #	"xmeans"
 )			
 

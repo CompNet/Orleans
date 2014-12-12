@@ -73,7 +73,7 @@ iterative.clara <- function(data, ks=c(2:15), criterion="ASW",
 		if(trace) cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing k=",k,"\n",sep="")
 		
 		start.time <- Sys.time();
-		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Applying k-means for k=",k,"\n",sep="")
+		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Applying clara for k=",k,"\n",sep="")
 			# perform clustering
 			membership <- clara(x=data, k=k, metric="euclidean", stand=TRUE,
 					# recommended value
