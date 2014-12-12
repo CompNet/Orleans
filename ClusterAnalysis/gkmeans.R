@@ -198,7 +198,7 @@ gkmeans <- function(x, fast=TRUE, parallel=FALSE, k.bounds=c(2,15), criterion="A
 			quality[k-1,2] <- qual.value
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
-		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing completed in ",format(total.time),", quality(",k,")=",qual.value,"\n",sep="")
+		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing completed in ",format(total.time),", ",criterion,"(",k,")=",qual.value,"\n",sep="")
 		
 		if(trace) cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Process completed for k=",k,"\n",sep="")
 		if(trace) print(quality)

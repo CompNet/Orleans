@@ -51,7 +51,7 @@ apply.kmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
 iterative.kmeans <- function(data, ks=c(2:15), criterion="ASW", 
 		folder.data, role.meas, clust.algo, comdet.algo, trace=FALSE)
 {	# init
-	best.quality <- 0
+	best.quality <- NA
 	best.result <- NA
 	if(criterion=="ASW")
 	{	start.time <- Sys.time();
@@ -62,7 +62,7 @@ iterative.kmeans <- function(data, ks=c(2:15), criterion="ASW",
 		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Process completed in ",format(total.time),"\n",sep="")
 	}
 	
-	# apply distributed k-means	
+	# iterate over k
 	quality <- matrix(NA,ncol=2,nrow=length(ks))
 	colnames(quality) <- c("k",criterion)
 	quality[,1] <- ks
@@ -99,7 +99,7 @@ iterative.kmeans <- function(data, ks=c(2:15), criterion="ASW",
 			quality[i,2] <- qual.value
 		end.time <- Sys.time();
 		total.time <- end.time - start.time;
-		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing completed in ",format(total.time),", DB(",k,")=",qual.value,"\n",sep="")
+		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing completed in ",format(total.time),", ",criterion,"(",k,")=",qual.value,"\n",sep="")
 		
 		gc()
 		if(trace) cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Process completed for k=",k,"\n",sep="")

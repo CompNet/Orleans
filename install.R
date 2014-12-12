@@ -27,3 +27,7 @@ install.packages("flexclust")
 
 # hive plots
 install.packages("HiveR")
+
+
+# hclust clustering algorithm
+install.packages("fastcluster")

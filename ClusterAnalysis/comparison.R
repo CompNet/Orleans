@@ -44,7 +44,7 @@ ns.instances <- c(	# numbers of instances
 )
 ns.fields <- c(		# numbers of attributes
 #		2,
-		4
+		8
 #		10
 )
 algo.names <- c(	# clustering algorithms
@@ -52,7 +52,8 @@ algo.names <- c(	# clustering algorithms
 #	"gkmeans", 
 #	"fgkmeans",
 #	"gpkmeans", 
-#	"fgpkmeans", 
+#	"fgpkmeans",
+#	"hclust"
 #	"xmeans"
 )			
 
@@ -155,6 +156,7 @@ for(n.clust in ns.cluster)
 					# compare with actual clusters
 					est.clust <- length(unique(est.membership))
 					performance[algo.name,"Clusters"] <- est.clust
+					#cat("length(as.vector(membership))=",length(as.vector(membership))," length(as.vector(est.membership))=",length(as.vector(est.membership)),"\n",sep="")
 					ari <- randIndex(as.vector(membership),as.vector(est.membership),correct=TRUE)
 					performance[algo.name,"ARI"] <- ari
 					
