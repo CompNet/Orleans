@@ -43,7 +43,7 @@ apply.gkmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
 		parallel = TRUE
 	else
 		parallel = FALSE
-	temp <- gkmeans(x=data, fast=fast, parallel=parallel, k.bounds=c(2,15), criterion="ASW", 
+	temp <- gkmeans(x=data, fast=fast, parallel=parallel, k.bounds=c(2,15), criterion="DB", 
 			folder.data, file.data=in.file, role.meas, clust.algo, comdet.algo, trace=TRUE)
 	membership <- temp$cluster - 1 # number from 0
 	

@@ -4,7 +4,7 @@
 # Author: Vincent Labatut 02/2013
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
-# setwd("C:/Eclipse/workspaces/Networks/Orleans/")
+# setwd("D:/Eclipse/workspaces/Networks/Orleans/")
 # source("ClusterAnalysis/comparison.R")
 ###############################################################################
 library("flexclust")					# rand index
@@ -17,7 +17,7 @@ source("RoleMeasures/role-measures.R")
 # setup files
 ###############################################################################
 folder.data <- "data/"
-folder.out <- paste(folder.data,"clust.tool.comp",sep="")
+folder.out <- paste(folder.data,"clust.tool.comp3",sep="")
 if(!file.exists(folder.out))
 	dir.create(folder.out)
 folder.out <- paste(folder.out,"/",sep="")
@@ -34,10 +34,10 @@ ns.cluster <- c(	# numbers of clusters
 #		10
 	)							
 ns.instances <- c(	# numbers of instances
-		10^2,
-		10^3,
-		10^4,
-		10^5,
+#		10^2,
+#		10^3,
+#		10^4,
+#		10^5,
 		10^6,
 		10^7,
 		10^8
@@ -48,12 +48,12 @@ ns.fields <- c(		# numbers of attributes
 #		10
 )
 algo.names <- c(	# clustering algorithms
-#	"clara"
+	"clara"
 #	"gkmeans", 
 #	"fgkmeans",
 #	"gpkmeans", 
 #	"fgpkmeans",
-	"hclust"
+#	"hclust"
 #	"xmeans"
 )			
 #TODO renommer les différents fichiers générés pour les conserver (en particulier le plot de perfs)
@@ -154,11 +154,16 @@ for(n.clust in ns.cluster)
 					performance[algo.name,"Time"] <- time.str
 					
 					# compare with actual clusters
-					est.clust <- length(unique(est.membership))
-					performance[algo.name,"Clusters"] <- est.clust
-					#cat("length(as.vector(membership))=",length(as.vector(membership))," length(as.vector(est.membership))=",length(as.vector(est.membership)),"\n",sep="")
-					ari <- randIndex(as.vector(membership),as.vector(est.membership),correct=TRUE)
-					performance[algo.name,"ARI"] <- ari
+					start.time <- Sys.time()
+					cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ........Comparing with actual clusters (ARI)\n",sep="")
+						est.clust <- length(unique(est.membership))
+						performance[algo.name,"Clusters"] <- est.clust
+						#cat("length(as.vector(membership))=",length(as.vector(membership))," length(as.vector(est.membership))=",length(as.vector(est.membership)),"\n",sep="")
+						ari <- randIndex(as.vector(membership),as.vector(est.membership),correct=TRUE)
+						performance[algo.name,"ARI"] <- ari
+					end.time <- Sys.time()
+					total.time <- end.time - start.time
+					cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ........Comparison completed in ",format(total.time),", ARI=",ari,"\n",sep="")
 					
 					# record estimated clusters and centers
 					cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ........Recording the estimated data\n",sep="")

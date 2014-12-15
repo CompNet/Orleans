@@ -23,7 +23,7 @@ apply.kmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
 	data <- as.matrix(read.table(in.file))
 	
 	# apply k-means	
-	membership <- iterative.kmeans(data, ks=c(2:15), criterion="ASW", folder.data, role.meas, clust.algo, comdet.algo, trace=TRUE)
+	membership <- iterative.kmeans(data, ks=c(2:15), criterion="DB", folder.data, role.meas, clust.algo, comdet.algo, trace=TRUE)
 	membership <- membership - 1 # number from 0
 	
 	# record result
