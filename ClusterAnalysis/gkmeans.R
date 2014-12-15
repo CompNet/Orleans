@@ -182,7 +182,7 @@ gkmeans <- function(x, fast=TRUE, parallel=FALSE, k.bounds=c(2,15), criterion="A
 		start.time <- Sys.time();
 		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Process ",criterion," measure for k=",k,"\n",sep="")
 			if(criterion=="DB")
-			{	qual.value <- index.DB(x=data, cl=min.clusters, centrotypes="centroids")$DB
+			{	qual.value <- index.DB(x=x, cl=min.clusters, centrotypes="centroids")$DB
 				if(is.na(best.quality) | qual.value<best.quality)
 				{	best.quality <- qual.value
 					best.result <- min.res

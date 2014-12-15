@@ -17,7 +17,7 @@ source("RoleMeasures/role-measures.R")
 # setup files
 ###############################################################################
 folder.data <- "data/"
-folder.out <- paste(folder.data,"clust.tool.comp3",sep="")
+folder.out <- paste(folder.data,"clust.tool.comp",sep="")
 if(!file.exists(folder.out))
 	dir.create(folder.out)
 folder.out <- paste(folder.out,"/",sep="")
@@ -34,10 +34,10 @@ ns.cluster <- c(	# numbers of clusters
 #		10
 	)							
 ns.instances <- c(	# numbers of instances
-#		10^2,
-#		10^3,
-#		10^4,
-#		10^5,
+		10^2,
+		10^3,
+		10^4,
+		10^5,
 		10^6,
 		10^7,
 		10^8
@@ -48,15 +48,15 @@ ns.fields <- c(		# numbers of attributes
 #		10
 )
 algo.names <- c(	# clustering algorithms
-	"clara"
+#	"clara"
 #	"gkmeans", 
-#	"fgkmeans",
-#	"gpkmeans", 
+	"fgkmeans"
+#	"gpkmeans"
 #	"fgpkmeans",
 #	"hclust"
 #	"xmeans"
 )			
-#TODO renommer les différents fichiers générés pour les conserver (en particulier le plot de perfs)
+#TODO renommer les differents fichiers generes pour les conserver (en particulier le plot de perfs)
 
 ###############################################################################
 # apply process
@@ -122,6 +122,15 @@ for(n.clust in ns.cluster)
 			{	# load the existing table
 				cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ......Loading the existing performance table\n",sep="")
 				performance <- as.matrix(read.table(file.perf, header=TRUE,row.names=1))
+				# possibly completing the table
+				rnames <- rownames(performance)
+				for(algo.name in algo.names)
+				{	if(!(algo.name %in% rnames))
+					{	performance <- rbind(performance,rep(NA,ncol(performance)))
+						rnames <- c(rnames,algo.names)
+					}
+				}
+				rownames(performance) <- rnames
 			}else
 			{	# create a new table
 				performance <- matrix(ncol=3,nrow=length(algo.names))
