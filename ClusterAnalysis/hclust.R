@@ -7,7 +7,7 @@
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
-# source("CommunityDetection/hclust.R")
+# source("ClusterAnalysis/hclust.R")
 ###############################################################################
 library("fastcluster")		# (improved) hclust algorithm
 

@@ -7,7 +7,7 @@
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
-# source("CommunityDetection/pkmeans.R")
+# source("ClusterAnalysis/pkmeans.R")
 ###############################################################################
 library("clusterSim")	# Davies-Bouldin index
 library("cluster")		# Silhouette index

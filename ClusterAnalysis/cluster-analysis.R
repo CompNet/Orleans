@@ -6,7 +6,7 @@
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
-# source("GenerateData/cluster-analysis.R")
+# source("ClusterAnalysis/cluster-analysis.R")
 ###############################################################################
 source("ClusterAnalysis/clara.R")
 source("ClusterAnalysis/gkmeans.R")
@@ -145,3 +145,6 @@ normalize.data <- function(folder.data, role.meas, clust.algo, comdet.algo)
 		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Recording completed in ",total.time,"\n",sep="")
 	}
 }
+
+# Test
+detect.clusters(folder.data="data/socap/", role.meas="dummy", clust.algo="fgpkmeans", comdet.algo="dummy")

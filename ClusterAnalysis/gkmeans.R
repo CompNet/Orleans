@@ -16,7 +16,7 @@
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
-# source("Clustering/gkmeans.R")
+# source("ClusterAnalysis/gkmeans.R")
 ###############################################################################
 library("clusterSim")	# Davies-Bouldin index
 library("cluster")		# Silhouette index

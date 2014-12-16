@@ -11,11 +11,12 @@
 
 # power law tests
 install.packages("igraph")
+#print(packageVersion("igraph"))
 
 
 # Davies-Bouldin measure
 install.packages("clusterSim")
-
+#print(packageVersion("clusterSim"))
 
 # anova (unbalanced)
 install.packages("car")
@@ -26,7 +27,7 @@ install.packages("flexclust")
 
 
 # hive plots
-install.packages("HiveR")
+install.packages("HiveR")#
 
 
 # hclust clustering algorithm

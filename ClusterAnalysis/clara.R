@@ -6,7 +6,7 @@
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
-# source("CommunityDetection/clara.R")
+# source("ClusterAnalysis/clara.R")
 ###############################################################################
 library("cluster")		# clara algorithm
 
