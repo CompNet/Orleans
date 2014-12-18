@@ -5,6 +5,7 @@
 # Author: Vincent Labatut 06/2013,07/2014
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
+# setwd("~/src/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
 # source("ClusterAnalysis/cluster-analysis.R")
 ###############################################################################
@@ -147,4 +148,5 @@ normalize.data <- function(folder.data, role.meas, clust.algo, comdet.algo)
 }
 
 # Test
-detect.clusters(folder.data="data/socap/", role.meas="dummy", clust.algo="fgpkmeans", comdet.algo="dummy")
+#detect.clusters(folder.data="data/socap/", role.meas="dummy", clust.algo="fgpkmeans", comdet.algo="dummy")
+#detect.clusters(folder.data="data/", role.meas="dummy", clust.algo="fgpkmeans", comdet.algo="dummy")
