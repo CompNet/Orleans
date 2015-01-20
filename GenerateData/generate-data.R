@@ -123,7 +123,9 @@ generate.communities <- function(folder.data, n, clust.algo, n.com, comdet.algo)
 # comdet.algo: community detection algorithm (fake).
 ###############################################################################
 generate.data <- function(folder.data, role.meas, n, directed, n.clust, clust.algo, n.com, comdet.algo)
-{	# generate network and degree
+{	dir.create(folder.data, showWarnings=FALSE)
+	
+	# generate network and degree
 	generate.network(folder.data, directed, n)
 	
 	# generate role measures and clusters

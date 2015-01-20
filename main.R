@@ -12,18 +12,19 @@
 source("ClusterAnalysis/cluster-analysis.R")
 source("CommunityDetection/community-detection.R")
 source("GenerateData/generate-data.R")
+#source("PostProcessing/post-process.R")
 
 ###############################################################################
 # Parameters
 ###############################################################################
 # whether or not to generate data (for testing purposes)
-gen.data <- FALSE
+gen.data <- TRUE
 # community detection algorithm
 comdet.algo <- "LV"			#TODO LV, LV-dir, OSLOM-undir-p, OSLOM-dir-p, OSLOM-undir-o, OSLOM-dir-o
 # role measures
 role.meas <- "GA"			#TODO GA, GA-dir, DLP-p, DLP-o
 # clustering algorithm
-clust.algo <- "gpkmeans"		#TODO kmeans, pkmeans, xmeans, gkmeans, fgkmeans, gpkmeans, fgpkmeans
+clust.algo <- "kmeans"		#TODO kmeans, pkmeans, xmeans, gkmeans, fgkmeans, gpkmeans, fgpkmeans
 # data folder (all out and in files must be in this folder)
 net.folder <- "data/test/"		#TODO put the network folder
 
