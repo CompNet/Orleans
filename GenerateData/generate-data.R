@@ -81,7 +81,7 @@ generate.rolemeas <- function(folder.data, role.meas, n, n.clust, clust.algo, co
 	
 	# record cluster membership
 	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record membership vector to file\n",sep="")
-	file.membership <- get.cluster.filename(folder.data, role.meas, n.clust=0, clust.algo, comdet.algo)
+	file.membership <- get.cluster.filename(folder.data, role.meas, clust.algo, comdet.algo)
 	write.table(x=x[,n.fields+1]-1, file=file.membership, row.names=FALSE, col.names=FALSE)
 
 	# record role measures

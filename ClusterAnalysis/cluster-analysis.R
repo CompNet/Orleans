@@ -18,15 +18,17 @@ source("ClusterAnalysis/xmeans.R")
 source("RoleMeasures/role-measures.R")
 
 ###############################################################################
-# Returns the standard cluster filename.
+# Returns the standard cluster filename, i.e. the name of the file
+# containing the cluster membership associated to each node.
+# Note clusters are numbered starting from 0.
 #
 # folder.data: folder containing all input and output files.
 # role.meas: type of role measures.
-# n.clust: number of detected clusters (optional).
 # clust.algo: cluster analysis algorithm.
 # comdet.algo: community detection algorithm.
+# n.clust: number of detected clusters (optional).
 ###############################################################################
-get.cluster.filename <- function(folder.data, role.meas, n.clust=0, clust.algo, comdet.algo)
+get.cluster.filename <- function(folder.data, role.meas, clust.algo, comdet.algo, n.clust=0)
 {	result <- paste(folder.data,"comdet=",comdet.algo,sep="")
 	result <- paste(result,".rolemeas=",role.meas,sep="")
 	result <- paste(result,".clust=",clust.algo,sep="")

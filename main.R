@@ -12,13 +12,13 @@
 source("ClusterAnalysis/cluster-analysis.R")
 source("CommunityDetection/community-detection.R")
 source("GenerateData/generate-data.R")
-#source("PostProcessing/post-process.R")
+source("PostProcessing/post-processing.R")
 
 ###############################################################################
 # Parameters
 ###############################################################################
 # whether or not to generate data (for testing purposes)
-gen.data <- TRUE
+gen.data <- FALSE
 # community detection algorithm
 comdet.algo <- "LV"			#TODO LV, LV-dir, OSLOM-undir-p, OSLOM-dir-p, OSLOM-undir-o, OSLOM-dir-o
 # role measures
@@ -57,12 +57,14 @@ if(gen.data)
 ###############################################################################
 # 3. Clustering role measures
 ###############################################################################
-cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Detect clusters\n",sep="")
-detect.clusters(folder.data=net.folder, role.meas, clust.algo, comdet.algo)
+#cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Detect clusters\n",sep="")
+#detect.clusters(folder.data=net.folder, role.meas, clust.algo, comdet.algo)
 
 ###############################################################################
 # 4. Additional stats
 ###############################################################################
+# process cluster stats
+process.cluster.stats(folder.data=net.folder, role.meas, clust.algo, comdet.algo)
 # social capitalism indices vs. role measures (correlation, plot)
 # degree (distribution, plot)
 # degree vs. role measures (correlation, plot)

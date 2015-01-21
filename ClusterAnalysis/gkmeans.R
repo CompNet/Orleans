@@ -48,7 +48,7 @@ apply.gkmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
 	membership <- temp$cluster - 1 # number from 0
 	
 	# record result
-	out.file <- get.cluster.filename(folder.data,role.meas,0,clust.algo,comdet.algo)
+	out.file <- get.cluster.filename(folder.data,role.meas,clust.algo,comdet.algo)
 	write.table(x=membership, file=out.file, row.names=FALSE, col.names=FALSE)
 	
 	return(membership)
@@ -261,7 +261,7 @@ inner.apply.kmeans <- function(data, centers, folder.data, file.data, role.meas,
 	
 			# move produced cluster file
 			temp.cluster.file <- paste(file.data,".membership",sep="")
-			file.new <- get.cluster.filename(folder.data,role.meas,n.clust=k,clust.algo,comdet.algo)
+			file.new <- get.cluster.filename(folder.data,role.meas,clust.algo,comdet.algo,n.clust=k)
 			if(trace) cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..........Moving file ",temp.cluster.file," to ",file.new,"\n",sep="")
 			if(file.exists(file.new))
 				file.remove(file.new)

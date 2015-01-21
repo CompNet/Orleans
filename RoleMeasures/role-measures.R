@@ -57,8 +57,8 @@ get.rolemeas.filename <- function(folder.data, role.meas, norm=FALSE, comdet.alg
 }
 
 ###############################################################################
-# Returns the name of the file containing the role measures, 
-# for the specified code.
+# Processes the specified role measures, for the specified network and
+# community.
 #
 # folder.data: folder containing all input and output files.
 # role.meas: role measure variant to process:

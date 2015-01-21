@@ -31,7 +31,7 @@ apply.pkmeans <- function(folder.data, role.meas, clust.algo, comdet.algo)
 	membership <- membership - 1 # number from 0
 	
 	# record result
-	out.file <- get.cluster.filename(folder.data,role.meas,0,clust.algo,comdet.algo)
+	out.file <- get.cluster.filename(folder.data,role.meas,clust.algo,comdet.algo)
 	write.table(x=membership, file=out.file, row.names=FALSE, col.names=FALSE)
 	
 	return(membership)
@@ -90,7 +90,7 @@ iterative.pkmeans <- function(data, ks=c(2:15), criterion="ASW",
 		
 		# move produced membership file (not the others, we don't care)
 		temp.file <- paste(file.data,".membership",sep="")
-		file.new <- get.cluster.filename(folder.data,role.meas,n.clust=k,clust.algo,comdet.algo)
+		file.new <- get.cluster.filename(folder.data,role.meas,clust.algo,comdet.algo,n.clust=k)
 		if(trace) cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ......Moving file ",temp.file," to ",file.new,"\n",sep="")
 		if(file.exists(file.new))
 			file.remove(file.new)
