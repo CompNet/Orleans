@@ -10,6 +10,7 @@
 # source("PostProcess/post-process.R")
 ###############################################################################
 source("ClusterAnalysis/cluster-analysis.R")
+source("PostProcessing/cluster-original.R")
 source("PostProcessing/cluster-pca.R")
 source("PostProcessing/cluster-stats.R")
 source("RoleMeasures/role-measures.R")
@@ -30,9 +31,9 @@ post.process <- function(folder.data, role.meas, clust.algo, comdet.algo)
 	
 	# plot clusters
 		# process and plot PCA
-		process.cluster.pca(folder.data, role.meas, clust.algo, comdet.algo, sample.size=NA)
+#		process.cluster.pca(folder.data, role.meas, clust.algo, comdet.algo, sample.size=NA)
 		# original plot from the guimera & amaral paper
-#		plot.original(folder.data, role.meas, clust.algo, comdet.algo)
+		draw.original.plots(folder.data, role.meas, clust.algo, comdet.algo, sample.size=NA)
 	
 	# social capitalism indices vs. role measures (correlation, plot)
 	# degree (distribution, plot)
