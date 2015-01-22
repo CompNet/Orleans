@@ -6,7 +6,7 @@
 # Author: Vincent Labatut 06/2014
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
-# setwd("C:/Eclipse/workspaces/Networks/Orleans/")
+# setwd("D:/Eclipse/workspaces/Networks/Orleans/")
 # source("main.R")
 ###############################################################################
 source("ClusterAnalysis/cluster-analysis.R")
@@ -61,15 +61,10 @@ if(gen.data)
 #detect.clusters(folder.data=net.folder, role.meas, clust.algo, comdet.algo)
 
 ###############################################################################
-# 4. Additional stats
+# 4. Additional stats and plots
 ###############################################################################
-# process cluster stats
-process.cluster.stats(folder.data=net.folder, role.meas, clust.algo, comdet.algo)
-# social capitalism indices vs. role measures (correlation, plot)
-# degree (distribution, plot)
-# degree vs. role measures (correlation, plot)
-# community sizes (distribution, plot)
-# role measures (distribution, correlation, plot)
-# record/plot clustering/comdet quality measures
+cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Perform post processing\n",sep="")
+post.process(folder.data=net.folder, role.meas, clust.algo, comdet.algo)
 
+###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Done\n",sep="")
