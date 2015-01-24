@@ -51,8 +51,10 @@ get.degree.filename <- function(folder.data)
 # community.
 #
 # folder.data: folder containing all input and output files.
+# role.meas: considered role measures.
+# force: whether or not to force recalulation.
 ###############################################################################
-retrieve.socap.indices <- function(folder.data, force=FALSE)
+retrieve.socap.indices <- function(folder.data, role.meas, force=FALSE)
 {	socap.file <- get.socap.filename(folder.data)
 	
 	# indices previously processed >> we load them
@@ -62,11 +64,12 @@ retrieve.socap.indices <- function(folder.data, force=FALSE)
 	# otherwise, process and record them
 	else
 	{	# load the original graph (non the re-numbered one) TODO: should load the cleaned one
-		net.file <- get.network.filename(folder.data)
-		g <- read.graph(file=net.file, format="edgelist")
+		net.file <- get.network.clean.filename(folder.data)
+print(is.directed.rolemeas(role.meas))
+		g <- read.graph(file=net.file, format="edgelist", directed=is.directed.rolemeas(role.meas))
 		
 		# get the degrees (process or load them) 
-		degrees <- retrieve.degrees(folder.data, force)
+		degrees <- retrieve.degrees(folder.data, role.meas, force)
 		
 		# process neighborhoods
 		neigh.in <- neighborhood(graph=g, order=1, nodes=V(g), mode="in")
@@ -120,8 +123,10 @@ retrieve.socap.indices <- function(folder.data, force=FALSE)
 # folder.
 #
 # folder.data: folder containing all input and output files.
+# role.meas: considered role measures.
+# force: whether or not to force recalulation.
 ###############################################################################
-retrieve.degrees <- function(folder.data, force=FALSE)
+retrieve.degrees <- function(folder.data, role.meas, force=FALSE)
 {	degree.file <- get.degree.filename(folder.data)
 	
 	# degree previously processed >> we load it
@@ -131,8 +136,8 @@ retrieve.degrees <- function(folder.data, force=FALSE)
 	# otherwise, process and record it
 	else
 	{	# load the original graph (non the re-numbered one) TODO: should load the cleaned one
-		net.file <- get.network.filename(folder.data)
-		g <- read.graph(file=net.file, format="edgelist")
+		net.file <- get.network.clean.filename(folder.data)
+		g <- read.graph(file=net.file, format="edgelist", directed=is.directed.rolemeas(role.meas))
 		
 		# process degree
 		degrees <- cbind(
@@ -140,10 +145,10 @@ retrieve.degrees <- function(folder.data, force=FALSE)
 			degree(g,mode="out"),
 			degree(g,mode="all")
 		)
-		colnames(degree) <- get.degree.names()
+		colnames(degrees) <- get.degree.names()
 		
 		# record as table
-		write.table(x=degree,file=degree.file,row.names=FALSE,col.names=TRUE)
+		write.table(x=degrees,file=degree.file,row.names=FALSE,col.names=TRUE)
 	}
 	
 	return(degrees)
@@ -154,12 +159,13 @@ retrieve.degrees <- function(folder.data, force=FALSE)
 # community.
 #
 # folder.data: folder containing all input and output files.
-# comdet.algo: algorithm used for community detection (needed to infer the file name)
+# role.meas: considered role measures.
+# force: whether or not to force recalculation.
 ###############################################################################
-process.socap.indices <- function(folder.data)
+process.socap.indices <- function(folder.data, role.meas, force=FALSE)
 {	
 	# temporary: process the indices with igraph
-	retrieve.socap.indices(folder.data)
+	retrieve.socap.indices(folder.data, role.meas, force)
 	
 	# TODO could also use the C++ implementation of N&A, instead
 	# get file paths

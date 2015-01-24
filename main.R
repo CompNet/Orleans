@@ -49,7 +49,7 @@ if(gen.data)
 # 1. Processing social capitalism indices
 ###############################################################################
 #cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process social capitalism indices\n",sep="")
-process.socap.indices(folder.data=net.folder)
+process.socap.indices(folder.data=net.folder, role.meas, force=TRUE)
 
 ###############################################################################
 # 2. Detecting communities

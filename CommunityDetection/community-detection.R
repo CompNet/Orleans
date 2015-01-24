@@ -89,6 +89,7 @@ clean.graph.file <- function(folder.data)
 	# set up the command, including all required parameters
 	cmd <- paste("blablabla ",net.file," ",clean.file,sep="") # TODO complete with appropriate parameters
 }
+#TODO we should get rid of this step, can't remember what it is exactly about
 
 ###############################################################################
 # Loads a clean graph text file, and compiles it to get a more convenient

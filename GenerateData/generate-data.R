@@ -27,9 +27,9 @@ generate.network <- function(folder.data, directed=TRUE, n)
 	# record network as edgelist file
 	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record network to file\n",sep="")
 	net.file <- get.network.filename(folder.data)
-	#write.graph(graph=g, file=file.net, format="edgelist")
-	el <- get.edgelist(graph=g) - 1 # we want to number nodes starting from 0
-	write.table(x=el, file=net.file, row.names=FALSE, col.names=FALSE)
+	write.graph(graph=g, file=net.file, format="edgelist")
+	clean.file <- get.network.clean.filename(folder.data)
+	write.graph(graph=g, file=clean.file, format="edgelist")
 	
 	# process degree sequence
 	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process degree sequences\n",sep="")

@@ -34,6 +34,17 @@ get.rolemeas.names <- function(role.meas)
 }
 
 ###############################################################################
+# Indicates if the considered set role measures is meant
+# to handle directed graphs.
+#
+# role.meas: role measure variant.
+###############################################################################
+is.directed.rolemeas <- function(role.meas)
+{	result <- role.meas!="GA"
+	return(result)
+}
+
+###############################################################################
 # Returns the name of the file containing the role measures, 
 # for the specified code.
 #

@@ -88,33 +88,6 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(to
 
 
 ###############################################################################
-# clean raw data
-###############################################################################
-start.time <- Sys.time();
-cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning data\n",sep="")
-	for(c in 1:ncol(data))
-	{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing col.",c,"\n",sep="")
-		
-		# get rid of NA (?)
-		idx.na <- which(is.na(data[,c]))
-		if(length(idx.na)>0)
-		{	data[idx.na,c] <- 0
-			cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ....WARNING: ",length(idx.na)," NA values found in the raw data (col.",c,")\n")
-		}
-		
-		# get rid of infinite values
-		idx.inf <- which(is.infinite(data[,c])) # | data[,c]==1.79769e+308)
-		if(length(idx.inf)>0)
-		{	data[idx.inf,c] <- 0
-			cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ....Replacing ",length(idx.inf)," infinite values by 0 in col.",c,")\n")
-		}
-	}
-end.time <- Sys.time();
-total.time <- end.time - start.time;
-cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning completed in ",format(total.time),"\n",sep="")
-
-
-###############################################################################
 # process degree vs. role measure correlations
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process and record correlations between degrees and role measures\n",sep="")
