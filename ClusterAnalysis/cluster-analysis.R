@@ -11,8 +11,8 @@
 ###############################################################################
 source("ClusterAnalysis/clara.R")
 source("ClusterAnalysis/gkmeans.R")
-source("ClusterAnalysis/kmeans.R")
 source("ClusterAnalysis/hclust.R")
+source("ClusterAnalysis/kmeans.R")
 source("ClusterAnalysis/pkmeans.R")
 source("ClusterAnalysis/xmeans.R")
 

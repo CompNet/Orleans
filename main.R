@@ -9,10 +9,14 @@
 # setwd("D:/Eclipse/workspaces/Networks/Orleans/")
 # source("main.R")
 ###############################################################################
+library("igraph")
+
 source("ClusterAnalysis/cluster-analysis.R")
 source("CommunityDetection/community-detection.R")
 source("GenerateData/generate-data.R")
 source("PostProcessing/post-processing.R")
+source("RoleMeasures/role-measures.R")
+source("SocapIndices/socap-indices.R")
 
 ###############################################################################
 # Parameters
@@ -42,29 +46,35 @@ if(gen.data)
 }
 
 ###############################################################################
-# 1. Detecting communities
+# 1. Processing social capitalism indices
+###############################################################################
+#cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process social capitalism indices\n",sep="")
+process.socap.indices(folder.data=net.folder)
+
+###############################################################################
+# 2. Detecting communities
 ###############################################################################
 #cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Detect communities\n",sep="")
 #detect.communities(folder.data=net.folder, comdet.algo)
 #TODO check for community stability
 
 ###############################################################################
-# 2. Processing role measures
+# 3. Processing community role measures
 ###############################################################################
-#cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process role measures\n",sep="")
-#process.rolemeas(folder.data=net.folder, role.meas, comdet.algo)
+#cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process community role measures\n",sep="")
+#process.role.measures(folder.data=net.folder, role.meas, comdet.algo)
 
 ###############################################################################
-# 3. Clustering role measures
+# 4. Clustering role measures
 ###############################################################################
 #cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Detect clusters\n",sep="")
 #detect.clusters(folder.data=net.folder, role.meas, clust.algo, comdet.algo)
 
 ###############################################################################
-# 4. Additional stats and plots
+# 5. Additional stats and plots
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Perform post processing\n",sep="")
-post.process(folder.data=net.folder, role.meas, clust.algo, comdet.algo)
+#post.process(folder.data=net.folder, role.meas, clust.algo, comdet.algo)
 
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Done\n",sep="")

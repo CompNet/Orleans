@@ -10,8 +10,9 @@
 ###############################################################################
 library("igraph")
 
-source("CommunityDetection/igraph-louvain.R")
 source("CommunityDetection/directed-louvain.R")
+source("CommunityDetection/igraph-louvain.R")
+source("CommunityDetection/oslom.R")
 
 
 ###############################################################################

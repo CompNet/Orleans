@@ -1,5 +1,5 @@
-# Processes various calculations on the social
-# capitalists indices.
+# Processes various calculations on the community
+# role measures.
 # 
 # Version: 2
 # Author: Vincent Labatut 06/2013,07/2014
@@ -8,7 +8,7 @@
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
 # source("RoleMeasures/role-measures.R")
 ###############################################################################
-source("CommunityDetection/community-detection.R")
+
 
 ###############################################################################
 # Returns the list of names for the community role measures
@@ -68,7 +68,7 @@ get.rolemeas.filename <- function(folder.data, role.meas, norm=FALSE, comdet.alg
 #				- "DLPo": variant for overlapping communities  (2x6 measures)
 # comdet.algo: algorithm used for community detection (needed to infer the file name)
 ###############################################################################
-process.rolemeas <- function(folder.data, role.meas, comdet.algo)
+process.role.measures <- function(folder.data, role.meas, comdet.algo)
 {	# get file paths
 	net.file <- get.network.filename(folder.data)
 	clean.file <- get.network.clean.filename(folder.data) #TODO one or the other?

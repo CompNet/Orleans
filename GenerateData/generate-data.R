@@ -8,11 +8,7 @@
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
 # source("GenerateData/generate-data.R")
 ###############################################################################
-library("igraph")
 
-source("ClusterAnalysis/cluster-analysis.R")
-source("CommunityDetection/community-detection.R")
-source("RoleMeasures/role-measures.R")
 
 ###############################################################################
 # Generates and records a fake network,
