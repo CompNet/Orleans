@@ -1,7 +1,7 @@
 # Generates some artificial data and compares the available clustering tools.
 #
-# version: 1
-# Author: Vincent Labatut 02/2013
+# version: 2
+# Author: Vincent Labatut 02/2013, 12/2014
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("D:/Eclipse/workspaces/Networks/Orleans/")

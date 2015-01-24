@@ -2,7 +2,7 @@
 # cluster analysis.
 # 
 # Version: 2
-# Author: Vincent Labatut 06/2013,07/2014
+# Author: Vincent Labatut 06/2013, 07/2014
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("~/src/Orleans/")
@@ -15,7 +15,7 @@ source("ClusterAnalysis/kmeans.R")
 source("ClusterAnalysis/hclust.R")
 source("ClusterAnalysis/pkmeans.R")
 source("ClusterAnalysis/xmeans.R")
-source("RoleMeasures/role-measures.R")
+
 
 ###############################################################################
 # Returns the standard cluster filename, i.e. the name of the file

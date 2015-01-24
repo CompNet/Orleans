@@ -32,3 +32,9 @@ install.packages("HiveR")#
 
 # hclust clustering algorithm
 install.packages("fastcluster")
+
+# test for normality
+install.packages("fBasics")
+
+# Tukey's post-hoc test
+install.packages("multcomp")

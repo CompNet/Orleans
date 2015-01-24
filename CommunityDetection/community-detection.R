@@ -2,7 +2,7 @@
 # network and its community structure.
 # 
 # Version: 2
-# Author: Vincent Labatut 06/2013,07/2014
+# Author: Vincent Labatut 06/2013, 07/2014
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")

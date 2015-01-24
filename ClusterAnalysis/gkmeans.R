@@ -21,6 +21,7 @@
 library("clusterSim")	# Davies-Bouldin index
 library("cluster")		# Silhouette index
 
+
 ###############################################################################
 # Adapter function allowing to use global k-means from our own scripts.
 #

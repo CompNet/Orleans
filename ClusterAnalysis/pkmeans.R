@@ -3,7 +3,7 @@
 # http://users.eecs.northwestern.edu/~wkliao/Kmeans/
 # 
 # Version: 2
-# Author: Vincent Labatut 06/2013,07/2014
+# Author: Vincent Labatut 06/2013, 07/2014
 #
 # setwd("~/eclipse/workspaces/Networks/Orleans/")
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
@@ -11,6 +11,7 @@
 ###############################################################################
 library("clusterSim")	# Davies-Bouldin index
 library("cluster")		# Silhouette index
+
 
 ###############################################################################
 # Applies an external implementation of the distributed k-means clustering algorithm.
