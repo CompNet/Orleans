@@ -8,6 +8,7 @@
 # setwd("C:/Eclipse/workspaces/Networks/Orleans/")
 # source("RoleMeasures/role-measures.R")
 ###############################################################################
+source("RoleMeasures/process-rolemeas.R")
 
 
 ###############################################################################
@@ -78,32 +79,37 @@ get.rolemeas.filename <- function(folder.data, role.meas, norm=FALSE, comdet.alg
 #				- "DLPp": our own measures for partition-based communities (2x4 measures)
 #				- "DLPo": variant for overlapping communities  (2x6 measures)
 # comdet.algo: algorithm used for community detection (needed to infer the file name)
+# force: whether or not to force recalulation.
 ###############################################################################
-process.role.measures <- function(folder.data, role.meas, comdet.algo)
-{	# get file paths
-	net.file <- get.network.filename(folder.data)
-	clean.file <- get.network.clean.filename(folder.data) #TODO one or the other?
-	compiled.file <- get.network.compiled.filename(folder.data) #TODO one or the other?
-	com.file <- get.communities.filename(folder.data,comdet.algo)
-	out.file <- get.rolemeas.filename(folder.data,role.meas,norm=FALSE,comdet.algo)
+process.role.measures <- function(folder.data, role.meas, comdet.algo, force=FALSE)
+{	# should be using the C++ version: this R stuff is temporary
+	retrieve.role.measures(folder.data, role.meas, comdet.algo, force)
 	
-	# compile to a binary file if necessary
-	if(!file.exists(compiled.file))
-		compile.graph.file(folder.data)
-	
-	# set up the appropriate command
-	if(role.meas=="GA")
-		cmd <- ""	# TODO
-	else if(role.meas=="GAdir")
-		cmd <- ""	# TODO
-	else if(role.meas=="DLPp")
-		cmd <- ""	# TODO
-	else if(role.meas=="DLPo")
-		cmd <- ""	# TODO
-	
-	# execute the command from R
-	system(command=cmd) 
-	
-	# possibly post-process
-	# TODO
+	# TODO stub for the C++ wrapper
+#	# get file paths
+#	net.file <- get.network.filename(folder.data)
+#	clean.file <- get.network.clean.filename(folder.data) #TODO one or the other?
+#	compiled.file <- get.network.compiled.filename(folder.data) #TODO one or the other?
+#	com.file <- get.communities.filename(folder.data,comdet.algo)
+#	out.file <- get.rolemeas.filename(folder.data,role.meas,norm=FALSE,comdet.algo)
+#	
+#	# compile to a binary file if necessary
+#	if(!file.exists(compiled.file))
+#		compile.graph.file(folder.data)
+#	
+#	# set up the appropriate command
+#	if(role.meas=="GA")
+#		cmd <- ""	# TODO
+#	else if(role.meas=="GAdir")
+#		cmd <- ""	# TODO
+#	else if(role.meas=="DLPp")
+#		cmd <- ""	# TODO
+#	else if(role.meas=="DLPo")
+#		cmd <- ""	# TODO
+#	
+#	# execute the command from R
+#	system(command=cmd)
+#	
+#	# possibly post-process
+#	# TODO
 }

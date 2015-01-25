@@ -73,10 +73,6 @@ retrieve.socap.indices <- function(folder.data, role.meas, force=FALSE)
 		# process neighborhoods
 		neigh.in <- neighborhood(graph=g, order=1, nodes=V(g), mode="in")
 		neigh.out <- neighborhood(graph=g, order=1, nodes=V(g), mode="out")
-		sapply(1:vcount(g), function(u)
-		{	
-			neigh.out[[u]] <- neigh.out[[u]][neigh.out[[u]]!=u]
-		})
 
 		# process overlap
 		overlap <- sapply(1:vcount(g), function(u)

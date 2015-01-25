@@ -56,12 +56,13 @@ post.process <- function(folder.data, role.meas, clust.algo, comdet.algo, force=
 #		# distribution in function of the clusters
 #		process.partition.distribution(folder.data, membership=mbsp.clusters, clusters=TRUE, family="degree", names=get.degree.names(), values=degrees, loglog=FALSE)
 		
-		# get the community role measures
-#		rolemeas.vals <- retrieve.role.measures(folder.data,role.meas,force) TODO à faire
-		# overall distribution
-#		process.overall.distribution(folder.data, family="rolemeas", names=get.rolemeas.names(role.meas), values=rolemeas.vals, loglog=FALSE)
-		# distribution in function of the clusters (we could also do the communities, if needed)
-#		process.partition.distribution(folder.data, membership=mbsp.clusters, clusters=TRUE, family="rolemeas", names=get.rolemeas.names(role.meas), values=rolemeas.vals, loglog=FALSE)
+#		# get the community role measures
+#		rolemeas.vals <- retrieve.role.measures(folder.data, role.meas, comdet.algo, force)
+#		# overall distribution
+#		family <- paste("comdet=",comdet.algo,".rolemeas=",role.meas,".clust=",clust.algo,".rolemeasa",sep="")
+#		process.overall.distribution(folder.data, family, names=get.rolemeas.names(role.meas), values=rolemeas.vals, loglog=FALSE)
+#		# distribution in function of the clusters (we could also do the communities, if needed)
+#		process.partition.distribution(folder.data, membership=mbsp.clusters, clusters=TRUE, family, names=get.rolemeas.names(role.meas), values=rolemeas.vals, loglog=FALSE)
 		
 #		# get the social capitalism indices
 #		socaps <- retrieve.socap.indices(folder.data,role.meas,force)

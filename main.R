@@ -63,7 +63,7 @@ if(gen.data)
 # 3. Processing community role measures
 ###############################################################################
 #cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process community role measures\n",sep="")
-#process.role.measures(folder.data=net.folder, role.meas, comdet.algo)
+#process.role.measures(folder.data=net.folder, role.meas, comdet.algo, force=TRUE)
 
 ###############################################################################
 # 4. Clustering role measures
