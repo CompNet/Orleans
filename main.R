@@ -13,7 +13,8 @@ library("igraph")
 
 source("ClusterAnalysis/cluster-analysis.R")
 source("CommunityDetection/community-detection.R")
-source("GenerateData/generate-data.R")
+source("Misc/ecdflt.R")
+source("Misc/generate-data.R")
 source("PostProcessing/post-processing.R")
 source("RoleMeasures/role-measures.R")
 source("SocapIndices/socap-indices.R")
@@ -26,7 +27,7 @@ gen.data <- FALSE
 # community detection algorithm
 comdet.algo <- "LV"			#TODO LV, LV-dir, OSLOM-undir-p, OSLOM-dir-p, OSLOM-undir-o, OSLOM-dir-o
 # role measures
-role.meas <- "GA"			#TODO GA, GA-dir, DLP-p, DLP-o
+role.meas <- "GA-dir"			#TODO GA, GA-dir, DLP-p, DLP-o
 # clustering algorithm
 clust.algo <- "kmeans"		#TODO kmeans, pkmeans, xmeans, gkmeans, fgkmeans, gpkmeans, fgpkmeans
 # data folder (all out and in files must be in this folder)
@@ -49,13 +50,13 @@ if(gen.data)
 # 1. Processing social capitalism indices
 ###############################################################################
 #cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process social capitalism indices\n",sep="")
-process.socap.indices(folder.data=net.folder, role.meas, force=TRUE)
+#process.socap.indices(folder.data=net.folder, role.meas, force=TRUE)
 
 ###############################################################################
 # 2. Detecting communities
 ###############################################################################
 #cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Detect communities\n",sep="")
-#detect.communities(folder.data=net.folder, comdet.algo)
+#detect.communities(folder.data=net.folder, comdet.algo, force=TRUE)
 #TODO check for community stability
 
 ###############################################################################
@@ -73,8 +74,8 @@ process.socap.indices(folder.data=net.folder, role.meas, force=TRUE)
 ###############################################################################
 # 5. Additional stats and plots
 ###############################################################################
-cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Perform post processing\n",sep="")
-#post.process(folder.data=net.folder, role.meas, clust.algo, comdet.algo)
+#cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Perform post processing\n",sep="")
+post.process(folder.data=net.folder, role.meas, clust.algo, comdet.algo)
 
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Done\n",sep="")

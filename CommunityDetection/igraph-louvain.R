@@ -29,6 +29,7 @@ apply.igraph.louvain <- function(folder.data, comdet.algo)
 		
 	# build graph from edgelist
 	g <- graph.edgelist(el, directed=FALSE)
+	g <- simplify(graph=g,remove.multiple=TRUE) # in case the graph was originally directed
 	
 	# apply louvain
 	temp <- multilevel.community(graph=g, weights=NULL)

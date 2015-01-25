@@ -67,7 +67,11 @@ generate.rolemeas <- function(folder.data, role.meas, n, n.clust, clust.algo, co
 			nbr <- n - from + 1
 		to <- from + nbr - 1
 		for(f in 1:n.fields)
-			x[from:to,f] <- rnorm(n=nbr,mean=10*runif(1),sd=runif(1))
+		{	if(meas.names[f] %in% c("P","P-in","P-out"))
+				x[from:to,f] <- runif(n=nbr)
+			else
+				x[from:to,f] <- rnorm(n=nbr,mean=runif(n=1,max=5),sd=runif(1))
+		}
 		x[from:to,n.fields+1] <- c
 	}
 	# randomize instance order

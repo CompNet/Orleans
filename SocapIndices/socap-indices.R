@@ -65,7 +65,6 @@ retrieve.socap.indices <- function(folder.data, role.meas, force=FALSE)
 	else
 	{	# load the original graph (non the re-numbered one) TODO: should load the cleaned one
 		net.file <- get.network.clean.filename(folder.data)
-print(is.directed.rolemeas(role.meas))
 		g <- read.graph(file=net.file, format="edgelist", directed=is.directed.rolemeas(role.meas))
 		
 		# get the degrees (process or load them) 

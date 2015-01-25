@@ -116,19 +116,28 @@ compile.graph.file <- function(folder.data)
 #
 # folder.data: folder containing the network file, and which will contain the 
 #			   community file.
-# algo: community detection method.
+# comdet.algo: community detection method.
+# force: whether or not to force the recalculation of the communities, in case
+#		 a community file already exists.
 ###############################################################################
-detect.communities <- function(folder.data, comdet.algo)
+detect.communities <- function(folder.data, comdet.algo, force=FALSE)
 {	start.time <- Sys.time();
 	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Detecting communities\n",sep="")
 	
+	# check if the community file already exists
+	com.file <- get.communities.filename(folder.data, comdet.algo)
+	if(file.exists(com.file) && !force)
+		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Nothing to do: the community file already exists\n",sep="")
+	
 	# apply the appropriate algorithm
-	if(comdet.algo=="LV")
-		apply.igraph.louvain(folder.data, comdet.algo)
-	else if(comdet.algo=="LV-dir")
-		apply.directed.louvain(folder.data, comdet.algo)
-	else if(comdet.algo %in% c("OSLOM-undir-p", "OSLOM-dir-p", "OSLOM-undir-o", "OSLOM-dir-o"))
-		apply.oslom(floder.data, comdet.algo)
+	else
+	{	if(comdet.algo=="LV")
+			apply.igraph.louvain(folder.data, comdet.algo)
+		else if(comdet.algo=="LV-dir")
+			apply.directed.louvain(folder.data, comdet.algo)
+		else if(comdet.algo %in% c("OSLOM-undir-p", "OSLOM-dir-p", "OSLOM-undir-o", "OSLOM-dir-o"))
+			apply.oslom(floder.data, comdet.algo)
+	}
 	
 	end.time <- Sys.time();
 	total.time <- end.time - start.time;

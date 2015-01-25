@@ -10,10 +10,10 @@
 # source("PostProcessing/post-process.R")
 ###############################################################################
 source("PostProcessing/cluster-anova.R")
-source("PostProcessing/cluster-distribution.R")
 source("PostProcessing/cluster-original.R")
 source("PostProcessing/cluster-pca.R")
 source("PostProcessing/cluster-stats.R")
+source("PostProcessing/process-distributions.R")
 
 
 ###############################################################################
@@ -24,8 +24,9 @@ source("PostProcessing/cluster-stats.R")
 # role.meas: code representing the used role measures (cf. RoleMeasures/role-measures.R)
 # clust.algo: cluster analysis method.
 # comdet.algo: community detection algorithm.
+# force: whether or not force the recalculation of certain already existing files.
 ###############################################################################
-post.process <- function(folder.data, role.meas, clust.algo, comdet.algo)
+post.process <- function(folder.data, role.meas, clust.algo, comdet.algo, force=FALSE)
 {	# process cluster stats
 #	process.cluster.stats(folder.data, role.meas, clust.algo, comdet.algo)
 	
@@ -36,16 +37,45 @@ post.process <- function(folder.data, role.meas, clust.algo, comdet.algo)
 #		draw.original.plots(folder.data, role.meas, clust.algo, comdet.algo, sample.size=NA)
 	
 	# perform anova on clusters
-	process.cluster.anonva(folder.data, role.meas, clust.algo, comdet.algo)
-		
+#	process.cluster.anova(folder.data, role.meas, clust.algo, comdet.algo)
 	
-	# distribution of role measures by cluster
-	# distribution of role measures over the whole dataset
-	# social capitalism indices vs. role measures (correlation, plot)
-	# degree (distribution, plot)
-	# degree vs. role measures (correlation, plot)
-	# community sizes (distribution, plot)
-	# role measures (distribution, correlation, plot)
-	# record/plot clustering/comdet quality measures
+	# load cluster membership vector
+	start.time <- Sys.time();
+	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading membership vector\n",sep="")
+		membership.file <- get.cluster.filename(folder.data, role.meas, clust.algo, comdet.algo)
+		mbsp.clusters <- as.vector(as.matrix(read.table(membership.file)))
+	end.time <- Sys.time();
+	total.time <- end.time - start.time;
+	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
+	
+	# distributions
+#		# get the degrees
+#		degrees <- retrieve.degrees(folder.data,role.meas,force)
+#		# overall distribution
+#		process.overall.distribution(folder.data, family="degree", names=get.degree.names(), values=degrees, loglog=FALSE)
+#		# distribution in function of the clusters
+#		process.partition.distribution(folder.data, membership=mbsp.clusters, clusters=TRUE, family="degree", names=get.degree.names(), values=degrees, loglog=FALSE)
+		
+		# get the community role measures
+#		rolemeas.vals <- retrieve.role.measures(folder.data,role.meas,force) TODO à faire
+		# overall distribution
+#		process.overall.distribution(folder.data, family="rolemeas", names=get.rolemeas.names(role.meas), values=rolemeas.vals, loglog=FALSE)
+		# distribution in function of the clusters (we could also do the communities, if needed)
+#		process.partition.distribution(folder.data, membership=mbsp.clusters, clusters=TRUE, family="rolemeas", names=get.rolemeas.names(role.meas), values=rolemeas.vals, loglog=FALSE)
+		
+#		# get the social capitalism indices
+#		socaps <- retrieve.socap.indices(folder.data,role.meas,force)
+#		# overall distribution
+#		process.overall.distribution(folder.data, family="socap", names=get.socap.names(), values=socaps, loglog=FALSE)
+#		# distribution in function of the clusters (TODO we could also do the communities, if needed)
+#		process.partition.distribution(folder.data, membership=mbsp.clusters, clusters=TRUE, family="socap", names=get.socap.names(), values=socaps, loglog=FALSE)
+	
+		# social capitalism indices vs. community role measures (correlation, plot)
+	
+		# degrees vs. community role measures (correlation, plot)
+
+	# community sizes (distribution, plot) >> TODO à faire dans détection de coms
+	
+	# distribution of roles (clusters) in communities and vice-versa
 	
 }

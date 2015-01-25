@@ -62,7 +62,7 @@ draw.original.plots <- function(folder.data, role.meas, clust.algo, comdet.algo,
 	
 	# we can plot these only for the Guimera-Amaral measures, or the directed variants we proposed.
 	if(role.meas!='GA' && role.meas!='GA-dir')
-		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] No original plot for the selected role measures\n",sep="")
+		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] The original plot can be generated for the selected role measures\n",sep="")
 	
 	else
 	{	# load membership vector
@@ -112,9 +112,9 @@ draw.original.plots <- function(folder.data, role.meas, clust.algo, comdet.algo,
 			
 			roles.out <- identify.roles(data[,c(2,4)],sampled,z.threshold,P.thresholds)
 			plot.file.out <- get.original.plot.filename(folder.data, role.meas, clust.algo, comdet.algo, n.clust=0, sample.size, zoom, dir="out", clusters=FALSE)
-			plot.original.regular(data[,c(2,4)],sampled,roles.out,zoom,plot.file,z.threshold,P.thresholds)
+			plot.original.regular(data[,c(2,4)],sampled,roles.out,zoom,plot.file.out,z.threshold,P.thresholds)
 			plot.file.out <- get.original.plot.filename(folder.data, role.meas, clust.algo, comdet.algo, n.clust=0, sample.size, zoom, dir="out", clusters=TRUE)
-			plot.original.clusters(data[,c(2,4)],sampled,membership,zoom,plot.file,z.threshold,P.thresholds)
+			plot.original.clusters(data[,c(2,4)],sampled,membership,zoom,plot.file.out,z.threshold,P.thresholds)
 		}
 	}
 }
@@ -215,14 +215,14 @@ plot.original.regular <- function(data, sampled, roles, zoom, plot.file, z.thres
 			points(data[sampled[idx],1],data[sampled[idx],2],pch=21,bg=color,cex=1)
 		}
 		
-		# add legends
-		text(x= 0.000, y=min.y,					labels="Ultra-peripheral Non-hubs",	cex=1.25, adj=c(0.00,NA),srt=90)
-		text(x= (P.thresholds[1]+P.thresholds[2])/2, y=min.y+0.5*margin.y,		labels="Peripheral Non-hubs",		cex=1.25, adj=c(0.50,NA))
-		text(x= P.thresholds[2]+margin.x, y=min.y,					labels="Connnector Non-hubs",		cex=1.25, adj=c(0.00,NA),srt=90)
-		text(x= 1-0.25*margin.x, y=min.y,					labels="Kinless Non-hubs",			cex=1.25, adj=c(0.00,NA),srt=90)
-		text(x= P.thresholds[4]/2, y=max.y-0.5*margin.y,		labels="Provincial Hubs",			cex=1.25, adj=c(0.50,NA))
-		text(x= (P.thresholds[4]+P.thresholds[5])/2, y=max.y-0.5*margin.y,		labels="Connector Hubs",			cex=1.25, adj=c(0.50,NA))
-		text(x= (P.thresholds[5]+1)/2, y=max.y-0.5*margin.y,		labels="Kinless Hubs",				cex=1.25, adj=c(0.50,NA))
+		# add role names
+		text(x=0.000, 								y=min.y,				labels="Ultra-peripheral Non-hubs",	cex=1.25, adj=c(0.00,NA),srt=90)
+		text(x=(P.thresholds[1]+P.thresholds[2])/2, y=min.y+0.5*margin.y,	labels="Peripheral Non-hubs",		cex=1.25, adj=c(0.50,NA))
+		text(x=P.thresholds[2]+margin.x, 			y=min.y,				labels="Connnector Non-hubs",		cex=1.25, adj=c(0.00,NA),srt=90)
+		text(x=1-0.25*margin.x, 					y=min.y,				labels="Kinless Non-hubs",			cex=1.25, adj=c(0.00,NA),srt=90)
+		text(x=P.thresholds[4]/2, 					y=max.y-0.5*margin.y,	labels="Provincial Hubs",			cex=1.25, adj=c(0.50,NA))
+		text(x=(P.thresholds[4]+P.thresholds[5])/2,	y=max.y-0.5*margin.y,	labels="Connector Hubs",			cex=1.25, adj=c(0.50,NA))
+		text(x=(P.thresholds[5]+1)/2, 				y=max.y-0.5*margin.y,	labels="Kinless Hubs",				cex=1.25, adj=c(0.50,NA))
 	
 		# draw black frame
 		rect(xleft=0-margin.x, ybottom=min.y-margin.y, xright=1+margin.x, ytop=max.y+margin.y, border="black")	# border
@@ -280,18 +280,18 @@ plot.original.clusters <- function(data, sampled, membership, zoom, plot.file, z
 		# plot nodes
 		for(c in 1:k)
 		{	idx <- which(membership==(c-1))
-			points(data[sampled[idx],1],data[sampled[idx],2],pch=21,bg=c,cex=2)
+			points(data[sampled[idx],1],data[sampled[idx],2],pch=21,bg=c,cex=1)
 		}
 		
-		# add legends
-		text(x= 0.000, y=min.y,				 labels="Ultra-peripheral Non-hubs", cex=1.25,adj=c(0.00,NA),srt=90)
-		text(x= 0.330, y=min.y+1*margin.y,	 labels="Peripheral Non-hubs",		 cex=1.25,adj=c(0.50,NA))
-		text(x= 0.660, y=min.y,				 labels="Connnector Non-hubs",		 cex=1.25,adj=c(0.00,NA),srt=90)
-		text(x= 0.990, y=min.y,				 labels="Kinless Non-hubs",			 cex=1.25,adj=c(0.00,NA),srt=90)
-		text(x= 0.125, y=max.y-1*margin.y,	 labels="Provincial Hubs",			 cex=1.25,adj=c(0.50,NA))
-		text(x= 0.525, y=max.y-1*margin.y,	 labels="Connector Hubs",			 cex=1.25,adj=c(0.50,NA))
-		text(x= 0.885, y=max.y-1*margin.y,	 labels="Kinless Hubs",				 cex=1.25,adj=c(0.50,NA))
-		
+		# add role names
+		text(x=0.000, 								y=min.y,				labels="Ultra-peripheral Non-hubs",	cex=1.25, adj=c(0.00,NA),srt=90)
+		text(x=(P.thresholds[1]+P.thresholds[2])/2, y=min.y+0.5*margin.y,	labels="Peripheral Non-hubs",		cex=1.25, adj=c(0.50,NA))
+		text(x=P.thresholds[2]+margin.x, 			y=min.y,				labels="Connnector Non-hubs",		cex=1.25, adj=c(0.00,NA),srt=90)
+		text(x=1-0.25*margin.x, 					y=min.y,				labels="Kinless Non-hubs",			cex=1.25, adj=c(0.00,NA),srt=90)
+		text(x=P.thresholds[4]/2, 					y=max.y-0.5*margin.y,	labels="Provincial Hubs",			cex=1.25, adj=c(0.50,NA))
+		text(x=(P.thresholds[4]+P.thresholds[5])/2,	y=max.y-0.5*margin.y,	labels="Connector Hubs",			cex=1.25, adj=c(0.50,NA))
+		text(x=(P.thresholds[5]+1)/2, 				y=max.y-0.5*margin.y,	labels="Kinless Hubs",				cex=1.25, adj=c(0.50,NA))
+	
 		# draw black frame
 		rect(xleft=0-margin.x, ybottom=min.y-margin.y, xright=1+margin.x, ytop=max.y+margin.y, border="black")	# border
 		

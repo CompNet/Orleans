@@ -109,6 +109,7 @@ process.cluster.stats <- function(folder.data, role.meas, clust.algo, comdet.alg
 		colnames(stdevs) <- rolemeas.names
 		sizes <- matrix(nrow=nbr.clusters,ncol=1)
 		rownames(sizes) <- num.clusters
+		colnames(sizes) <- "Size"
 		for(i in 1:nbr.clusters)
 		{	idx <- which(membership==num.clusters[i])
 			sizes[i] <- length(idx)

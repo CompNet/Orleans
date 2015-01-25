@@ -143,7 +143,7 @@ get.anova.posthoc.filename <- function(folder.data, role.meas, clust.algo, comde
 # clust.algo: cluster analysis algorithm.
 # comdet.algo: community detection algorithm.
 ###############################################################################
-process.cluster.anonva <- function(folder.data, role.meas, clust.algo, comdet.algo)
+process.cluster.anova <- function(folder.data, role.meas, clust.algo, comdet.algo)
 {	# load membership vector
 	start.time <- Sys.time();
 	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading membership vector\n",sep="")
@@ -211,7 +211,7 @@ process.cluster.anonva <- function(folder.data, role.meas, clust.algo, comdet.al
 				cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ....Generating qq-plot ",plot.file,"\n",sep="")
 				res <- residuals(model)
 				pdf(file=plot.file,bg="white")
-					qqnorm(res)
+					qqnorm(res,col="RED")
 					qqline(res)
 				dev.off()
 				# objective test
