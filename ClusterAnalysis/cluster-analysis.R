@@ -117,15 +117,15 @@ normalize.data <- function(folder.data, role.meas, clust.algo, comdet.algo)
 	# we normalize only if the file doesn't aleady exist
 	if(!file.exists(out.file))
 	{	# load the data
-		start.time <- Sys.time();
+		start.time <- Sys.time()
 		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading raw data...\n",sep="")
 			x <- as.matrix(read.table(in.file,header=TRUE))
-		end.time <- Sys.time();
-		total.time <- end.time - start.time;
+		end.time <- Sys.time()
+		total.time <- end.time - start.time
 		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",total.time,"\n",sep="")
 		
 		# normalize
-		start.time <- Sys.time();
+		start.time <- Sys.time()
 		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Normalizing data...\n",sep="")
 			for(c in 1:ncol(x))
 			{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing col.",c,"\n",sep="")
@@ -135,16 +135,16 @@ normalize.data <- function(folder.data, role.meas, clust.algo, comdet.algo)
 				cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ....Normalizing col.",c,": avg=",average," stdev=",stdev,"\n",sep="")
 				x[,c] <- (x[,c] - average) / stdev
 			}
-		end.time <- Sys.time();
-		total.time <- end.time - start.time;
+		end.time <- Sys.time()
+		total.time <- end.time - start.time
 		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Normalization completed in ",total.time,"\n",sep="")
 		
 		# record
-		start.time <- Sys.time();
+		start.time <- Sys.time()
 		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Recording normalized data\n",sep="")
 			write.table(x=x,file=out.file,row.names=FALSE,col.names=FALSE)
-		end.time <- Sys.time();
-		total.time <- end.time - start.time;
+		end.time <- Sys.time()
+		total.time <- end.time - start.time
 		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Recording completed in ",total.time,"\n",sep="")
 	}
 }

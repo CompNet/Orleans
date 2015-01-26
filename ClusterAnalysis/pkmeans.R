@@ -60,11 +60,11 @@ iterative.pkmeans <- function(data, ks=c(2:15), criterion="ASW",
 	best.quality <- NA
 	best.result <- NA
 	if(criterion=="ASW")
-	{	start.time <- Sys.time();
+	{	start.time <- Sys.time()
 		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing distances\n",sep="")
 			distances <- dist(data)
-		end.time <- Sys.time();
-		total.time <- end.time - start.time;
+		end.time <- Sys.time()
+		total.time <- end.time - start.time
 		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Process completed in ",format(total.time),"\n",sep="")
 	}
 	
@@ -77,7 +77,7 @@ iterative.pkmeans <- function(data, ks=c(2:15), criterion="ASW",
 	{	k <- ks[i]
 		if(trace) cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing k=",k,"\n",sep="")
 		
-		start.time <- Sys.time();
+		start.time <- Sys.time()
 		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Applying k-means for k=",k,"\n",sep="")
 		
 		# define command
@@ -96,20 +96,20 @@ iterative.pkmeans <- function(data, ks=c(2:15), criterion="ASW",
 		if(file.exists(file.new))
 			file.remove(file.new)
 		file.rename(from=temp.file,to=file.new)
-		end.time <- Sys.time();
-		total.time <- end.time - start.time;
+		end.time <- Sys.time()
+		total.time <- end.time - start.time
 		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Process completed in ",format(total.time),"\n",sep="")
 		
 		# load membership vector
-		start.time <- Sys.time();
+		start.time <- Sys.time()
 		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Load membership vector (",file.new,")\n",sep="")
 			membership <- as.matrix(read.table(file.new))[,2] + 1	# the clusters are numbered from zero 
-		end.time <- Sys.time();
-		total.time <- end.time - start.time;
+		end.time <- Sys.time()
+		total.time <- end.time - start.time
 		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Load completed in ",format(total.time),"\n",sep="")
 		
 		# process quality measure
-		start.time <- Sys.time();
+		start.time <- Sys.time()
 		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Process ",criterion," measure for k=",k,"\n",sep="")
 			if(criterion=="DB")
 			{	qual.value <- index.DB(x=data, cl=membership, centrotypes="centroids")$DB
@@ -126,8 +126,8 @@ iterative.pkmeans <- function(data, ks=c(2:15), criterion="ASW",
 				}
 			}
 			quality[i,2] <- qual.value
-		end.time <- Sys.time();
-		total.time <- end.time - start.time;
+		end.time <- Sys.time()
+		total.time <- end.time - start.time
 		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing completed in ",format(total.time),", ",criterion,"(",k,")=",qual.value,"\n",sep="")
 		
 		gc()

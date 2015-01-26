@@ -145,29 +145,29 @@ get.anova.posthoc.filename <- function(folder.data, role.meas, clust.algo, comde
 ###############################################################################
 process.cluster.anova <- function(folder.data, role.meas, clust.algo, comdet.algo)
 {	# load membership vector
-	start.time <- Sys.time();
+	start.time <- Sys.time()
 	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading membership vector\n",sep="")
 		membership.file <- get.cluster.filename(folder.data, role.meas, clust.algo, comdet.algo)
 		membership <- as.vector(as.matrix(read.table(membership.file)))
 		clusters <- factor(membership)
 		k <- max(membership)
-	end.time <- Sys.time();
-	total.time <- end.time - start.time;
+	end.time <- Sys.time()
+	total.time <- end.time - start.time
 	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 	
 	# load raw data
-	start.time <- Sys.time();
+	start.time <- Sys.time()
 	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading raw data\n",sep="")
 		file.data <- get.rolemeas.filename(folder.data, role.meas, norm=FALSE, comdet.algo)
 		data <- as.matrix(read.table(file.data,header=TRUE))
-	end.time <- Sys.time();
-	total.time <- end.time - start.time;
+	end.time <- Sys.time()
+	total.time <- end.time - start.time
 	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 	
 	# process each measure
 	rolemeas.names <- get.rolemeas.names(role.meas)
 	for(m in 1:length(rolemeas.names))
-	{	start.time <- Sys.time();
+	{	start.time <- Sys.time()
 		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Processing role measure ",rolemeas.names[m],"\n",sep="")
 			# test for homogeneity of variances (homoskedasticity)
 			# p>0.05 means the null hypothesis could not be rejected
@@ -250,8 +250,8 @@ process.cluster.anova <- function(folder.data, role.meas, clust.algo, comdet.alg
 				summary(tk)
 			sink()
 				
-		end.time <- Sys.time();
-		total.time <- end.time - start.time;
+		end.time <- Sys.time()
+		total.time <- end.time - start.time
 		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",format(total.time),"\n",sep="")
 	}
 }

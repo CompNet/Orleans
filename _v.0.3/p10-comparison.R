@@ -25,42 +25,42 @@ k <- 6								# TODO we work only on the clusters found for this k
 ###############################################################################
 # load old membership vector
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading membership vector\n",sep="")
 	membership.file <- paste(folder.data,file.old,sep="")
 	membership.old <- as.integer(as.matrix(read.table(membership.file))[,2] + 1)	# the k-means implementation starts numbering clusters from 0
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
 # load new membership vector
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading membership vector\n",sep="")
 	membership.file <- paste(folder.data,"cluster.k",k,".txt",sep="")
 	membership.new <- as.integer(as.matrix(read.table(membership.file))[,2] + 1)	# the k-means implementation starts numbering clusters from 0
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
 # process overall similarity (Rand index)
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Processing Rand index\n",sep="")
 	result.ri <- randIndex(membership.old,membership.new,correct=FALSE)
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed (RI=",result.ri,") in ",format(total.time),"\n",sep="")
 
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Processing adjusted Rand index\n",sep="")
 	result.ari <- randIndex(membership.old,membership.new,correct=TRUE)
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed (ARI=",result.ari,") in ",format(total.time),"\n",sep="")
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record data\n",sep="")
 	agreement.file <- paste(folder.data,"agreement.txt",sep="")
@@ -72,7 +72,7 @@ cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record data\n",sep="")
 ###############################################################################
 # process cluster-to-cluster similarities (Jaccard coefficient)
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Processing Jaccard coefficient\n",sep="")
 	k.old <- max(membership.old)
 	k.new <- max(membership.new)
@@ -86,8 +86,8 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Processing Jaccard coeffici
 			jaccard[i.old,i.new] <- i/u
 		}
 	}
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",format(total.time),"\n",sep="")
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record data\n",sep="")
 	print(jaccard)

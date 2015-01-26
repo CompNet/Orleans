@@ -25,19 +25,19 @@ sample.size <- 100000						# TODO processing the whole dataset is to long, so th
 ###############################################################################
 # load raw data
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading raw data\n",sep="")
 	file.data <- paste(folder.data,file.input,sep="")
 	data <- as.matrix(read.table(file.data))
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
 # clean raw data
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning data\n",sep="")
 	for(c in 1:ncol(data))
 	{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing col.",c,"\n",sep="")
@@ -56,8 +56,8 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning data\n",sep="")
 			cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ....Replacing ",length(idx.inf)," infinite values by 0 in col.",c,")\n",sep="")
 		}
 	}
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning completed in ",format(total.time),"\n",sep="")
 
 
@@ -71,7 +71,7 @@ sampled <- sample(x=1:nrow(data),size=sample.size)
 ###############################################################################
 # plot role measure distributions
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Plot role measure distributions\n",sep="")
 	for(i in 1:ncol(data))
 	{	# histogram
@@ -88,8 +88,8 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Plot role measure distribut
 		ecdflt(x=data[sampled,i], xlab=rolemeas.names[i], main=paste("Complementary Cumulative Distribution of",rolemeas.names[i]), points=1000, log="y", col="RED", complementary=TRUE) #
 		dev.off()
 	}
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Plotting completed in ",format(total.time),"\n",sep="")
 	
 

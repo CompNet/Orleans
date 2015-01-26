@@ -56,11 +56,11 @@ iterative.hclust <- function(data, ks=c(2:15), criterion="ASW",
 	best.quality <- NA
 	best.result <- NA
 	if(criterion=="ASW")
-	{	start.time <- Sys.time();
+	{	start.time <- Sys.time()
 		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing distances\n",sep="")
 			distances <- dist(data)
-		end.time <- Sys.time();
-		total.time <- end.time - start.time;
+		end.time <- Sys.time()
+		total.time <- end.time - start.time
 		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Process completed in ",format(total.time),"\n",sep="")
 	}
 	
@@ -70,17 +70,17 @@ iterative.hclust <- function(data, ks=c(2:15), criterion="ASW",
 	quality[,1] <- ks
 	
 	# perform clustering
-	start.time <- Sys.time();
+	start.time <- Sys.time()
 	if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Applying hclust\n",sep="")
 		dendrogram <- hclust.vector(X=data, method="centroid", metric="euclidean")
 cat("dendrogram height:",dendrogram$height,"\n",sep="")
-	end.time <- Sys.time();
-	total.time <- end.time - start.time;
+	end.time <- Sys.time()
+	total.time <- end.time - start.time
 	if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Process completed in ",format(total.time),"\n",sep="")
 	
 	# process quality measure
 	for(i in 1:length(ks))
-	{	start.time <- Sys.time();
+	{	start.time <- Sys.time()
 		k <- ks[i]
 		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Process ",criterion," measure for k=",k,"\n",sep="")
 			membership <- cutree(dendrogram,k)
@@ -99,8 +99,8 @@ cat("dendrogram height:",dendrogram$height,"\n",sep="")
 				}
 			}
 			quality[i,2] <- qual.value
-		end.time <- Sys.time();
-		total.time <- end.time - start.time;
+		end.time <- Sys.time()
+		total.time <- end.time - start.time
 		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing completed in ",format(total.time),", ",criterion,"(",k,")=",qual.value,"\n",sep="")
 		
 		gc()

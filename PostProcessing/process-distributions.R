@@ -39,6 +39,7 @@ get.distrib.histo.filename <- function(folder.data, family, name, clusters=NA, c
 # folder.data: folder containing all input and output files.
 # family: name of the considered *group* of measures.
 # name: name of the considered measure.
+# loglog: whether or not a log-scale is used.
 # clusters: TRUE to handle clusters, FALSE for communities (optional: only for partition-based distributions).
 # c: number of the considered cluster/partition (optional).
 ###############################################################################
@@ -54,6 +55,23 @@ get.distrib.cumul.filename <- function(folder.data, family, name, loglog, cluste
 		else
 			result <- paste(result,".cmnty=",c,sep="")
 	}
+	result <- paste(result,".pdf",sep="")
+	return(result)	
+}
+
+###############################################################################
+# Returns the standard filename for the comparison plot between two series.
+#
+# folder.data: folder containing all input and output files.
+# family: name of the considered *group* of measures.
+# name1: name of the first considered measure.
+# name2: name of the second considered measure.
+###############################################################################
+get.distrib.comp.filename <- function(folder.data, family, name1, name2)
+{	result <- paste(folder.data,family,sep="")
+	result <- paste(result,".",name1,sep="")
+	result <- paste(result,".vs",sep="")
+	result <- paste(result,".",name2,sep="")
 	result <- paste(result,".pdf",sep="")
 	return(result)	
 }
@@ -90,7 +108,7 @@ get.distrib.cor.filename <- function(folder.data, family, clusters=NA, c=NA)
 # loglog: whether the cumulative distribution should be plot on a log-log scale.
 ###############################################################################
 process.overall.distribution <- function(folder.data, family, names, values, loglog=FALSE)
-{	start.time <- Sys.time();
+{	start.time <- Sys.time()
 		# process distributions
 		for(i in 1:ncol(values))
 		{	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Process ",names[i]," overall distribution\n",sep="")
@@ -114,6 +132,20 @@ process.overall.distribution <- function(folder.data, family, names, values, log
 			dev.off()
 		}
 
+		# process comparison plots
+		for(i in 1:ncol(values))
+		{	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Process ",names[i]," vs...\n",sep="")
+			for(j in 1:ncol(values))
+			{	if(i!=j)
+				{	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"]   ...",names[j],"\n",sep="")
+					plot.file <- get.distrib.comp.filename(folder.data, family, name1=names[i], name2=names[j])
+					pdf(file=plot.file, bg="white")
+					plot(values[,i],values[,j],main=paste(names[i],"vs",names[j]),xlab=names[i],ylab=names[j],col="RED")
+					dev.off()
+				}
+			}
+		}
+		
 		# process correlations
 		cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Process and record the correlations between the series\n",sep="")
 		cor.mat <- cor(values)
@@ -121,8 +153,8 @@ process.overall.distribution <- function(folder.data, family, names, values, log
 		print(cor.mat)
 		write.table(cor.mat,cor.file,row.names=TRUE,col.names=TRUE)
 	
-	end.time <- Sys.time();
-	total.time <- end.time - start.time;
+	end.time <- Sys.time()
+	total.time <- end.time - start.time
 	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Plotting completed in ",format(total.time),"\n",sep="")
 }
 
@@ -140,7 +172,7 @@ process.overall.distribution <- function(folder.data, family, names, values, log
 # loglog: whether the cumulative distribution should be plot on a log-log scale.
 ###############################################################################
 process.partition.distribution <- function(folder.data, membership, clusters, family, names, values, loglog=FALSE)
-{	start.time <- Sys.time();
+{	start.time <- Sys.time()
 		parts <- sort(unique(membership))
 		for(c in 1:length(parts))
 		{	part <- parts[c]
@@ -177,7 +209,7 @@ process.partition.distribution <- function(folder.data, membership, clusters, fa
 			print(cor.mat)
 			write.table(cor.mat,cor.file,row.names=TRUE,col.names=TRUE)
 		}
-	end.time <- Sys.time();
-	total.time <- end.time - start.time;
+	end.time <- Sys.time()
+	total.time <- end.time - start.time
 	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Plotting completed in ",format(total.time),"\n",sep="")
 }

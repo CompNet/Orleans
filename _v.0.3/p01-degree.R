@@ -28,7 +28,7 @@ sample.size <- 100000							# TODO processing the whole dataset is to long, so t
 ###############################################################################
 # load degree data
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading degree data\n",sep="")
 	# load the data
 	file.degrees <- paste(folder.data,file.input.degrees,sep="")
@@ -36,8 +36,8 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading degree data\n",sep=
 	# possibly add the total degree, if missing
 	if(ncol(degrees)==2)
 		degrees <- cbind(degrees,degrees[,1]+degrees[,2])
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
@@ -51,7 +51,7 @@ sampled <- sample(x=1:nrow(degrees),size=sample.size)
 ###############################################################################
 # plot degree distributions
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Plot degree distributions\n",sep="")
 	for(i in 1:ncol(degrees))
 	{	deg.name <- paste(degree.names[i],"-degree",sep="")
@@ -70,20 +70,20 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Plot degree distributions\n
 		ecdflt(x=degrees[sampled,i], xlab=deg.name, main=paste("Complementary Cumulative Distribution of",deg.name), log="y", complementary=TRUE, col="RED", points=1000) #
 		dev.off()
 	}
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Plotting completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
 # load raw data
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading raw data\n",sep="")
 	file.data <- paste(folder.data,file.input.rolemeas,sep="")
 	data <- as.matrix(read.table(file.data))
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 

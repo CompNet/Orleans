@@ -66,21 +66,21 @@ draw.original.plots <- function(folder.data, role.meas, clust.algo, comdet.algo,
 	
 	else
 	{	# load membership vector
-		start.time <- Sys.time();
+		start.time <- Sys.time()
 		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading membership vector\n",sep="")
 			membership.file <- get.cluster.filename(folder.data, role.meas, clust.algo, comdet.algo)
 			membership <- as.vector(as.matrix(read.table(membership.file)))
-		end.time <- Sys.time();
-		total.time <- end.time - start.time;
+		end.time <- Sys.time()
+		total.time <- end.time - start.time
 		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 		
 		# load raw data
-		start.time <- Sys.time();
+		start.time <- Sys.time()
 		cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading raw data\n",sep="")
 			file.data <- get.rolemeas.filename(folder.data, role.meas, norm=FALSE, comdet.algo)
 			data <- as.matrix(read.table(file.data,header=TRUE))
-		end.time <- Sys.time();
-		total.time <- end.time - start.time;
+		end.time <- Sys.time()
+		total.time <- end.time - start.time
 		cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 		
 		# possibly sample a few objects
@@ -129,7 +129,7 @@ draw.original.plots <- function(folder.data, role.meas, clust.algo, comdet.algo,
 # P.threshold: values used for the P measure (default: G&A original values).
 ###############################################################################
 identify.roles <- function(data, sampled, z.threshold, P.thresholds)
-{	start.time <- Sys.time();
+{	start.time <- Sys.time()
 	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Identifying node roles\n",sep="")
 		sample.size <- length(sampled)
 		roles <- sapply(1:sample.size, function(i)
@@ -159,8 +159,8 @@ identify.roles <- function(data, sampled, z.threshold, P.thresholds)
 				
 				return(result)
 			})
-	end.time <- Sys.time();
-	total.time <- end.time - start.time;
+	end.time <- Sys.time()
+	total.time <- end.time - start.time
 	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Identification completed in ",format(total.time),"\n",sep="")
 	
 	return(roles)
@@ -178,7 +178,7 @@ identify.roles <- function(data, sampled, z.threshold, P.thresholds)
 # P.threshold: values used for the P measure (default: G&A original values).
 ###############################################################################
 plot.original.regular <- function(data, sampled, roles, zoom, plot.file, z.threshold, P.thresholds)
-{	start.time <- Sys.time();
+{	start.time <- Sys.time()
 	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Plot roles using original layout\n",sep="")
 		# get extreme values for y axis
 		min.y <- min(data[sampled,2])
@@ -228,8 +228,8 @@ plot.original.regular <- function(data, sampled, roles, zoom, plot.file, z.thres
 		rect(xleft=0-margin.x, ybottom=min.y-margin.y, xright=1+margin.x, ytop=max.y+margin.y, border="black")	# border
 		
 		dev.off()
-	end.time <- Sys.time();
-	total.time <- end.time - start.time;
+	end.time <- Sys.time()
+	total.time <- end.time - start.time
 	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Plotting completed in ",format(total.time),"\n",sep="")
 }
 
@@ -247,7 +247,7 @@ plot.original.regular <- function(data, sampled, roles, zoom, plot.file, z.thres
 # P.threshold: values used for the P measure (default: G&A original values).
 ###############################################################################
 plot.original.clusters <- function(data, sampled, membership, zoom, plot.file, z.threshold, P.thresholds)
-{	start.time <- Sys.time();
+{	start.time <- Sys.time()
 	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Plot roles using original layout\n",sep="")
 		k <- length(unique(membership))
 		# get extreme values for y axis
@@ -296,7 +296,7 @@ plot.original.clusters <- function(data, sampled, membership, zoom, plot.file, z
 		rect(xleft=0-margin.x, ybottom=min.y-margin.y, xright=1+margin.x, ytop=max.y+margin.y, border="black")	# border
 		
 		dev.off()
-	end.time <- Sys.time();
-	total.time <- end.time - start.time;
+	end.time <- Sys.time()
+	total.time <- end.time - start.time
 	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Plotting completed in ",format(total.time),"\n",sep="")
 }

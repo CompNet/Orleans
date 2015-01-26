@@ -121,7 +121,7 @@ compile.graph.file <- function(folder.data)
 #		 a community file already exists.
 ###############################################################################
 detect.communities <- function(folder.data, comdet.algo, force=FALSE)
-{	start.time <- Sys.time();
+{	start.time <- Sys.time()
 	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Detecting communities\n",sep="")
 	
 	# check if the community file already exists
@@ -139,7 +139,7 @@ detect.communities <- function(folder.data, comdet.algo, force=FALSE)
 			apply.oslom(floder.data, comdet.algo)
 	}
 	
-	end.time <- Sys.time();
-	total.time <- end.time - start.time;
+	end.time <- Sys.time()
+	total.time <- end.time - start.time
 	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Communities detected in ",format(total.time),"\n",sep="")
 }

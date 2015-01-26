@@ -86,11 +86,11 @@ gkmeans <- function(x, fast=TRUE, parallel=FALSE, k.bounds=c(2,15), criterion="A
 	best.quality <- NA
 	best.result <- NA
 	if(criterion=="ASW")
-	{	start.time <- Sys.time();
+	{	start.time <- Sys.time()
 		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing distances\n",sep="")
 			distances <- dist(x)
-		end.time <- Sys.time();
-		total.time <- end.time - start.time;
+		end.time <- Sys.time()
+		total.time <- end.time - start.time
 		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Process completed in ",format(total.time),"\n",sep="")
 	}
 	
@@ -100,7 +100,7 @@ gkmeans <- function(x, fast=TRUE, parallel=FALSE, k.bounds=c(2,15), criterion="A
 		
 		# init candidate centers for the new cluster
 		if(fast)
-		{	start.time <- Sys.time();
+		{	start.time <- Sys.time()
 				if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Fast version: estimating the best instance to be used as a cluster center\n",sep="")
 				
 				# squared distances to centers from the previous iteration (k-1)
@@ -133,8 +133,8 @@ gkmeans <- function(x, fast=TRUE, parallel=FALSE, k.bounds=c(2,15), criterion="A
 				candidates <- matrix(ncol=ncol(x),nrow=1)
 				candidates[1,] <- x[max.i,]
 			
-			end.time <- Sys.time();
-			total.time <- end.time - start.time;
+			end.time <- Sys.time()
+			total.time <- end.time - start.time
 			if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Process completed in ",format(total.time),"\n",sep="")
 		} else
 			candidates <- x
@@ -146,7 +146,7 @@ gkmeans <- function(x, fast=TRUE, parallel=FALSE, k.bounds=c(2,15), criterion="A
 		
 		# apply k-means using each candidate instance as a potential center for the next cluster
 		for(i in 1:nrow(candidates))
-		{	start.time <- Sys.time();
+		{	start.time <- Sys.time()
 				if(trace
 #						& i %% 1000 == 0
 				) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Applying k-means for k=",k," and candidate ",i,"/",nrow(candidates),"\n",sep="")
@@ -167,8 +167,8 @@ gkmeans <- function(x, fast=TRUE, parallel=FALSE, k.bounds=c(2,15), criterion="A
 						min.res <- res
 					}
 				}
-			end.time <- Sys.time();
-			total.time <- end.time - start.time;
+			end.time <- Sys.time()
+			total.time <- end.time - start.time
 			if(trace 
 #					& i %% 1000 == 0
 			) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Process completed in ",format(total.time)," ss=",ss,"\n",sep="")
@@ -180,7 +180,7 @@ gkmeans <- function(x, fast=TRUE, parallel=FALSE, k.bounds=c(2,15), criterion="A
 		if(trace) print(centers)
 		
 		# process quality measure
-		start.time <- Sys.time();
+		start.time <- Sys.time()
 		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Process ",criterion," measure for k=",k,"\n",sep="")
 			if(criterion=="DB")
 			{	qual.value <- index.DB(x=x, cl=min.clusters, centrotypes="centroids")$DB
@@ -197,8 +197,8 @@ gkmeans <- function(x, fast=TRUE, parallel=FALSE, k.bounds=c(2,15), criterion="A
 				}
 			}
 			quality[k-1,2] <- qual.value
-		end.time <- Sys.time();
-		total.time <- end.time - start.time;
+		end.time <- Sys.time()
+		total.time <- end.time - start.time
 		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing completed in ",format(total.time),", ",criterion,"(",k,")=",qual.value,"\n",sep="")
 		
 		if(trace) cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Process completed for k=",k,"\n",sep="")
@@ -238,7 +238,7 @@ inner.apply.kmeans <- function(data, centers, folder.data, file.data, role.meas,
 	
 	# parallel k-means
 	else
-	{	start.time <- Sys.time();
+	{	start.time <- Sys.time()
 			k <- nrow(centers)
 			if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ........Applying Parallel k-means for k=",k,"\n",sep="")
 			
@@ -267,30 +267,30 @@ inner.apply.kmeans <- function(data, centers, folder.data, file.data, role.meas,
 			if(file.exists(file.new))
 				file.remove(file.new)
 			file.rename(from=temp.cluster.file,to=file.new)
-		end.time <- Sys.time();
-		total.time <- end.time - start.time;
+		end.time <- Sys.time()
+		total.time <- end.time - start.time
 		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ........Process completed in ",format(total.time),"\n",sep="")
 		
 		# load then remove centers file
-		start.time <- Sys.time();
+		start.time <- Sys.time()
 			temp.center.file <- paste(file.data,".cluster_centres",sep="")
 			if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ........Load/remove centers file (",temp.center.file,")\n",sep="")
 			centers2 <- as.matrix(read.table(file=temp.center.file))
 			file.remove(temp.center.file)
-		end.time <- Sys.time();
-		total.time <- end.time - start.time;
+		end.time <- Sys.time()
+		total.time <- end.time - start.time
 		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ........Load completed in ",format(total.time),"\n",sep="")
 		
 		# load membership vector
-		start.time <- Sys.time();
+		start.time <- Sys.time()
 			if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ........Load membership vector (",file.new,")\n",sep="")
 			membership <- as.matrix(read.table(file.new))[,2] + 1	# the clusters are numbered from zero 
-		end.time <- Sys.time();
-		total.time <- end.time - start.time;
+		end.time <- Sys.time()
+		total.time <- end.time - start.time
 		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ........Load completed in ",format(total.time),"\n",sep="")
 		
 		# process within-cluster sum of squares
-		start.time <- Sys.time();
+		start.time <- Sys.time()
 			if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ........Process within-cluster sum of squares\n",sep="")
 			temp <- sapply(1:k, function(num)
 			{	idx <- which(membership==num)
@@ -305,8 +305,8 @@ inner.apply.kmeans <- function(data, centers, folder.data, file.data, role.meas,
 				return(total)
 			})
 			wcss <- sum(temp)
-		end.time <- Sys.time();
-		total.time <- end.time - start.time;
+		end.time <- Sys.time()
+		total.time <- end.time - start.time
 		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ........Process completed in ",format(total.time)," (",wcss,")\n",sep="")
 		
 		result = list(cluster=membership,centers=centers2,tot.withinss=wcss)

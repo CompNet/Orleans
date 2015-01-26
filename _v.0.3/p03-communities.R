@@ -27,22 +27,22 @@ file.input <- "communities.txt"		# TODO you can possibly change that
 ###############################################################################
 # load community membership
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading community membership\n",sep="")
 	file.com <- paste(folder.data,file.input,sep="")
 	communities <- as.matrix(read.table(file.com))
 	# just in case communities start from 0
 	if(min(communities)==0)
 		communities <- communities + 1
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
 # process community size distribution
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Process community sizes\n",sep="")
 	com.nbr <- length(unique(communities))
 	com.sizes <- rep(0,com.nbr)
@@ -54,8 +54,8 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Process community sizes\n",
 	}
 	comsize.file <- paste(folder.data,"communities.sizes.txt",sep="")
 	write.table(com.sizes, comsize.file, row.names=FALSE, col.names=FALSE)
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Processed in ",format(total.time)," (",length(com.sizes)," communities)\n",sep="")
 
 
@@ -79,7 +79,7 @@ cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Plot community sizes\n",sep
 ###############################################################################
 # test for power law distribution
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Check for power-law distributions\n",sep="")
 	fit <- matrix(ncol=2,nrow=1)
 	colnames(fit) <- c("p-value","exponent")
@@ -89,6 +89,6 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Check for power-law distrib
 	print(plf)
 	power.file <- paste(folder.data,"communities.sizes.powerlawfit.txt",sep="")
 	write.table(fit,power.file,row.names=FALSE)
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",format(total.time),"\n",sep="")

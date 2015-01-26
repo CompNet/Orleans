@@ -78,22 +78,22 @@ get.cluster.sizes.filename <- function(folder.data, role.meas, clust.algo, comde
 ###############################################################################
 process.cluster.stats <- function(folder.data, role.meas, clust.algo, comdet.algo)
 {	# load membership vector
-	start.time <- Sys.time();
+	start.time <- Sys.time()
 	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading membership vector\n",sep="")
 		membership.file <- get.cluster.filename(folder.data, role.meas, clust.algo, comdet.algo)
 		membership <- as.vector(as.matrix(read.table(membership.file)))
-	end.time <- Sys.time();
-	total.time <- end.time - start.time;
+	end.time <- Sys.time()
+	total.time <- end.time - start.time
 	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 	
 	# load raw data (role measures)
-	start.time <- Sys.time();
+	start.time <- Sys.time()
 	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading raw data\n",sep="")
 		file.data <- get.rolemeas.filename(folder.data, role.meas, norm=FALSE, comdet.algo)
 		data <- as.matrix(read.table(file.data,header=TRUE))
 		rolemeas.names <- get.rolemeas.names(role.meas)
-	end.time <- Sys.time();
-	total.time <- end.time - start.time;
+	end.time <- Sys.time()
+	total.time <- end.time - start.time
 	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 	# process means and standard deviations

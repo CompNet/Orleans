@@ -56,11 +56,11 @@ iterative.clara <- function(data, ks=c(2:15), criterion="ASW",
 	best.quality <- NA
 	best.result <- NA
 	if(criterion=="ASW")
-	{	start.time <- Sys.time();
+	{	start.time <- Sys.time()
 		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing distances\n",sep="")
 			distances <- dist(data)
-		end.time <- Sys.time();
-		total.time <- end.time - start.time;
+		end.time <- Sys.time()
+		total.time <- end.time - start.time
 		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Process completed in ",format(total.time),"\n",sep="")
 	}
 	
@@ -73,7 +73,7 @@ iterative.clara <- function(data, ks=c(2:15), criterion="ASW",
 		k <- ks[i]
 		if(trace) cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing k=",k,"\n",sep="")
 		
-		start.time <- Sys.time();
+		start.time <- Sys.time()
 		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Applying clara for k=",k,"\n",sep="")
 			# perform clustering
 			membership <- clara(x=data, k=k, metric="euclidean", stand=TRUE,
@@ -82,12 +82,12 @@ iterative.clara <- function(data, ks=c(2:15), criterion="ASW",
 					# TODO sample size : 2 orders of magnitude smaller than data size, with inf=100 and sup=100000 bounds 
 					sampsize=max(10^2,min(10^5,nrow(data)/100)), 
 					medoids.x=FALSE, keep.data=FALSE, trace=trace, pamLike=TRUE)$clustering
-		end.time <- Sys.time();
-		total.time <- end.time - start.time;
+		end.time <- Sys.time()
+		total.time <- end.time - start.time
 		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Process completed in ",format(total.time),"\n",sep="")
 		
 		# process quality measure
-		start.time <- Sys.time();
+		start.time <- Sys.time()
 		if(trace) cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] ....Process ",criterion," measure for k=",k,"\n",sep="")
 			if(criterion=="DB")
 			{	qual.value <- index.DB(x=data, cl=membership, centrotypes="centroids")$DB
@@ -106,8 +106,8 @@ iterative.clara <- function(data, ks=c(2:15), criterion="ASW",
 				}
 			}
 			quality[i,2] <- qual.value
-		end.time <- Sys.time();
-		total.time <- end.time - start.time;
+		end.time <- Sys.time()
+		total.time <- end.time - start.time
 		if(trace) cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] ....Processing completed in ",format(total.time),", ",criterion,"(",k,")=",qual.value,"\n",sep="")
 		
 		gc()

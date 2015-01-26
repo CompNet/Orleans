@@ -74,16 +74,16 @@ cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process sample of size ",sa
 ###############################################################################
 # NOTE: We eventually did that part in Java, since the graph is to big
 #		So we use the sample.txt file to perform the sampling and generate a subgraph.
-#start.time <- Sys.time();
+#start.time <- Sys.time()
 #cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Load graph\n",sep="")
 #	file.network <- paste(folder.data,file.input.network,sep="")
 #	links <- as.matrix(read.table(file.network))
 #	if(min(links)==0) links <- links + 1
-#end.time <- Sys.time();
-#total.time <- end.time - start.time;
+#end.time <- Sys.time()
+#total.time <- end.time - start.time
 #cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Loading completed in ",format(total.time),"\n",sep="")
 	
-#start.time <- Sys.time();
+#start.time <- Sys.time()
 #cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Sample graph\n",sep="")
 #	#idx1 <- match(sampled,links[,1])
 #	#idx1 <- idx1[!is.na(idx1)]
@@ -94,15 +94,15 @@ cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process sample of size ",sa
 #	idx <- intersect(idx1, idx2)
 #	links <- links[idx,]
 #	idx1 <- NULL; idx2 <- NULL; idx <- NULL; gc()
-#end.time <- Sys.time();
-#total.time <- end.time - start.time;
+#end.time <- Sys.time()
+#total.time <- end.time - start.time
 #cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",format(total.time),"\n",sep="")
 	
 	
 ###############################################################################
 # directly read the sampled graph
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Load graph\n",sep="")
 	file.network <- paste(folder.data,file.input.network,".sampled",sep="")
 	links <- as.matrix(read.table(file.network))
@@ -112,28 +112,28 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Load graph\n",sep="")
 	# so the sampled vector needs an update
 	sampled <- sort(unique(c(links[,1],links[,2])))
 	sample.size <- length(sampled)
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Loading completed in ",format(total.time),"\n",sep="")
 	
 	
 ###############################################################################
 # load social capitalism indices
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading social capitalism indices data\n",sep="")
 	# load the data
 	file.soccap <- paste(folder.data,file.input.soccap,sep="")
 	soccap.indices <- as.matrix(read.table(file.soccap))
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
 # identify social capitalists
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Detecting social capitalists\n",sep="")
 	axis.names <- c("User","IFYFM","FMIFY")
 	soccap.indices <- soccap.indices[sampled,]
@@ -145,28 +145,28 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Detecting social capitalist
 	fmify.idx <- cap.idx[-temp.idx]
 	soccap.status[fmify.idx] <- 3
 	soccap.indices <- NULL; gc()
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
 # load raw data (i.e. role mesures)
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading raw data\n",sep="")
 	file.data <- paste(folder.data,file.input.rolemeas,sep="")
 	data <- as.matrix(read.table(file.data))
 	data <- data[sampled,]
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
 # clean raw data
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning data\n",sep="")
 	for(c in 1:ncol(data))
 	{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing col.",c,"\n",sep="")
@@ -185,28 +185,28 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning data\n",sep="")
 			cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ....Replacing ",length(idx.inf)," infinite values by 0 in col.",c,")\n",sep="")
 		}
 	}
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Cleaning completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
 # load membership vector
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading membership vector\n",sep="")
 	membership.file <- paste(folder.data,"cluster.k",k,".txt",sep="")
 	membership <- as.matrix(read.table(membership.file))[,2] + 1	# the k-means implementation starts numbering clusters from 0
 	membership <- membership[sampled]
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
 # generate hive plots using social capitalist statuses as axes
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Producing hive plots with statuses on axes\n",sep="")
 	# re-number nodes in a consecutive way (not required by HiveR, but more convenient)
 	links <- cbind(match(links[,1],sampled), match(links[,2],sampled))
@@ -265,15 +265,15 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Producing hive plots with s
 		# TODO remove border?
 	}
 	dev.off()
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
 # alternatively: export network as DOT file, to be used in JHive (http://www.bcgsc.ca/wiki/display/jhive/home)
 ###############################################################################
-#start.time <- Sys.time();
+#start.time <- Sys.time()
 #cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Exporting network as DOT files\n",sep="")
 #	for(j in 1:ncol(data))
 #	{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing ",rolemeas.names[j]," infinite values by 0 in col.",c,")\n",sep="")
@@ -297,7 +297,7 @@ cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",format
 #		writeLines("}", con)
 #		close(con)
 #	}
-#end.time <- Sys.time();
-#total.time <- end.time - start.time;
+#end.time <- Sys.time()
+#total.time <- end.time - start.time
 #cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",format(total.time),"\n",sep="")
 	

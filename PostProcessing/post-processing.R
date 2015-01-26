@@ -13,6 +13,7 @@ source("PostProcessing/cluster-anova.R")
 source("PostProcessing/cluster-original.R")
 source("PostProcessing/cluster-pca.R")
 source("PostProcessing/cluster-stats.R")
+source("PostProcessing/compare-values.R")
 source("PostProcessing/process-distributions.R")
 
 
@@ -40,42 +41,49 @@ post.process <- function(folder.data, role.meas, clust.algo, comdet.algo, force=
 #	process.cluster.anova(folder.data, role.meas, clust.algo, comdet.algo)
 	
 	# load cluster membership vector
-	start.time <- Sys.time();
+	start.time <- Sys.time()
 	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading membership vector\n",sep="")
 		membership.file <- get.cluster.filename(folder.data, role.meas, clust.algo, comdet.algo)
 		mbsp.clusters <- as.vector(as.matrix(read.table(membership.file)))
-	end.time <- Sys.time();
-	total.time <- end.time - start.time;
+	end.time <- Sys.time()
+	total.time <- end.time - start.time
 	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 	
 	# distributions
-#		# get the degrees
-#		degrees <- retrieve.degrees(folder.data,role.meas,force)
-#		# overall distribution
-#		process.overall.distribution(folder.data, family="degree", names=get.degree.names(), values=degrees, loglog=FALSE)
-#		# distribution in function of the clusters
+		# get the degrees
+		degrees <- retrieve.degrees(folder.data,role.meas,force)
+		# overall distribution
+		process.overall.distribution(folder.data, family="degrees", names=get.degree.names(), values=degrees, loglog=FALSE)
+		# distribution in function of the clusters
 #		process.partition.distribution(folder.data, membership=mbsp.clusters, clusters=TRUE, family="degree", names=get.degree.names(), values=degrees, loglog=FALSE)
 		
-#		# get the community role measures
-#		rolemeas.vals <- retrieve.role.measures(folder.data, role.meas, comdet.algo, force)
-#		# overall distribution
-#		family <- paste("comdet=",comdet.algo,".rolemeas=",role.meas,".clust=",clust.algo,".rolemeasa",sep="")
-#		process.overall.distribution(folder.data, family, names=get.rolemeas.names(role.meas), values=rolemeas.vals, loglog=FALSE)
-#		# distribution in function of the clusters (we could also do the communities, if needed)
+		# get the community role measures
+		rolemeas.vals <- retrieve.role.measures(folder.data, role.meas, comdet.algo, force)
+		# overall distribution
+		family <- paste("comdet=",comdet.algo,".rolemeas=",role.meas,".clust=",clust.algo,".rolemeas",sep="")
+		process.overall.distribution(folder.data, family, names=get.rolemeas.names(role.meas), values=rolemeas.vals, loglog=FALSE)
+		# distribution in function of the clusters (we could also do the communities, if needed)
 #		process.partition.distribution(folder.data, membership=mbsp.clusters, clusters=TRUE, family, names=get.rolemeas.names(role.meas), values=rolemeas.vals, loglog=FALSE)
 		
-#		# get the social capitalism indices
-#		socaps <- retrieve.socap.indices(folder.data,role.meas,force)
-#		# overall distribution
-#		process.overall.distribution(folder.data, family="socap", names=get.socap.names(), values=socaps, loglog=FALSE)
-#		# distribution in function of the clusters (TODO we could also do the communities, if needed)
+		# get the social capitalism indices
+		socaps <- retrieve.socap.indices(folder.data,role.meas,force)
+		# overall distribution
+		process.overall.distribution(folder.data, family="socap", names=get.socap.names(), values=socaps, loglog=FALSE)
+		# distribution in function of the clusters (TODO we could also do the communities, if needed)
 #		process.partition.distribution(folder.data, membership=mbsp.clusters, clusters=TRUE, family="socap", names=get.socap.names(), values=socaps, loglog=FALSE)
 	
-		# social capitalism indices vs. community role measures (correlation, plot)
-	
-		# degrees vs. community role measures (correlation, plot)
+	# comparisons
+		# community role measures vs. social capitalism indices
+#		process.values.comparison(folder.data, 
+#				family1=family, names1=get.rolemeas.names(role.meas), values1=rolemeas.vals,
+#				family2="socap", names2=get.socap.names(), values2=socaps) 
+		
+		# community role measures vs. degrees
+#		process.values.comparison(folder.data, 
+#			family1=family, names1=get.rolemeas.names(role.meas), values1=rolemeas.vals,
+#			family2="degrees", names2=get.degree.names(), values2=degrees) 
 
-	# community sizes (distribution, plot) >> TODO à faire dans détection de coms
+	# community sizes (distribution, plot) >> TODO ï¿½ faire dans dï¿½tection de coms
 	
 	# distribution of roles (clusters) in communities and vice-versa
 	

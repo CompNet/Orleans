@@ -71,22 +71,22 @@ get.cluster.pca.filename <- function(folder.data, role.meas, clust.algo, comdet.
 ###############################################################################
 process.cluster.pca <- function(folder.data, role.meas, clust.algo, comdet.algo, sample.size=NA)
 {	# load membership vector
-	start.time <- Sys.time();
+	start.time <- Sys.time()
 	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading membership vector\n",sep="")
 		membership.file <- get.cluster.filename(folder.data, role.meas, clust.algo, comdet.algo)
 		membership <- as.vector(as.matrix(read.table(membership.file)))
-	end.time <- Sys.time();
-	total.time <- end.time - start.time;
+	end.time <- Sys.time()
+	total.time <- end.time - start.time
 	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 	
 	# load normalized data (role measures)
-	start.time <- Sys.time();
+	start.time <- Sys.time()
 	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading raw data\n",sep="")
 		file.data <- get.rolemeas.filename(folder.data, role.meas, norm=TRUE, comdet.algo)
 		data <- as.matrix(read.table(file.data,header=TRUE))
 		rolemeas.names <- get.rolemeas.names(role.meas)
-	end.time <- Sys.time();
-	total.time <- end.time - start.time;
+	end.time <- Sys.time()
+	total.time <- end.time - start.time
 	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 	
 	# possibly sample a few objects

@@ -28,13 +28,13 @@ sample.size <- 100000						# TODO processing the whole dataset is to long, so th
 ###############################################################################
 # load social capitalism indices
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading social capitalism indices data\n",sep="")
 	# load the data
 	file.soccap <- paste(folder.data,file.input.soccap,sep="")
 	soccap.indices <- as.matrix(read.table(file.soccap))
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
@@ -48,7 +48,7 @@ sampled <- sample(x=1:nrow(soccap.indices),size=sample.size)
 ###############################################################################
 # plot social capitalism indices distributions
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Plot social capitalism indices distributions\n",sep="")
 	for(i in 1:ncol(soccap.indices))
 	{	# histogram
@@ -65,20 +65,20 @@ cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Plot social capitalism indi
 		ecdflt(x=soccap.indices[sampled,i], xlab=soccap.names[i], main=paste("Complementary Cumulative Distribution of",soccap.names[i]), log="y", complementary=TRUE, col="RED", points=1000) #
 		dev.off()
 	}
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Plotting completed in ",format(total.time),"\n",sep="")
 
 
 ###############################################################################
 # load raw data
 ###############################################################################
-start.time <- Sys.time();
+start.time <- Sys.time()
 cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Loading raw data\n",sep="")
 	file.data <- paste(folder.data,file.input.rolemeas,sep="")
 	data <- as.matrix(read.table(file.data))
-end.time <- Sys.time();
-total.time <- end.time - start.time;
+end.time <- Sys.time()
+total.time <- end.time - start.time
 cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Load completed in ",format(total.time),"\n",sep="")
 
 
