@@ -79,3 +79,6 @@ post.process(folder.data=net.folder, role.meas, clust.algo, comdet.algo)
 
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Done\n",sep="")
+
+# TODO force must be enforced only locally
+# TODO write readme file

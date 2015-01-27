@@ -19,6 +19,14 @@ get.socap.names <- function()
 }
 
 ###############################################################################
+# Returns the list of names for the types of users.
+###############################################################################
+get.socap.types <- function()
+{	result <- c("User","IFYFM","FMIFY")
+	return(result)
+}
+
+###############################################################################
 # Returns the name of the file containing the social capitalism indices.
 #
 # folder.data: folder containing all input and output files.
@@ -63,7 +71,7 @@ retrieve.socap.indices <- function(folder.data, role.meas, force=FALSE)
 	
 	# otherwise, process and record them
 	else
-	{	# load the original graph (non the re-numbered one) TODO: should load the cleaned one
+	{	# load the clean graph
 		net.file <- get.network.clean.filename(folder.data)
 		g <- read.graph(file=net.file, format="edgelist", directed=is.directed.rolemeas(role.meas))
 		
@@ -130,7 +138,7 @@ retrieve.degrees <- function(folder.data, role.meas, force=FALSE)
 	
 	# otherwise, process and record it
 	else
-	{	# load the original graph (non the re-numbered one) TODO: should load the cleaned one
+	{	# load the clean graph
 		net.file <- get.network.clean.filename(folder.data)
 		g <- read.graph(file=net.file, format="edgelist", directed=is.directed.rolemeas(role.meas))
 		
@@ -169,4 +177,34 @@ process.socap.indices <- function(folder.data, role.meas, force=FALSE)
 #	compiled.file <- get.network.compiled.filename(folder.data) #TODO one or the other?
 #	com.file <- get.communities.filename(folder.data,comdet.algo)
 #	out.file <- get.rolemeas.filename(folder.data,role.meas,norm=FALSE,comdet.algo)
+}
+
+###############################################################################
+# Identifies social capitalists depending on the social capitalism indices.
+#
+# values: social capitalism indices. "Overlap","Ratio","k-in"
+###############################################################################
+identify.social.capitalists <- function(values)
+{	start.time <- Sys.time()
+	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Detecting social capitalists\n",sep="")
+		# by default, or users are regular
+		soccap.status <- rep(x=1,times=length(values))
+		
+		# overlap threshold for being a social caps
+		cap.idx <- which(values[,"Overlap"]>0.1) #TODO TODO TODO originally 0.8
+		# ratio threshold to distinguish the types of social caps
+		temp.idx <- which(values[cap.idx,"Ratio"]>1)
+		
+		# set IFYFM social caps
+		ifyfm.idx <- cap.idx[temp.idx]
+		soccap.status[ifyfm.idx] <- 2
+		
+		# set FMIFY social caps
+		fmify.idx <- cap.idx[-temp.idx]
+		soccap.status[fmify.idx] <- 3
+	end.time <- Sys.time()
+	total.time <- end.time - start.time
+	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",format(total.time),"\n",sep="")
+	
+	return(soccap.status)
 }

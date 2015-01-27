@@ -15,6 +15,7 @@ source("PostProcessing/cluster-pca.R")
 source("PostProcessing/cluster-stats.R")
 source("PostProcessing/community-stats.R")
 source("PostProcessing/compare-values.R")
+source("PostProcessing/hive-plot.R")
 source("PostProcessing/process-distributions.R")
 
 
@@ -31,7 +32,7 @@ source("PostProcessing/process-distributions.R")
 post.process <- function(folder.data, role.meas, clust.algo, comdet.algo, force=FALSE)
 {	
 	# process community stats
-	process.community.stats(folder.data, comdet.algo)
+#	process.community.stats(folder.data, comdet.algo)
 	
 	# process cluster stats
 #	process.cluster.stats(folder.data, role.meas, clust.algo, comdet.algo)
@@ -74,7 +75,7 @@ post.process <- function(folder.data, role.meas, clust.algo, comdet.algo, force=
 #		socaps <- retrieve.socap.indices(folder.data,role.meas,force)
 		# overall distribution
 #		process.overall.distribution(folder.data, family="socap", names=get.socap.names(), values=socaps, loglog=FALSE)
-		# distribution in function of the clusters (TODO we could also do the communities, if needed)
+		# distribution in function of the clusters (we could also do the communities, if needed)
 #		process.partition.distribution(folder.data, membership=mbsp.clusters, clusters=TRUE, family="socap", names=get.socap.names(), values=socaps, loglog=FALSE)
 	
 	# comparisons
@@ -88,8 +89,8 @@ post.process <- function(folder.data, role.meas, clust.algo, comdet.algo, force=
 #			family1=family, names1=get.rolemeas.names(role.meas), values1=rolemeas.vals,
 #			family2="degrees", names2=get.degree.names(), values2=degrees) 
 
-	# community sizes (distribution, plot) >> TODO ï¿½ faire dans dï¿½tection de coms
+	# community sizes (distribution, plot) >> TODO a faire dans détection de coms
 	
 	# distribution of roles (clusters) in communities and vice-versa
-	
+	draw.hiveplots(folder.data, role.meas, clust.algo, comdet.algo, sample.size=NA, force=TRUE)
 }

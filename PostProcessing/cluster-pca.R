@@ -23,7 +23,7 @@
 # comdet.algo: community detection algorithm.
 # sample.size: size of the considered data sample.
 ###############################################################################
-get.cluster.plot.filename <- function(folder.data, role.meas, clust.algo, comdet.algo, n.clust=0, sample.size)
+get.cluster.plot.filename <- function(folder.data, role.meas, clust.algo, comdet.algo, n.clust=0, sample.size=NA)
 {	result <- paste(folder.data,"comdet=",comdet.algo,sep="")
 	result <- paste(result,".rolemeas=",role.meas,sep="")
 	result <- paste(result,".clust=",clust.algo,sep="")
@@ -45,7 +45,7 @@ get.cluster.plot.filename <- function(folder.data, role.meas, clust.algo, comdet
 # comdet.algo: community detection algorithm.
 # sample.size: size of the considered data sample.
 ###############################################################################
-get.cluster.pca.filename <- function(folder.data, role.meas, clust.algo, comdet.algo, n.clust=0, sample.size)
+get.cluster.pca.filename <- function(folder.data, role.meas, clust.algo, comdet.algo, n.clust=0, sample.size=NA)
 {	result <- paste(folder.data,"comdet=",comdet.algo,sep="")
 	result <- paste(result,".rolemeas=",role.meas,sep="")
 	result <- paste(result,".clust=",clust.algo,sep="")

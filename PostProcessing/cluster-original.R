@@ -14,15 +14,15 @@
 #
 # folder.data: folder containing all input and output files.
 # role.meas: type of role measures.
-# n.clust: number of detected clusters (optional).
 # clust.algo: cluster analysis algorithm.
 # comdet.algo: community detection algorithm.
+# n.clust: number of detected clusters (optional).
 # sample.size: size of the considered data sample.
 # zoom: whether the plot is full or zoomed in.
 # dir: for the directed version: in or out.
 # clusters: whether the regular (FALSE) or cluster (TRUE) colors are used.
 ###############################################################################
-get.original.plot.filename <- function(folder.data, role.meas, clust.algo, comdet.algo, n.clust=0, sample.size, zoom, dir=NA, clusters)
+get.original.plot.filename <- function(folder.data, role.meas, clust.algo, comdet.algo, n.clust=0, sample.size=NA, zoom=NA, dir=NA, clusters)
 {	result <- paste(folder.data,"comdet=",comdet.algo,sep="")
 	result <- paste(result,".rolemeas=",role.meas,sep="")
 	result <- paste(result,".clust=",clust.algo,sep="")
@@ -30,8 +30,8 @@ get.original.plot.filename <- function(folder.data, role.meas, clust.algo, comde
 		result <- paste(result,".k=",n.clust,sep="")
 	if(!is.na(sample.size))
 		result <- paste(result,".smplsz=",sample.size,sep="")
-	if(!is.na(sample.size))
-		result <- paste(result,".zoom",sample.size,sep="")
+	if(!is.na(zoom))
+		result <- paste(result,".zoom",zoom,sep="")
 	result <- paste(result,".original",sep="")
 	if(clusters)
 		result <- paste(result,"-clust",sep="")

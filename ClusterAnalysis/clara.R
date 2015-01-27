@@ -79,7 +79,7 @@ iterative.clara <- function(data, ks=c(2:15), criterion="ASW",
 			membership <- clara(x=data, k=k, metric="euclidean", stand=TRUE,
 					# recommended value
 					samples=50,
-					# TODO sample size : 2 orders of magnitude smaller than data size, with inf=100 and sup=100000 bounds 
+					# NOTE sample size : 2 orders of magnitude smaller than data size, with bounds inf=100 and sup=100000 
 					sampsize=max(10^2,min(10^5,nrow(data)/100)), 
 					medoids.x=FALSE, keep.data=FALSE, trace=trace, pamLike=TRUE)$clustering
 		end.time <- Sys.time()

@@ -38,3 +38,6 @@ install.packages("fBasics")
 
 # Tukey's post-hoc test
 install.packages("multcomp")
+
+# Hive plot
+install.packages("HiveR")
