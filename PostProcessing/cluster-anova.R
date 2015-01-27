@@ -12,7 +12,7 @@
 # source("PostProcessing/cluster-distribution.R")
 ###############################################################################
 library("fBasics")		# Homoskedasticity test
-#library("car")
+#library("car")			# ?
 library("multcomp")		# Tukey's post-hoc test
 
 
