@@ -1,5 +1,7 @@
-# Generates plots regarding the distributions of some values
-# over the whole data and over each cluster.
+# Generates plots regarding the distributions of some series
+# over the whole data and over each cluster. Also checks if the
+# distributions follow power laws, processes inter-series correlations,
+# and generates series comparison plots. 
 #
 # version: 2
 # Author: Vincent Labatut 06/2013, 01/2015
@@ -98,6 +100,27 @@ get.distrib.cor.filename <- function(folder.data, family, clusters=NA, c=NA)
 }
 
 ###############################################################################
+# Returns the standard filename for the power law test results.
+#
+# folder.data: folder containing all input and output files.
+# family: name of the considered *group* of measures.
+# clusters: TRUE to handle clusters, FALSE for communities (optional: only for partition-based distributions).
+# c: number of the considered cluster/partition (optional).
+###############################################################################
+get.distrib.powerlaw.filename <- function(folder.data, family, clusters=NA, c=NA)
+{	result <- paste(folder.data,family,sep="")
+	result <- paste(result,".powerlaw",sep="")
+	if(!is.na(clusters) && !is.na(c))
+	{	if(clusters)
+			result <- paste(result,".clstr=",c,sep="")
+		else
+			result <- paste(result,".cmnty=",c,sep="")
+	}
+	result <- paste(result,".txt",sep="")
+	return(result)	
+}
+
+###############################################################################
 # Plots the overall histogram and cumulative distribution for the specified
 # values. Also processes the correlation for each pair of series.
 #
@@ -109,6 +132,10 @@ get.distrib.cor.filename <- function(folder.data, family, clusters=NA, c=NA)
 ###############################################################################
 process.overall.distribution <- function(folder.data, family, names, values, loglog=FALSE)
 {	start.time <- Sys.time()
+		fit <- matrix(ncol=2,nrow=ncol(values))
+		colnames(fit) <- c("p-value","exponent")
+		rownames(fit) <- names
+		
 		# process distributions
 		for(i in 1:ncol(values))
 		{	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Process ",names[i]," overall distribution\n",sep="")
@@ -130,6 +157,12 @@ process.overall.distribution <- function(folder.data, family, names, values, log
 				ll <- ""
 			ecdflt(x=values[,i], xlab=names[i], main=paste("Complementary Cumulative Distribution of", names[i]), complementary=TRUE, col="RED", points=1000, log=ll)
 			dev.off()
+			
+			# check power law
+			cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ....Check if ",names[i]," follows a power law\n",sep="")
+			plf <- power.law.fit(x=values[,i], implementation="plfit")
+			fit[i,"p-value"] <- plf$KS.p
+			fit[i,"exponent"] <- plf$alpha
 		}
 
 		# process comparison plots
@@ -145,6 +178,12 @@ process.overall.distribution <- function(folder.data, family, names, values, log
 				}
 			}
 		}
+		
+		# record power law test results
+		pl.file <- get.distrib.powerlaw.filename(folder.data, family)
+		cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ....Record power law test results in file ",pl.file,"\n",sep="")
+		print(fit)
+		write.table(fit,pl.file)
 		
 		# process correlations
 		cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Process and record the correlations between the series\n",sep="")
@@ -178,6 +217,9 @@ process.partition.distribution <- function(folder.data, membership, clusters, fa
 		{	part <- parts[c]
 			cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Process part ",part,"\n",sep="")
 			idx <- which(membership==part)
+			fit <- matrix(ncol=2,nrow=ncol(values))
+			colnames(fit) <- c("p-value","exponent")
+			rownames(fit) <- names
 			
 			# process the distribution for each series
 			for(i in 1:ncol(values))
@@ -200,12 +242,24 @@ process.partition.distribution <- function(folder.data, membership, clusters, fa
 					ll <- ""
 				ecdflt(x=values[idx,i], xlab=names[i], main=paste("Complementary Cumulative Distribution of",names[i]), complementary=TRUE, col="RED", points=1000, log=ll)
 				dev.off()
+				
+				# check power law
+				cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ....Check if ",names[i]," follows a power law in part #",part,"\n",sep="")
+				plf <- power.law.fit(x=values[idx,i], implementation="plfit")
+				fit[i,"p-value"] <- plf$KS.p
+				fit[i,"exponent"] <- plf$alpha
 			}
 			
+			# record power law test results
+			pl.file <- get.distrib.powerlaw.filename(folder.data, family, clusters, c=part)
+			cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ....Record power law test results in file ",pl.file,"\n",sep="")
+			print(fit)
+			write.table(fit,pl.file)
+			
 			# process correlations between series
-			cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Process and record the correlations between the series\n",sep="")
-			cor.mat <- cor(values)
 			cor.file <- get.distrib.cor.filename(folder.data, family, clusters, c=part)
+			cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Process the correlations between the series and record in file ",cor.file,"\n",sep="")
+			cor.mat <- cor(values)
 			print(cor.mat)
 			write.table(cor.mat,cor.file,row.names=TRUE,col.names=TRUE)
 		}

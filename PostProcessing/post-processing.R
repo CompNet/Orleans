@@ -55,7 +55,7 @@ post.process <- function(folder.data, role.meas, clust.algo, comdet.algo, force=
 		# overall distribution
 		process.overall.distribution(folder.data, family="degrees", names=get.degree.names(), values=degrees, loglog=FALSE)
 		# distribution in function of the clusters
-#		process.partition.distribution(folder.data, membership=mbsp.clusters, clusters=TRUE, family="degree", names=get.degree.names(), values=degrees, loglog=FALSE)
+		process.partition.distribution(folder.data, membership=mbsp.clusters, clusters=TRUE, family="degree", names=get.degree.names(), values=degrees, loglog=FALSE)
 		
 		# get the community role measures
 		rolemeas.vals <- retrieve.role.measures(folder.data, role.meas, comdet.algo, force)
@@ -63,14 +63,14 @@ post.process <- function(folder.data, role.meas, clust.algo, comdet.algo, force=
 		family <- paste("comdet=",comdet.algo,".rolemeas=",role.meas,".clust=",clust.algo,".rolemeas",sep="")
 		process.overall.distribution(folder.data, family, names=get.rolemeas.names(role.meas), values=rolemeas.vals, loglog=FALSE)
 		# distribution in function of the clusters (we could also do the communities, if needed)
-#		process.partition.distribution(folder.data, membership=mbsp.clusters, clusters=TRUE, family, names=get.rolemeas.names(role.meas), values=rolemeas.vals, loglog=FALSE)
+		process.partition.distribution(folder.data, membership=mbsp.clusters, clusters=TRUE, family, names=get.rolemeas.names(role.meas), values=rolemeas.vals, loglog=FALSE)
 		
 		# get the social capitalism indices
 		socaps <- retrieve.socap.indices(folder.data,role.meas,force)
 		# overall distribution
 		process.overall.distribution(folder.data, family="socap", names=get.socap.names(), values=socaps, loglog=FALSE)
 		# distribution in function of the clusters (TODO we could also do the communities, if needed)
-#		process.partition.distribution(folder.data, membership=mbsp.clusters, clusters=TRUE, family="socap", names=get.socap.names(), values=socaps, loglog=FALSE)
+		process.partition.distribution(folder.data, membership=mbsp.clusters, clusters=TRUE, family="socap", names=get.socap.names(), values=socaps, loglog=FALSE)
 	
 	# comparisons
 		# community role measures vs. social capitalism indices
