@@ -43,6 +43,31 @@ get.hiveplot.filename <- function(folder.data, role.meas, clust.algo, comdet.alg
 }
 
 ###############################################################################
+# Returns the standard filename for the hive-plot-dedicated network at the DOT format.
+#
+# folder.data: folder containing all input and output files.
+# role.meas: type of role measures.
+# clust.algo: cluster analysis algorithm.
+# comdet.algo: community detection algorithm.
+# n.clust: number of detected clusters (optional).
+# sample.size: size of the considered data sample.
+# meas: measure represented in the plot.
+###############################################################################
+get.network.dot.filename <- function(folder.data, role.meas, clust.algo, comdet.algo, n.clust=0, sample.size=NA, meas)
+{	result <- paste(folder.data,"comdet=",comdet.algo,sep="")
+	result <- paste(result,".rolemeas=",role.meas,sep="")
+	result <- paste(result,".clust=",clust.algo,sep="")
+	if(n.clust>0)
+		result <- paste(result,".k=",n.clust,sep="")
+	if(!is.na(sample.size))
+		result <- paste(result,".smplsz=",sample.size,sep="")
+	result <- paste(result,".hiveplot",sep="")
+	result <- paste(result,".meas=",meas,sep="")
+	result <- paste(result,".dot",sep="")
+	return(result)
+}
+
+###############################################################################
 # Returns the standard filename for the node sample.
 #
 # folder.data: folder containing all input and output files.
@@ -121,6 +146,7 @@ draw.hiveplots <- function(folder.data, role.meas, clust.algo, comdet.algo, samp
 		
 		# generate the hive plots
 		generate.hiveplots(folder.data, role.meas, clust.algo, comdet.algo, membership, rolemeas.vals, socap.types, links, sample.size, force)
+		record.as.dot(folder.data, role.meas, clust.algo, comdet.algo, membership, rolemeas.vals, socap.types, links, sample.size)
 	}
 }
 
@@ -204,7 +230,7 @@ generate.hiveplots <- function(folder.data, role.meas, clust.algo, comdet.algo, 
 		
 		# generate hiveplots
 		for(i in 1:length(rolemeas.names))
-		{	plot.file <- get.hiveplot.filename(folder.data, role.meas, clust.algo, comdet.algo, n.clust=0, sample.size=NA, meas=rolemeas.names[i])
+		{	plot.file <- get.hiveplot.filename(folder.data, role.meas, clust.algo, comdet.algo, n.clust=0, sample.size, meas=rolemeas.names[i])
 			
 			# select data
 			radii <- rolemeas.vals[,i] #/ max(data[,i])
@@ -261,33 +287,48 @@ generate.hiveplots <- function(folder.data, role.meas, clust.algo, comdet.algo, 
 
 
 ###############################################################################
-# alternatively: export network as DOT file, to be used in JHive (http://www.bcgsc.ca/wiki/display/jhive/home)
+# Exports the network as several DOT files, each one can be used in JHive 
+# (http://www.bcgsc.ca/wiki/display/jhive/home) to manually generate a hive plot.
+#
+# folder.data: folder containing all input and output files.
+# role.meas: type of role measures.
+# clust.algo: cluster analysis algorithm.
+# comdet.algo: community detection algorithm.
+# membership: number of the clusters.
+# rolemeas.vals: values of the community role measures.
+# socap.types: types of social capitalists.
+# links: edgelist (i.e. 2-columns matrix containing the sampled edges).
+# sample.size: size of the sample to draw from the network node set.
 ###############################################################################
-#start.time <- Sys.time()
-#cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Exporting network as DOT files\n",sep="")
-#	for(j in 1:ncol(data))
-#	{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing ",rolemeas.names[j]," infinite values by 0 in col.",c,")\n",sep="")
-#		dot.file <- paste(folder.data,"network.",rolemeas.names[j],".dot",sep="")
-#		con <- file(dot.file,"w")
-#		writeLines("digraph ",rolemeas.names[j]," {", con)
-#		# nodes
-#		for(i in 1:sample.size)
-#		{	line <- paste("node",i," [",sep="")
-#				line <- paste(line," value=",data[i,j],sep="")
-#			line <- paste(line," status=",axis.names[soccap.status[i]],sep="")
-#			line <- paste(line," role=R",membership[i],sep="")
-#			line <- paste(line," ]",sep="")
-#			writeLines(line, con)
-#		}
-#		# links
-#		for(i in 1:nrow(links))
-#		{	line <- paste("node",links[i,1]," -> node",links[i,2],sep="")
-#			writeLines(line, con)
-#		}
-#		writeLines("}", con)
-#		close(con)
-#	}
-#end.time <- Sys.time()
-#total.time <- end.time - start.time
-#cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",format(total.time),"\n",sep="")
-	
+record.as.dot <- function(folder.data, role.meas, clust.algo, comdet.algo, membership, rolemeas.vals, socap.types, links, sample.size=NA)
+{	start.time <- Sys.time()
+	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Exporting the network as several DOT files\n",sep="")
+		rolemeas.names <- get.rolemeas.names(role.meas)
+		axis.names <- get.socap.types()
+		
+		for(j in 1:ncol(rolemeas.vals))
+		{	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] ..Processing ",rolemeas.names[j],"\n",sep="")
+			dot.file <- get.network.dot.filename(folder.data, role.meas, clust.algo, comdet.algo, n.clust=0, sample.size, meas=rolemeas.names[j])
+			con <- file(dot.file,"w")
+			writeLines("digraph ",rolemeas.names[j]," {", con)
+			# nodes
+			for(i in 1:nrow(rolemeas.vals))
+			{	line <- paste("node",i," [",sep="")
+				line <- paste(line," value=",rolemeas.vals[i,j],sep="")
+				line <- paste(line," status=",axis.names[socap.types[i]],sep="")
+				line <- paste(line," role=R",membership[i],sep="")
+				line <- paste(line," ]",sep="")
+				writeLines(line, con)
+			}
+			# links
+			for(i in 1:nrow(links))
+			{	line <- paste("node",links[i,1]," -> node",links[i,2],sep="")
+				writeLines(line, con)
+			}
+			writeLines("}", con)
+			close(con)
+		}
+	end.time <- Sys.time()
+	total.time <- end.time - start.time
+	cat("[",format(end.time,"%a %d %b %Y %H:%M:%S"),"] Process completed in ",format(total.time),"\n",sep="")
+}
