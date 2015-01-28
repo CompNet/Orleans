@@ -25,11 +25,11 @@ source("SocapIndices/socap-indices.R")
 # whether or not to generate data (for testing purposes)
 gen.data <- FALSE
 # community detection algorithm
-comdet.algo <- "LV"			#TODO LV, LV-dir, OSLOM-undir-p, OSLOM-dir-p, OSLOM-undir-o, OSLOM-dir-o
+comdet.algo <- "LV"				#TODO LV, LV-dir, OSLOM-undir-p, OSLOM-dir-p, OSLOM-undir-o, OSLOM-dir-o
 # role measures
 role.meas <- "GA-dir"			#TODO GA, GA-dir, DLP-p, DLP-o
 # clustering algorithm
-clust.algo <- "kmeans"		#TODO kmeans, pkmeans, xmeans, gkmeans, fgkmeans, gpkmeans, fgpkmeans
+clust.algo <- "kmeans"			#TODO kmeans, pkmeans, xmeans, gkmeans, fgkmeans, gpkmeans, fgpkmeans
 # data folder (all out and in files must be in this folder)
 net.folder <- "data/test/"		#TODO put the network folder
 
@@ -79,5 +79,3 @@ post.process(folder.data=net.folder, role.meas, clust.algo, comdet.algo, force=T
 
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Done\n",sep="")
-
-# TODO write readme file

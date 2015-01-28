@@ -23,14 +23,14 @@ apply.directed.louvain <- function(folder.data, comdet.algo)
 		compile.graph.file(folder.data)
 	
 	# set up the command, including all required parameters
-	cmd <- paste("blablabla ",compiled.file,sep="") # TODO complete with appropriate parameters
+	cmd <- paste("blablabla ",compiled.file,sep="") # TODO @Nico complete with appropriate parameters
 	
 	# execute the command from R
 	system(command=cmd) 
 	
 	# possibly rename the outputted file (to fit the R scripts requirements)
-	# TODO
+	# TODO @Nico
 	
 	# convert the 2 column files (node,com) to a single column one (com)
-	# TODO 
+	# TODO @Nico
 }

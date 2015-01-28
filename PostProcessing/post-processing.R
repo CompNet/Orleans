@@ -89,7 +89,7 @@ post.process <- function(folder.data, role.meas, clust.algo, comdet.algo, force=
 #			family1=family, names1=get.rolemeas.names(role.meas), values1=rolemeas.vals,
 #			family2="degrees", names2=get.degree.names(), values2=degrees) 
 
-	# community sizes (distribution, plot) >> TODO a faire dans d�tection de coms
+	# community sizes (distribution, plot) >> TODO a faire dans detection de coms
 	
 	# distribution of roles (clusters) in communities and vice-versa
 	draw.hiveplots(folder.data, role.meas, clust.algo, comdet.algo, sample.size=NA, force)

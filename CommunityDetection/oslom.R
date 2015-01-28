@@ -38,8 +38,8 @@ apply.oslom <- function(folder.data, comdet.algo)
 	# execute the command from R
 	system(command=cmd) 
 	
+	# TODO
 	# possibly rename the outputted file (to fit the R scripts requirements)
 	# also possibly clean or normalize the outputted file
 	# the community structure file must just be a vector of community ids starting from 0
-	# TODO
 }

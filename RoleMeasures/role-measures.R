@@ -85,11 +85,11 @@ process.role.measures <- function(folder.data, role.meas, comdet.algo, force=FAL
 {	# should be using the C++ version: this R stuff is temporary
 	retrieve.role.measures(folder.data, role.meas, comdet.algo, force)
 	
-	# TODO stub for the C++ wrapper
+	# TODO @Nico stub for the C++ wrapper
 #	# get file paths
 #	net.file <- get.network.filename(folder.data)
-#	clean.file <- get.network.clean.filename(folder.data) #TODO one or the other?
-#	compiled.file <- get.network.compiled.filename(folder.data) #TODO one or the other?
+#	clean.file <- get.network.clean.filename(folder.data) #TODO @Nico one or the other?
+#	compiled.file <- get.network.compiled.filename(folder.data) #TODO @Nico one or the other?
 #	com.file <- get.communities.filename(folder.data,comdet.algo)
 #	out.file <- get.rolemeas.filename(folder.data,role.meas,norm=FALSE,comdet.algo)
 #	
@@ -99,17 +99,17 @@ process.role.measures <- function(folder.data, role.meas, comdet.algo, force=FAL
 #	
 #	# set up the appropriate command
 #	if(role.meas=="GA")
-#		cmd <- ""	# TODO
+#		cmd <- ""	# TODO @Nico
 #	else if(role.meas=="GAdir")
-#		cmd <- ""	# TODO
+#		cmd <- ""	# TODO @Nico
 #	else if(role.meas=="DLPp")
-#		cmd <- ""	# TODO
+#		cmd <- ""	# TODO @Nico
 #	else if(role.meas=="DLPo")
-#		cmd <- ""	# TODO
+#		cmd <- ""	# TODO future dev
 #	
 #	# execute the command from R
 #	system(command=cmd)
 #	
 #	# possibly post-process
-#	# TODO
+#	# TODO @Nico
 }

@@ -87,9 +87,12 @@ clean.graph.file <- function(folder.data)
 	clean.file <- get.network.clean.filename(folder.data)
 	
 	# set up the command, including all required parameters
-	cmd <- paste("blablabla ",net.file," ",clean.file,sep="") # TODO complete with appropriate parameters
+	cmd <- paste("blablabla ",net.file," ",clean.file,sep="") # TODO @Nico complete with appropriate parameters
 }
-#TODO we should get rid of this step, can't remember what it is exactly about
+#TODO note to self: can't remember what this step is about, exactly
+# @Nico y a besoin de nettoyer le format d'entree du graphe, i.e. de
+# le convertir d'un format edgelist vers un autre ? (je ne parle pas de
+# le compiler, ca se fait ailleurs).
 
 ###############################################################################
 # Loads a clean graph text file, and compiles it to get a more convenient
@@ -107,7 +110,7 @@ compile.graph.file <- function(folder.data)
 	
 	# set up the command, including all required parameters
 	compiled.file <- get.compiled.filename(folder.data)
-	cmd <- paste("blablabla ",clean.file," ",compiled.file,sep="") # TODO complete with appropriate parameters
+	cmd <- paste("blablabla ",clean.file," ",compiled.file,sep="") # TODO @Nico complete with appropriate parameters
 }
 
 ###############################################################################

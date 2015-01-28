@@ -168,14 +168,17 @@ retrieve.degrees <- function(folder.data, role.meas, force=FALSE)
 ###############################################################################
 process.socap.indices <- function(folder.data, role.meas, force=FALSE)
 {	
+	# TODO @Nico j'ai utilise une implementation en R
+	# en attendant que votre implementation en C++ soit clean
+	
 	# temporary: process the indices with igraph
 	retrieve.socap.indices(folder.data, role.meas, force)
 	
 	# TODO could also use the C++ implementation of N&A, instead
 	# get file paths
 #	net.file <- get.network.filename(folder.data)
-#	clean.file <- get.network.clean.filename(folder.data) #TODO one or the other?
-#	compiled.file <- get.network.compiled.filename(folder.data) #TODO one or the other?
+#	clean.file <- get.network.clean.filename(folder.data) #TODO @Nico one or the other?
+#	compiled.file <- get.network.compiled.filename(folder.data) #TODO @Nico one or the other?
 #	com.file <- get.communities.filename(folder.data,comdet.algo)
 #	out.file <- get.rolemeas.filename(folder.data,role.meas,norm=FALSE,comdet.algo)
 }
@@ -192,7 +195,7 @@ identify.social.capitalists <- function(values)
 		soccap.status <- rep(x=1,times=length(values))
 		
 		# overlap threshold for being a social caps
-		cap.idx <- which(values[,"Overlap"]>0.1) #TODO TODO TODO originally 0.8
+		cap.idx <- which(values[,"Overlap"]>0.8)
 		# ratio threshold to distinguish the types of social caps
 		temp.idx <- which(values[cap.idx,"Ratio"]>1)
 		
