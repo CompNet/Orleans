@@ -80,9 +80,11 @@ get.network.sample.filename <- function(folder.data, role.meas, clust.algo, comd
 # sample.size: if the plot generation takes too long, you can work on a sample of the data.
 #			   this parameter specifies the size of this sample (NA to use the
 #			   whole dataset).
+# overlap.threshold: threshold used for the overlap index (determines if a 
+#				     user is a social capitalist or not).
 # force: whether or not to redo the calculation when the plot files already exist.
 ###############################################################################
-draw.hiveplots <- function(folder.data, role.meas, clust.algo, comdet.algo, sample.size=NA, force)
+draw.hiveplots <- function(folder.data, role.meas, clust.algo, comdet.algo, sample.size=NA, overlap.threshold, force)
 {	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Generating hive plots\n",sep="")
 	
 	# init file names
@@ -115,7 +117,7 @@ draw.hiveplots <- function(folder.data, role.meas, clust.algo, comdet.algo, samp
 		# identify social capitalists
 		socap.vals <- retrieve.socap.indices(folder.data,role.meas)
 		socap.vals <- socap.vals[sample.nodes,]
-		socap.types <- identify.social.capitalists(values=socap.vals)
+		socap.types <- identify.social.capitalists(values=socap.vals,overlap.threshold)
 		
 		# generate the hive plots
 		generate.hiveplots(folder.data, role.meas, clust.algo, comdet.algo, membership, rolemeas.vals, socap.types, links, sample.size, force)
@@ -207,6 +209,7 @@ generate.hiveplots <- function(folder.data, role.meas, clust.algo, comdet.algo, 
 			# select data
 			radii <- rolemeas.vals[,i] #/ max(data[,i])
 			axis <- socap.types
+			#print(axis)			
 			colors <- node.colors[membership+1]
 			colors[is.na(colors)] <- "#AAAAAA" # grey for more than 7 clusters, this has to be manually tuned
 			

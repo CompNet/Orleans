@@ -23,7 +23,7 @@ source("SocapIndices/socap-indices.R")
 # Parameters
 ###############################################################################
 # whether or not to generate data (for testing purposes)
-gen.data <- FALSE
+gen.data <- TRUE
 # community detection algorithm
 comdet.algo <- "LV"				#TODO LV, LV-dir, OSLOM-undir-p, OSLOM-dir-p, OSLOM-undir-o, OSLOM-dir-o
 # role measures
@@ -50,32 +50,32 @@ if(gen.data)
 # 1. Processing social capitalism indices
 ###############################################################################
 #cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process social capitalism indices\n",sep="")
-#process.socap.indices(folder.data=net.folder, role.meas, force=TRUE)
+process.socap.indices(folder.data=net.folder, role.meas, force=TRUE)
 
 ###############################################################################
 # 2. Detecting communities
 ###############################################################################
 #cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Detect communities\n",sep="")
-#detect.communities(folder.data=net.folder, comdet.algo, force=TRUE)
+detect.communities(folder.data=net.folder, comdet.algo, force=TRUE)
 #TODO check for community stability
 
 ###############################################################################
 # 3. Processing community role measures
 ###############################################################################
 #cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Process community role measures\n",sep="")
-#process.role.measures(folder.data=net.folder, role.meas, comdet.algo, force=TRUE)
+process.role.measures(folder.data=net.folder, role.meas, comdet.algo, force=TRUE)
 
 ###############################################################################
 # 4. Clustering role measures
 ###############################################################################
 #cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Detect clusters\n",sep="")
-#detect.clusters(folder.data=net.folder, role.meas, clust.algo, comdet.algo)
+detect.clusters(folder.data=net.folder, role.meas, clust.algo, comdet.algo)
 
 ###############################################################################
 # 5. Additional stats and plots
 ###############################################################################
 #cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Perform post processing\n",sep="")
-post.process(folder.data=net.folder, role.meas, clust.algo, comdet.algo, force=TRUE)
+post.process(folder.data=net.folder, role.meas, clust.algo, comdet.algo, overlap.threshold=0.74, force=TRUE)
 
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Done\n",sep="")

@@ -85,24 +85,25 @@ retrieve.socap.indices <- function(folder.data, role.meas, force=FALSE)
 		# process overlap
 		overlap <- sapply(1:vcount(g), function(u)
 		{	# Note: the "-1"s compensate the fact igraph puts the node of interest in its own neighborhood
-			denominator <- length(intersect(neigh.in[[u]],neigh.out[[u]])) - 1
-			numerator <- min(length(neigh.in[[u]]),length(neigh.out[[u]])) - 1
-			if(numerator==0)
+			numerator <- length(intersect(neigh.in[[u]],neigh.out[[u]])) - 1
+			denominator<- min(length(neigh.in[[u]]),length(neigh.out[[u]])) - 1
+			if(denominator==0)
 				result <- 0
 			else
-				result <- denominator/numerator
+				result <- numerator/denominator
 			return(result)
 		})
+#for(u in 1:vcount(g)){print(neigh.in[[u]]);print(neigh.out[[u]]);print(overlap[u]);print("-----")}
 
 		# process ratio
 		ratio <- sapply(1:vcount(g), function(u)
 		{	# Note: the "-1"s compensate the fact igraph puts the node of interest in its own neighborhood
-			denominator <- length(neigh.in[[u]]) - 1
-			numerator <- length(neigh.out[[u]]) - 1
-			if(numerator==0)
-				result <- 0
+			numerator <- length(neigh.in[[u]]) - 1
+			denominator <- length(neigh.out[[u]]) - 1
+			if(denominator==0)
+				result <- numerator
 			else
-				result <- denominator/numerator
+				result <- numerator/denominator
 			return(result)
 		})
 		
@@ -187,17 +188,20 @@ process.socap.indices <- function(folder.data, role.meas, force=FALSE)
 # Identifies social capitalists depending on the social capitalism indices.
 #
 # values: social capitalism indices. "Overlap","Ratio","k-in"
+# overlap.threshold: threshold used for the overlap index (determines if a 
+#				     user is a social capitalist or not).
 ###############################################################################
-identify.social.capitalists <- function(values)
+identify.social.capitalists <- function(values, overlap.threshold)
 {	start.time <- Sys.time()
 	cat("[",format(start.time,"%a %d %b %Y %H:%M:%S"),"] Detecting social capitalists\n",sep="")
 		# by default, or users are regular
 		soccap.status <- rep(x=1,times=length(values))
 		
 		# overlap threshold for being a social caps
-		cap.idx <- which(values[,"Overlap"]>0.8)
+		cap.idx <- which(values[,"Overlap"]>overlap.threshold)
 		# ratio threshold to distinguish the types of social caps
 		temp.idx <- which(values[cap.idx,"Ratio"]>1)
+print(values[,"Overlap"])		
 		
 		# set IFYFM social caps
 		ifyfm.idx <- cap.idx[temp.idx]

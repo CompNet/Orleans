@@ -21,8 +21,19 @@
 generate.network <- function(folder.data, directed=TRUE, n)
 {	# generate network
 	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Generate network\n",sep="")
-	#g <- barabasi.game(n=n.instances, power=3, m=2)
-	g <- erdos.renyi.game(n=n, p.or.m=0.1, type="gnp", directed=directed, loops=FALSE)
+#	g <- barabasi.game(n=n.instances, power=3, m=2)
+#	g <- erdos.renyi.game(n=n, p.or.m=0.2, type="gnp", directed=directed, loops=FALSE)
+	g <- forest.fire.game(nodes=n, fw.prob=0.37, bw.factor=0.32/0.37)
+	
+	# artificially add social capitalists
+	idx <- sample(x=1:vcount(g),size=n/20)
+	neigh.in <- neighborhood(graph=g,order=1,nodes=idx,mode="in")
+	neigh.out <- neighborhood(graph=g,order=1,nodes=idx,mode="out")
+	add.in <- lapply(1:length(idx),function(u) neigh.out[[u]][!(neigh.out[[u]] %in% neigh.in[[u]])])
+	add.out <- lapply(1:length(idx),function(u) neigh.in[[u]][!(neigh.in[[u]] %in% neigh.out[[u]])])
+	for(u in 1:length(idx)) g <- add.edges(graph=g,edges=c(rbind(add.in[[u]],rep(idx[u],length(add.in[[u]])))))
+	for(u in 1:length(idx)) g <- add.edges(graph=g,edges=c(rbind(rep(idx[u],length(add.out[[u]])),add.out[[u]])))
+	g <- simplify(g,remove.multiple=TRUE,remove.loops=TRUE)
 	
 	# record network as edgelist file
 	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Record network to file\n",sep="")
@@ -129,8 +140,8 @@ generate.data <- function(folder.data, role.meas, n, directed, n.clust, clust.al
 	generate.network(folder.data, directed, n)
 	
 	# generate role measures and clusters
-	generate.rolemeas(folder.data, role.meas, n, n.clust, clust.algo, comdet.algo)
+#	generate.rolemeas(folder.data, role.meas, n, n.clust, clust.algo, comdet.algo)
 		
 	# generate communities
-	generate.communities(folder.data, n, clust.algo, n.com, comdet.algo)
+#	generate.communities(folder.data, n, clust.algo, n.com, comdet.algo)
 }
