@@ -79,7 +79,7 @@ get.rolemeas.filename <- function(folder.data, role.meas, norm=FALSE, comdet.alg
 #				- "DLPp": our own measures for partition-based communities (2x4 measures)
 #				- "DLPo": variant for overlapping communities  (2x6 measures)
 # comdet.algo: algorithm used for community detection (needed to infer the file name)
-# force: whether or not to force recalulation.
+# force: whether or not to force recalulation of the role measures when the file already exists.
 ###############################################################################
 process.role.measures <- function(folder.data, role.meas, comdet.algo, force=FALSE)
 {	# should be using the C++ version: this R stuff is temporary

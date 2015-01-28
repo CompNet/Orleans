@@ -15,7 +15,7 @@
 # folder.data: folder containing all input and output files.
 # role.meas: considered role measures.
 # comdet.algo: algorithm used for community detection (needed to infer the file name)
-# force: whether or not to force recalulation.
+# force: whether or not to force recalulation of the role measures when the file already exists.
 ###############################################################################
 retrieve.role.measures <- function(folder.data, role.meas, comdet.algo, force=FALSE)
 {	rolemeas.file <- get.rolemeas.filename(folder.data,role.meas,norm=FALSE,comdet.algo)

@@ -75,10 +75,9 @@ if(gen.data)
 # 5. Additional stats and plots
 ###############################################################################
 #cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Perform post processing\n",sep="")
-post.process(folder.data=net.folder, role.meas, clust.algo, comdet.algo)
+post.process(folder.data=net.folder, role.meas, clust.algo, comdet.algo, force=TRUE)
 
 ###############################################################################
 cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Done\n",sep="")
 
-# TODO force must be enforced only locally
 # TODO write readme file

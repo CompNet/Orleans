@@ -60,7 +60,7 @@ get.degree.filename <- function(folder.data)
 #
 # folder.data: folder containing all input and output files.
 # role.meas: considered role measures.
-# force: whether or not to force recalulation.
+# force: whether or not to force recalulation of social capitalism indices when the file already exists.
 ###############################################################################
 retrieve.socap.indices <- function(folder.data, role.meas, force=FALSE)
 {	socap.file <- get.socap.filename(folder.data)
@@ -127,7 +127,7 @@ retrieve.socap.indices <- function(folder.data, role.meas, force=FALSE)
 #
 # folder.data: folder containing all input and output files.
 # role.meas: considered role measures.
-# force: whether or not to force recalulation.
+# force: whether or not to force recalulation of degrees when the file already exists.
 ###############################################################################
 retrieve.degrees <- function(folder.data, role.meas, force=FALSE)
 {	degree.file <- get.degree.filename(folder.data)
@@ -163,7 +163,8 @@ retrieve.degrees <- function(folder.data, role.meas, force=FALSE)
 #
 # folder.data: folder containing all input and output files.
 # role.meas: considered role measures.
-# force: whether or not to force recalculation.
+# force: whether or not to force recalculation of social capitalism indices 
+#        when the file already exists.
 ###############################################################################
 process.socap.indices <- function(folder.data, role.meas, force=FALSE)
 {	

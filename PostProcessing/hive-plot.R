@@ -80,7 +80,7 @@ get.network.sample.filename <- function(folder.data, role.meas, clust.algo, comd
 # sample.size: if the plot generation takes too long, you can work on a sample of the data.
 #			   this parameter specifies the size of this sample (NA to use the
 #			   whole dataset).
-# force: whether or not to redo the calculation when the plot files already exists.
+# force: whether or not to redo the calculation when the plot files already exist.
 ###############################################################################
 draw.hiveplots <- function(folder.data, role.meas, clust.algo, comdet.algo, sample.size=NA, force)
 {	cat("[",format(Sys.time(),"%a %d %b %Y %H:%M:%S"),"] Generating hive plots\n",sep="")
@@ -121,8 +121,6 @@ draw.hiveplots <- function(folder.data, role.meas, clust.algo, comdet.algo, samp
 		generate.hiveplots(folder.data, role.meas, clust.algo, comdet.algo, membership, rolemeas.vals, socap.types, links, sample.size, force)
 	}
 }
-
-#TODO le parametre 'force' doit seulement avoir un effet local
 
 ###############################################################################
 # Draws a sample of the network nodes, to lighten the computational load when
