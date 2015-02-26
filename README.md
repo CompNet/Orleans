@@ -15,7 +15,7 @@ To be more precise, the tool allows to perform the following tasks, on a network
 
 Note the software may evolve depending on our future research work.
 
-## Organisation
+## Organization
 The project mainly contains 3 types of source code:
 * Custom C++ code used to perform the heavy lifting when treating huge networks such as the Twitter one.
 * Third-party programs in various languages to also perform computationally intensive processing such as cluster analysis.
