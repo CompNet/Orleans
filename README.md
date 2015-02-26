@@ -1,7 +1,7 @@
 Detection of Social Capitalists
 ==============================
 ## Presentation
-This software aims at studying social capitalists, which are a specific type of users of social networks services such as Twitter. The tool is generic, so it can actually be applied to completely different systems, as long as they can be represented as directed networks (i.e. digraphs). We applied our tool to Twitter in several research papers [DLP'13, DLP'14, DLP'14a], detailed at the end of this document. Our work was also mentionned on the blog of the [MIT Technology review](http://www.technologyreview.com/view/528746/the-emerging-threat-from-twitters-social-capitalists/).
+This software aims at studying social capitalists, which are a specific type of users of social networks services such as Twitter. The tool is generic, so it can actually be applied to completely different systems, as long as they can be represented as directed networks (i.e. digraphs). We applied our tool to Twitter in several research papers [DLP'13, DLP'14, DLP'14a], detailed at the end of this document. Our work was also mentioned on the blog of the [MIT Technology review](http://www.technologyreview.com/view/528746/the-emerging-threat-from-twitters-social-capitalists/).
 
 Please, cite [DLP'14a] if you use our tool. We would also be very interested to know your context of application and/or modification, so please, let us know.
 
@@ -28,7 +28,7 @@ Here are the third-party softwares included in this version:
 * [Oslom](http://www.oslom.org/) by A. Lancichinetti, F. Radicchi, J.J. Ramasco and S. Fortunato. Optional, can be used for community detection.
 * [Parallel *k*-means](http://users.eecs.northwestern.edu/~wkliao/Kmeans/) by Wei-keng Liao. Optional, can be used for the cluster analysis step.
 * [*x*-means](http://www.rd.dnc.ac.jp/~tunenori/xmeans_e.html) by Tsunenori Ishioka. Optional, can be used for the cluster analysis step.
-* **Nico, qu'en est-il du code source Guimera� & Amaral utilise dans le calcul des mesures de roles ? Je pense qu'il faut proprement citer ca, et laisser les readme ou autres fichiers originellement associes a ce programme.**
+* **Nico, qu'en est-il du code source Guimerà & Amaral utilisé dans le calcul des mesures de rôles ? Je pense qu'il faut proprement citer ça, et laisser les readme ou autres fichiers originellement associés a ce programme.**
 
 Note any cluster analysis tool could be used in place of the ones we selected, just by providing the appropriate R wrappers. Same thing for the community detection methods, except they must be compatible with the selected community role measures. Indeed, if the measures take advantage of linkdirections, the community detection method should, too. Also, if the measures are designed for disjoined community, the community detection method should output a partition (by opposition to a cover, with overlapping communities).
 
