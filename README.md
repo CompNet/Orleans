@@ -30,6 +30,7 @@ Here are the third-party softwares included in this version:
 * [*x*-means](http://www.rd.dnc.ac.jp/~tunenori/xmeans_e.html) by Tsunenori Ishioka. Optional, can be used for the cluster analysis step.
 * **Nico, qu'en est-il du code source Guimerà & Amaral utilisé dans le calcul des mesures de rôles ? Je pense qu'il faut proprement citer ça, et laisser les readme ou autres fichiers originellement associés a ce programme.**
 
+
 Note any cluster analysis tool could be used in place of the ones we selected, just by providing the appropriate R wrappers. Same thing for the community detection methods, except they must be compatible with the selected community role measures. Indeed, if the measures take advantage of linkdirections, the community detection method should, too. Also, if the measures are designed for disjoined community, the community detection method should output a partition (by opposition to a cover, with overlapping communities).
 
 The R source code heavily relies on the [igraph package](http://igraph.org/redirect.html) to handle graphs. All the used R packages are listed in the `install.R` script.
