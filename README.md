@@ -1,7 +1,7 @@
 Detection of Social Capitalists
 ==============================
 ## Presentation
-This software aims at studying social capitalists, which are a specific type of users of social networks services such as Twitter. The tool is generic, so it can actually be applied to completely different systems, as long as they can be represented as directed networks (i.e. digraphs). We applied our tool to Twitter in several research papers [DLP'13, DLP'14, DLP'14a], detailed at the end of this document. Our work was also mentionned on the blog of the [MIT Technology review](http://www.technologyreview.com/view/528746/the-emerging-threat-from-twitters-social-capitalists/).
+This software aims at studying social capitalists, which are a specific type of users of social networks services such as Twitter. The tool is generic, so it can actually be applied to completely different systems, as long as they can be represented as directed networks (i.e. digraphs). We applied our tool to Twitter in several research papers [DLP'13, DLP'14, DLP'14a], detailed at the end of this document. Our work was also mentioned on the blog of the [MIT Technology review](http://www.technologyreview.com/view/528746/the-emerging-threat-from-twitters-social-capitalists/).
 
 Please, cite [DLP'14a] if you use our tool. We would also be very interested to know your context of application and/or modification, so please, let us know.
 
@@ -15,7 +15,7 @@ To be more precise, the tool allows to perform the following tasks, on a network
 
 Note the software may evolve depending on our future research work.
 
-## Organisation
+## Organization
 The project mainly contains 3 types of source code:
 * Custom C++ code used to perform the heavy lifting when treating huge networks such as the Twitter one.
 * Third-party programs in various languages to also perform computationally intensive processing such as cluster analysis.
@@ -28,7 +28,8 @@ Here are the third-party softwares included in this version:
 * [Oslom](http://www.oslom.org/) by A. Lancichinetti, F. Radicchi, J.J. Ramasco and S. Fortunato. Optional, can be used for community detection.
 * [Parallel *k*-means](http://users.eecs.northwestern.edu/~wkliao/Kmeans/) by Wei-keng Liao. Optional, can be used for the cluster analysis step.
 * [*x*-means](http://www.rd.dnc.ac.jp/~tunenori/xmeans_e.html) by Tsunenori Ishioka. Optional, can be used for the cluster analysis step.
-* **Nico, qu'en est-il du code source Guimerà & Amaral utilisé dans le calcul des mesures de rôles ? Je pense qu'il faut proprement citer ça, et laisser les readme ou autres fichiers originellement associé à ce programme.**
+* **Nico, qu'en est-il du code source Guimerà & Amaral utilisé dans le calcul des mesures de rôles ? Je pense qu'il faut proprement citer ça, et laisser les readme ou autres fichiers originellement associés a ce programme.**
+
 
 Note any cluster analysis tool could be used in place of the ones we selected, just by providing the appropriate R wrappers. Same thing for the community detection methods, except they must be compatible with the selected community role measures. Indeed, if the measures take advantage of linkdirections, the community detection method should, too. Also, if the measures are designed for disjoined community, the community detection method should output a partition (by opposition to a cover, with overlapping communities).
 
@@ -47,7 +48,7 @@ The program expects a network represented as an edgelist file. Such a file conta
 The program outputs a bunch of files corresponding to the different processing steps and tools used. For instance, if you perform the whole process with too different clustering algorithms, then each result file depending on clustering will be produced in two versions, for comparison purposes. 
 
 ## Extension
-It is possible to include any clustering or community detection tool in the process, by providing the program and related R wrapper. I would advise first to copy-paste an existing wrapper, such as `CommunityDetection/directed-louvain.R`, and adpat it to the targetted program. Then, you must modify `CommunityDetection/community-detection.R` or `ClusterAnalysis/cluster-analysys.R` accordingly, by including your wrapper with `source` (at the begining of the file) and by completing the method `detect.communities` or `detect.cluster`, respectively.
+It is possible to include any clustering or community detection tool in the process, by providing the program and related R wrapper. I would advise first to copy-paste an existing wrapper, such as `CommunityDetection/directed-louvain.R`, and adapt it to the targeted program. Then, you must modify `CommunityDetection/community-detection.R` or `ClusterAnalysis/cluster-analysys.R` accordingly, by including your wrapper with `source` (at the beginning of the file) and by completing the method `detect.communities` or `detect.cluster`, respectively.
 
 ## References
 * **[GA'05]** Guimerà, R. & Amaral, L. A. N. *Functional cartography of complex metabolic networks*, Nature, 2005, 433:895-900. http://seeslab.info/media/publication_pdfs/Guimera-2005-Nature-433-895.pdf
