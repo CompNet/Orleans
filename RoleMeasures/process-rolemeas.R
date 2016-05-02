@@ -80,6 +80,7 @@ process.community.zscore <- function(values, membership)
 		result[idx] <- scale(values[idx])
 	}
 	
+	result[is.nan(result)] <- 0
 	return(result)
 }
 
