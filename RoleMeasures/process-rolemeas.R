@@ -239,7 +239,7 @@ process.individual.rolemeas <- function(role.meas, membership, com.all, com.in, 
 			}
 			return(res)
 		})
-		result[,"H-in"] <- process.community.zscore(values=sd.ext,membership)
+		result[,"H-out"] <- process.community.zscore(values=sd.ext,membership)
 		
 		# D-in
 		n.ext <- sapply(1:length(com.in),function(u)
@@ -267,7 +267,7 @@ process.individual.rolemeas <- function(role.meas, membership, com.all, com.in, 
 			}
 			return(res)
 		})
-		result[,"D-in"] <- process.community.zscore(values=n.ext,membership)
+		result[,"D-out"] <- process.community.zscore(values=n.ext,membership)
 	}
 	
 	# overlap Dugue-Labatut-Perez
