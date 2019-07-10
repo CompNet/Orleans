@@ -1,5 +1,13 @@
-Detection of Social Capitalists
+SocCap
 ==============================
+*Detection of Social Capitalists*
+
+* Copyright 2013-14 Nicolas Dugué, Vincent Labatut & Anthony Pérez
+
+SocCap is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation. For source availability and license information see `licence.txt`
+ 
+-----------------------------------------------------------------------
+
 ## Presentation
 This software aims at studying social capitalists, which are a specific type of users of social networks services such as Twitter. The tool is generic, so it can actually be applied to completely different systems, as long as they can be represented as directed networks (i.e. digraphs). We applied our tool to Twitter in several research papers [DLP'13, DLP'14a, DLP'14b, DLP'15], detailed at the end of this document. Our work was also mentioned on the blog of the [MIT Technology review](http://www.technologyreview.com/view/528746/the-emerging-threat-from-twitters-social-capitalists/).
 
