@@ -4,7 +4,7 @@ SocCap
 
 * Copyright 2013-14 Nicolas Dugué, Vincent Labatut & Anthony Pérez
 
-SocCap is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation. For source availability and license information see `licence.txt`
+SocCap is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation. For source availability and license information see `licence.txt` 
  
 -----------------------------------------------------------------------
 
